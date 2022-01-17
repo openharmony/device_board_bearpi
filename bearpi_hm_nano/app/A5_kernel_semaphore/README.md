@@ -1,4 +1,4 @@
-# BearPi-HM_Nano开发板OpnenHarmony内核编程开发——信号量
+# BearPi-HM_Nano开发板OpenHarmony内核编程开发——信号量
 本示例将演示如何在BearPi-HM_Nano开发板上使用cmsis 2.0 接口通过信号量同时从不同的线程访问共享资源。
 
 
