@@ -1,4 +1,4 @@
-# BearPi-HM_Nano开发板OpnenHarmony内核编程开发——Thread多线程
+# BearPi-HM_Nano开发板OpenHarmony内核编程开发——Thread多线程
 本示例将演示如何在BearPi-HM_Nano开发板上使用cmsis 2.0 接口进行多线程开发。
 
 

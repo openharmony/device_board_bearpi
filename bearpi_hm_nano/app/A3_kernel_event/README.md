@@ -1,4 +1,4 @@
-# BearPi-HM_Nano开发板OpnenHarmony内核编程开发——事件标志
+# BearPi-HM_Nano开发板OpenHarmony内核编程开发——事件标志
 本示例将演示如何在BearPi-HM_Nano开发板上使用cmsis 2.0 接口使用事件标志同步线程。
 
 

@@ -1,4 +1,4 @@
-# BearPi-HM_Nano开发板OpnenHarmony内核编程开发——消息队列
+# BearPi-HM_Nano开发板OpenHarmony内核编程开发——消息队列
 本示例将演示如何在BearPi-HM_Nano开发板上使用cmsis 2.0 接口通过消息队列进行线程之间交换消息。
 
 
