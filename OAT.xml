@@ -57,25 +57,38 @@
 		<policyitem type="copyright" name="Hisilicon (Shanghai) Technologies Co., Ltd." path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="小海思开发代码"/>
         <policyitem type="copyright" name="Nanjing Xiaoxiongpai Intelligent Technology Co., Ltd." path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="南京小熊派智能科技有限公司版权声明"/>
         <policyitem type="copyright" name="IBM Corp" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="IBM Corp"/>
+        <policyitem type="copyright" name="InvalidCopyright" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Invalid Corp"/>
+        <policyitem type="license" name="BSD-3-Clause" path=".*" desc="兼容license"/>
+        <policyitem type="license" name="EPL-1.0" path=".*" desc="兼容license"/>
             </policy>
         </policylist>
 
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
-                <filteritem type="filename" name="*.iml|*.json|*.txt" desc="desc files"/>
+                <filteritem type="filename" name="*.iml|*.json|*.txt|*.png|*.gif|*.docx|*.jpg" desc="desc files"/>
                 <filteritem type="filepath" name="target/.*" desc="Compile output files"/>
                 <filteritem type="filepath" name="out/.*" desc="Compile output files"/>
                 <filteritem type="filepath" name="log/.*" desc="log files"/>
+                <filteritem type="filepath" name="docs/.*" desc="docs files"/>
                 <filteritem type="filepath" name=".idea/.*" desc="IDE temp files"/>
                 <filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/>
                 <filteritem type="filepath" name="src/test/.*" desc="Test files"/>
+                <filteritem type="filepath" name="bearpi_hm_nano/third_party/.*" desc="third party files"/>
+                <filteritem type="filepath" name="bearpi_hm_nano/app/.*" desc="app files"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
 		    <filteritem type="filename" name="BUILD.gn" desc="Compilation scripts do not declare license"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/liteos_m/config.gni" desc="Compilation scripts do not declare license"/>
 		    <filteritem type="filename" name="fstab" desc="This type configuration file can not declare license"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/bearpi_hm_nano_build.sh" desc="sh file do not declare license"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/config/sdk.mk" desc="config file do not declare license"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/config/usr_config.mk" desc="config file do not declare license"/>
             </filefilter>
 	    <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
 		    <filteritem type="filename" name="fstab" desc="This type configuration file can not declare copyright"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/bearpi_hm_nano_build.sh" desc="Describe the reason for filtering scan results"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/config/sdk.mk" desc="Describe the reason for filtering scan results"/>
+            <filteritem type="filepath" name="bearpi_hm_nano/config/usr_config.mk" desc="Describe the reason for filtering scan results"/>
             </filefilter>
             <filefilter name="licenseFileNamePolicyFilter" desc="Filters for LICENSE file policies">
             </filefilter>
