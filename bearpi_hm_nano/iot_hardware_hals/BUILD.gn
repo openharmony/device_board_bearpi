@@ -17,7 +17,6 @@ static_library("iot_hardware_hals") {
       "src/hal_iot_gpio_ex.c",
       "src/hal_iot_adc.c",
       "src/hal_iot_i2c_ex.c",
-      "src/hal_iot_spi.c",
     ]
     include_dirs = [
       "//utils/native/lite/include",

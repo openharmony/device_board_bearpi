@@ -59,6 +59,4 @@ This project uses GitHub Issues here: [github.com/eclipse/paho.mqtt.embedded-c/i
 
 Discussion of the Paho clients takes place on the [Eclipse Mattermost Paho channel](https://mattermost.eclipse.org/eclipse/channels/paho) and the [Eclipse paho-dev mailing list](https://dev.eclipse.org/mailman/listinfo/paho-dev).
 
-General questions about the MQTT protocol are discussed in the [MQTT Google Group](https://groups.google.com/forum/?hl=en-US&fromgroups#!forum/mqtt).
-
 More information is available via the [MQTT community](http://mqtt.org).

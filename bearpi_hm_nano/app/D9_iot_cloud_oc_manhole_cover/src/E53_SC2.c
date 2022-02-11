@@ -71,7 +71,7 @@ static int MPU6050WriteData(uint8_t Reg, uint8_t Value)
 {
     uint32_t ret;
     uint8_t send_data[2] = {Reg, Value};
-    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_SLAVE_ADDRESS << 1) | 0x00, send_data, 2);
+    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_ADDRESS << 1) | 0x00, send_data, 2);
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
         return -1;
@@ -98,7 +98,7 @@ static int MPU6050WriteBuffer(uint8_t Reg, uint8_t* pBuffer, uint16_t Length)
         send_data[j + 1] = pBuffer[j];
     }
 
-    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_SLAVE_ADDRESS << 1) | 0x00, send_data, Length + 1);
+    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_ADDRESS << 1) | 0x00, send_data, Length + 1);
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
         return -1;
@@ -125,7 +125,7 @@ static int MPU6050ReadBuffer(uint8_t Reg, uint8_t* pBuffer, uint16_t Length)
     mpu6050_i2c_data.sendLen = 1;
     mpu6050_i2c_data.receiveBuf = pBuffer;
     mpu6050_i2c_data.receiveLen = Length;
-    ret = IoTI2cWriteread(WIFI_IOT_I2C_IDX_1, (MPU6050_SLAVE_ADDRESS << 1) | 0x00, &mpu6050_i2c_data);
+    ret = IoTI2cWriteread(WIFI_IOT_I2C_IDX_1, (MPU6050_ADDRESS << 1) | 0x00, &mpu6050_i2c_data);
     if (ret != 0) {
         printf("===== Error: I2C writeread ret = 0x%x! =====\r\n", ret);
         return -1;
