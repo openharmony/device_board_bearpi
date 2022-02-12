@@ -41,10 +41,9 @@
 #define ACCEL_DATA_LEN              6
 #define TEMP_DATA_LEN               2
 
-typedef enum
-{
-	OFF = 0,
-	ON
+typedef enum {
+    OFF = 0,
+    ON
 } E53SC2Status;
 
 enum AccelAxisNum {
@@ -67,9 +66,8 @@ enum TempPart {
     TEMP_MSB = 1,
 };
 /* E53_SC2传感器数据类型定义 ------------------------------------------------------------*/
-typedef struct
-{
-    short   Temperature;     
+typedef struct {
+    short   Temperature;
     short   Accel[3];
 } E53SC2Data;
 

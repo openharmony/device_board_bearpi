@@ -71,7 +71,7 @@ static int MPU6050WriteData(uint8_t Reg, uint8_t Value)
 {
     uint32_t ret;
     uint8_t send_data[2] = {Reg, Value};
-    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_ADDRESS << 1) | 0x00, send_data, 2);
+    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_ADDRESS << 1) | 0x00, send_data, MPU6050_WRITE_DATA_LEN);
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
         return -1;
