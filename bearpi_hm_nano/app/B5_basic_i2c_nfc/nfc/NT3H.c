@@ -39,7 +39,7 @@ static bool writeTimeout(  uint8_t *data, uint8_t dataSend) {
     uint32_t status = 0;
 
 
-    status = IoTI2cWrite(1, (NT3H1X_SLAVE_ADDRESS<<1)|0x00, data,dataSend);
+    status = IoTI2cWrite(1, (NT3H1X_ADDRESS<<1) | 0x00, data, dataSend);
     if (status != 0)
     {
         printf("===== Error: I2C write status1 = 0x%x! =====\r\n", status);
@@ -59,7 +59,7 @@ static bool readTimeout(uint8_t address, uint8_t *block_data) {
     nt3h1101_i2c_data.sendLen = 1;
     nt3h1101_i2c_data.receiveBuf = block_data;
     nt3h1101_i2c_data.receiveLen = NFC_PAGE_SIZE;
-    status = IoTI2cWriteread(1, (NT3H1X_SLAVE_ADDRESS<<1)|0x00, &nt3h1101_i2c_data);
+    status = IoTI2cWriteread(1, (NT3H1X_ADDRESS<<1)|0x00, &nt3h1101_i2c_data);
     if (status != 0)
     {
         printf("===== Error: I2C write status = 0x%x! =====\r\n", status);

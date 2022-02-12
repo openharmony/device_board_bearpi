@@ -4,7 +4,7 @@
 #include "stdbool.h"
 #include <stdint.h>
 
-#define NT3H1X_SLAVE_ADDRESS 0x55  
+#define NT3H1X_ADDRESS 0x55
 
 #define MANUFACTORING_DATA_REG 0x0
 #define USER_START_REG 0x1

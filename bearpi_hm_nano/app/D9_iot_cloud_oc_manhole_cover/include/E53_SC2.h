@@ -20,7 +20,7 @@
 /* 宏定义 --------------------------------------------------------------------*/
 #define MPU6050_GYRO_OUT            0x43  //MPU6050陀螺仪数据寄存器地址
 #define MPU6050_ACC_OUT             0x3B  //MPU6050加速度数据寄存器地址
-#define MPU6050_SLAVE_ADDRESS       0x68  //MPU6050器件读地址
+#define MPU6050_ADDRESS             0x68  // MPU6050器件读地址
 #define MPU6050_ADDRESS_AD0_LOW     0x68 // address pin low (GND), default for InvenSense evaluation board
 #define MPU6050_RA_CONFIG           0x1A
 #define MPU6050_RA_ACCEL_CONFIG     0x1C
@@ -37,14 +37,13 @@
 #define MPU6050_RA_USER_CTRL        0x6A
 #define MPU6050_RA_PWR_MGMT_1       0x6B
 #define MPU6050_RA_WHO_AM_I         0x75
-#define SENSOR_DATA_WIDTH_8_BIT         8 // 8 bit
+#define SENSOR_DATA_WIDTH_8_BIT     8 // 8 bit
 #define ACCEL_DATA_LEN              6
 #define TEMP_DATA_LEN               2
 
-typedef enum
-{
-	OFF = 0,
-	ON
+typedef enum {
+    OFF = 0,
+    ON
 } E53SC2Status;
 
 enum AccelAxisNum {
@@ -67,9 +66,8 @@ enum TempPart {
     TEMP_MSB = 1,
 };
 /* E53_SC2传感器数据类型定义 ------------------------------------------------------------*/
-typedef struct
-{
-    short   Temperature;     
+typedef struct {
+    short   Temperature;
     short   Accel[3];
 } E53SC2Data;
 
