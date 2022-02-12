@@ -110,12 +110,12 @@ static void TimerExample(void)
 
 示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，Timer1Callback会1S打印一次数据，Timer2Callback会3S打印一次数据。
 ```
-This is BearPi Harmony Timer1_Callback!
-This is BearPi Harmony Timer1_Callback!
-This is BearPi Harmony Timer1_Callback!
-This is BearPi Harmony Timer2_Callback!
-This is BearPi Harmony Timer1_Callback!
-This is BearPi Harmony Timer1_Callback!
-This is BearPi Harmony Timer1_Callback!
-This is BearPi Harmony Timer2_Callback!
+This is BearPi Timer1_Callback!
+This is BearPi Timer1_Callback!
+This is BearPi Timer1_Callback!
+This is BearPi Timer2_Callback!
+This is BearPi Timer1_Callback!
+This is BearPi Timer1_Callback!
+This is BearPi Timer1_Callback!
+This is BearPi Timer2_Callback!
 ```

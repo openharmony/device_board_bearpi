@@ -27,7 +27,7 @@
 void Timer1Callback(void* arg)
 {
     (void)arg;
-    printf("This is BearPi HarmonyOS Timer1Callback!\n");
+    printf("This is BearPi Timer1Callback!\n");
 }
 
 /**
@@ -37,7 +37,7 @@ void Timer1Callback(void* arg)
 void Timer2Callback(void* arg)
 {
     (void)arg;
-    printf("This is BearPi HarmonyOS Timer2Callback!\n");
+    printf("This is BearPi Timer2Callback!\n");
 }
 
 /**

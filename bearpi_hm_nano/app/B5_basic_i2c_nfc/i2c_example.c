@@ -29,7 +29,7 @@
 #define I2C_TASK_PRIO 25
 
 #define TEXT "Welcome to BearPi-HM_Nano!"
-#define WEB "harmonyos.com"
+#define WEB "openharmony.cn"
 
 #define WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA 6
 #define WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL 6
