@@ -14,8 +14,8 @@
 static_library("iot_hardware_hals") {
   if (board_name == "bearpi_hm_nano") {
     sources = [
-      "src/hal_iot_gpio_ex.c",
       "src/hal_iot_adc.c",
+      "src/hal_iot_gpio_ex.c",
       "src/hal_iot_i2c_ex.c",
     ]
     include_dirs = [
