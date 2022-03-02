@@ -48,7 +48,7 @@ static unsigned char gps_uart[1000];
  ***************************************************************/
 void GPSInit(void)
 {
-    uint32_t ret;
+    uint8_t ret;
 
     IotUartAttribute uart_attr = {
 

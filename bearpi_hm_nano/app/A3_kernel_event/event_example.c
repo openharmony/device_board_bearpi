@@ -49,7 +49,7 @@ void EventSenderThread(void)
  */
 void EventReceiverThread(void)
 {
-    uint32_t flags;
+    uint8_t flags;
 
     while (1) {
         flags = osEventFlagsWait(g_eventFlagsId, FLAGS_MSK1, osFlagsWaitAny, osWaitForever);

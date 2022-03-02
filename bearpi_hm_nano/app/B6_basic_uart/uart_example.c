@@ -38,7 +38,7 @@ static void UartTask(void)
 {
     uint8_t uart_buff[UART_BUFF_SIZE] = { 0 };
     uint8_t *uart_buff_ptr = uart_buff;
-    uint32_t ret;
+    uint8_t ret;
 
     IotUartAttribute uart_attr = {
 
