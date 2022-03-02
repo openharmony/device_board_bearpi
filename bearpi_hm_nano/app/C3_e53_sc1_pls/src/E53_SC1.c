@@ -35,7 +35,7 @@ static void E53SC1IoInit(void)
 {
     IoTGpioInit(E53_SC1_LIGHT_GPIO);
     IoTGpioSetFunc(E53_SC1_LIGHT_GPIO, WIFI_IOT_IO_FUNC_GPIO_7_GPIO);
-    IoTGpioSetDir(E53_SC1_LIGHT_GPIO, IOT_GPIO_DIR_OUT); //设置GPIO_7为输出模式
+    IoTGpioSetDir(E53_SC1_LIGHT_GPIO, IOT_GPIO_DIR_OUT); // 设置GPIO_7为输出模式
 
     IoTGpioInit(E53_SC1_I2C1_SDA_GPIO);
     IoTGpioSetFunc(E53_SC1_I2C1_SDA_GPIO, WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA); // GPIO_0复用为I2C1_SDA
@@ -115,7 +115,7 @@ int E53SC1ReadData(float *data)
     if (ret != 0) {
         return -1;
     }
-    *data = (float)(((recv_data[0] << DATA_WIDTH_8_BIT) + recv_data[1]) / BH1750_COEFFICIENT_LUX); //合成数据，即光照数据
+    *data = (float)(((recv_data[0] << DATA_WIDTH_8_BIT) + recv_data[1]) / BH1750_COEFFICIENT_LUX); // 合成数据，即光照数据
     return 0;
 }
 /***************************************************************
@@ -129,10 +129,10 @@ int E53SC1ReadData(float *data)
 void LightStatusSet(E53SC1Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(E53_SC1_LIGHT_GPIO, 1); //设置GPIO输出高电平点亮LED灯
+        IoTGpioSetOutputVal(E53_SC1_LIGHT_GPIO, 1); // 设置GPIO输出高电平点亮LED灯
     }
 
     if (status == OFF) {
-        IoTGpioSetOutputVal(E53_SC1_LIGHT_GPIO, 0); //设置GPIO输出低电平点亮LED灯
+        IoTGpioSetOutputVal(E53_SC1_LIGHT_GPIO, 0); // 设置GPIO输出低电平点亮LED灯
     }
 }

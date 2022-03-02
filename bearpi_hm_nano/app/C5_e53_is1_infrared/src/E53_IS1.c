@@ -33,14 +33,14 @@
  ***************************************************************/
 static void E53IS1IoInit(void)
 {
-    IoTGpioInit(WIFI_IOT_IO_NAME_GPIO_8);                                      //初始化GPIO
-    IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_8, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); //设置GPIO_8引脚复用功能为PWM
-    IoTGpioSetDir(WIFI_IOT_IO_NAME_GPIO_8, IOT_GPIO_DIR_OUT);                  //设置GPIO_8引脚为输出模式
-    IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                  //初始化PWM1端口
+    IoTGpioInit(WIFI_IOT_IO_NAME_GPIO_8);                                      // 初始化GPIO
+    IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_8, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); // 设置GPIO_8引脚复用功能为PWM
+    IoTGpioSetDir(WIFI_IOT_IO_NAME_GPIO_8, IOT_GPIO_DIR_OUT);                  // 设置GPIO_8引脚为输出模式
+    IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                  // 初始化PWM1端口
 
     IoTGpioInit(WIFI_IOT_IO_NAME_GPIO_7);
     IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_7, WIFI_IOT_IO_FUNC_GPIO_7_GPIO);
-    IoTGpioSetDir(WIFI_IOT_IO_NAME_GPIO_7, IOT_GPIO_DIR_IN); //设置GPIO_7为输入模式
+    IoTGpioSetDir(WIFI_IOT_IO_NAME_GPIO_7, IOT_GPIO_DIR_IN); // 设置GPIO_7为输入模式
     IoTGpioSetPull(WIFI_IOT_IO_NAME_GPIO_7, IOT_GPIO_PULL_UP);
 }
 
@@ -80,7 +80,7 @@ int E53IS1ReadData(E53IS1CallbackFunc func)
 void BeepStatusSet(E53IS1Status status)
 {
     if (status == ON) {
-        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, PWM_DUTY, PWM_FREQ); //输出PWM波
+        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, PWM_DUTY, PWM_FREQ); // 输出PWM波
     }
     if (status == OFF) {
         IoTPwmStop(WIFI_IOT_PWM_PORT_PWM1);

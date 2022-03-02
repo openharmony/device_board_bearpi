@@ -77,14 +77,14 @@ void GPSInit(void)
  ***************************************************************/
 void E53ST1Init(void)
 {
-    IoTGpioInit(WIFI_IOT_PWM1_GPIO);                                      //初始化GPIO
-    IoTGpioSetFunc(WIFI_IOT_PWM1_GPIO, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); //设置GPIO_8引脚复用功能为PWM
-    IoTGpioSetDir(WIFI_IOT_PWM1_GPIO, IOT_GPIO_DIR_OUT);                  //设置GPIO_8引脚为输出模式
-    IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                  //初始化PWM1端口
+    IoTGpioInit(WIFI_IOT_PWM1_GPIO);                                      // 初始化GPIO
+    IoTGpioSetFunc(WIFI_IOT_PWM1_GPIO, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); // 设置GPIO_8引脚复用功能为PWM
+    IoTGpioSetDir(WIFI_IOT_PWM1_GPIO, IOT_GPIO_DIR_OUT);                  // 设置GPIO_8引脚为输出模式
+    IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                  // 初始化PWM1端口
 
     IoTGpioInit(WIFI_IOT_GPIO_IDX_7);
     IoTGpioSetFunc(WIFI_IOT_GPIO_IDX_7, WIFI_IOT_IO_FUNC_GPIO_7_GPIO);
-    IoTGpioSetDir(WIFI_IOT_GPIO_IDX_7, IOT_GPIO_DIR_OUT); //设置GPIO_7为输出模式
+    IoTGpioSetDir(WIFI_IOT_GPIO_IDX_7, IOT_GPIO_DIR_OUT); // 设置GPIO_7为输出模式
     IoTGpioSetOutputVal(WIFI_IOT_GPIO_IDX_7, 0);
 
     GPSInit();
@@ -144,35 +144,35 @@ int NMEA_Str2num(uint8_t *buf, uint8_t *dx)
         if (*p == '-') {
             mask |= 0x02;
             p++;
-        } //说明有负数
+        } // 说明有负数
         if (*p == ',' || *p == '*') {
-            break; //遇到结束符
+            break; // 遇到结束符
         }
-        if (*p == '.') {//遇到小数点
+        if (*p == '.') {// 遇到小数点
             mask |= 0x01;
             p++;
-        } else if (*p > '9' || (*p < '0')) { //数字不在0和9之内，说明有非法字符
+        } else if (*p > '9' || (*p < '0')) { // 数字不在0和9之内，说明有非法字符
             ilen = 0;
             flen = 0;
             break;
         }
         if (mask & 0x01)
-            flen++; //小数点的位数
+            flen++; // 小数点的位数
         else
             ilen++; // str长度加一
-        p++;        //下一个字符
+        p++;        // 下一个字符
     }
     if (mask & 0x02) {
-        buf++;                 //移到下一位，除去负号
+        buf++;                 // 移到下一位，除去负号
     }
-    for (i = 0; i < ilen; i++) { //得到整数部分数据
+    for (i = 0; i < ilen; i++) { // 得到整数部分数据
         ires += NMEA_Pow(L80R_CONSTANT_10, ilen - 1 - i) * (buf[i] - '0');
     }
     if (flen > L80R_CONSTANT_5) {
-        flen = L80R_CONSTANT_5; //最多取五位小数
+        flen = L80R_CONSTANT_5; // 最多取五位小数
     }
     *dx = flen;
-    for (i = 0; i < flen; i++) { //得到小数部分数据
+    for (i = 0; i < flen; i++) { // 得到小数部分数据
         fres += NMEA_Pow(L80R_CONSTANT_10, flen - 1 - i) * (buf[ilen + 1 + i] - '0');
     }
     res = ires * NMEA_Pow(L80R_CONSTANT_10, flen) + fres;
@@ -192,29 +192,29 @@ void NMEA_BDS_GPRMC_Analysis(gps_msg *gpsmsg, uint8_t *buf)
     uint8_t posx;
     uint32_t temp;
     float rs;
-    p4 = (uint8_t *)strstr((const char *)buf, "$GPRMC"); //"$GPRMC",经常有&和GPRMC分开的情况,故只判断GPRMC.
+    p4 = (uint8_t *)strstr((const char *)buf, "$GPRMC"); // "$GPRMC",经常有&和GPRMC分开的情况,故只判断GPRMC.
     if (p4 != NULL) {
-        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_2); //得到纬度
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_2); // 得到纬度
         if (posx != 0XFF) {
             temp = NMEA_Str2num(p4 + posx, &dx);
-            gpsmsg->latitude_bd = temp / NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);  //得到°
-            rs = temp % NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);                   //得到'
+            gpsmsg->latitude_bd = temp / NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);  // 得到°
+            rs = temp % NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);                   // 得到'
             gpsmsg->latitude_bd = gpsmsg->latitude_bd * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5) +
-                (rs * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5 - dx)) / L80R_CONSTANT_60; //转换为°
+                (rs * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5 - dx)) / L80R_CONSTANT_60; // 转换为°
         }
-        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_4); //南纬还是北纬
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_4); // 南纬还是北纬
         if (posx != 0XFF) {
             gpsmsg->nshemi_bd = *(p4 + posx);
         }
-        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_5); //得到经度
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_5); // 得到经度
         if (posx != 0XFF) {
             temp = NMEA_Str2num(p4 + posx, &dx);
-            gpsmsg->longitude_bd = temp / NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2); //得到°
-            rs = temp % NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);                   //得到'
+            gpsmsg->longitude_bd = temp / NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2); // 得到°
+            rs = temp % NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);                   // 得到'
             gpsmsg->longitude_bd = gpsmsg->longitude_bd * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5) +
-                (rs * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5 - dx)) / L80R_CONSTANT_60; //转换为°
+                (rs * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5 - dx)) / L80R_CONSTANT_60; // 转换为°
         }
-        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_6); //东经还是西经
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_6); // 东经还是西经
         if (posx != 0XFF)
             gpsmsg->ewhemi_bd = *(p4 + posx);
     }
@@ -228,9 +228,9 @@ void NMEA_BDS_GPRMC_Analysis(gps_msg *gpsmsg, uint8_t *buf)
  ***************************************************************/
 void E53ST1ReadData(E53ST1Data *ReadData)
 {
-    //通过串口1接收数据
+    // 通过串口1接收数据
     IoTUartRead(WIFI_IOT_UART_IDX_1, gps_uart, L80R_DATA_LEN);
-    NMEA_BDS_GPRMC_Analysis(&gpsmsg, (uint8_t *)gps_uart); //分析字符串
+    NMEA_BDS_GPRMC_Analysis(&gpsmsg, (uint8_t *)gps_uart); // 分析字符串
     ReadData->Longitude = (float)((float)gpsmsg.longitude_bd / L80R_COEFFICIENT);
     ReadData->Latitude = (float)((float)gpsmsg.latitude_bd / L80R_COEFFICIENT);
 }
@@ -246,7 +246,7 @@ void E53ST1ReadData(E53ST1Data *ReadData)
 void BeepStatusSet(E53ST1Status status)
 {
     if (status == ON) {
-        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, PWM_DUTY, PWM_FREQ); //输出不同占空比的PWM波
+        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, PWM_DUTY, PWM_FREQ); // 输出不同占空比的PWM波
     }
 
     if (status == OFF) {

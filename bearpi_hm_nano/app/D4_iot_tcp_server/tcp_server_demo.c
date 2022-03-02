@@ -24,9 +24,9 @@
 
 #define TASK_STACK_SIZE (1024 * 10)
 #define TASK_DELAY_2S 2
-#define CONFIG_WIFI_SSID "BearPi"    //要连接的WiFi 热点账号
-#define CONFIG_WIFI_PWD "123456789" //要连接的WiFi 热点密码
-#define CONFIG_CLIENT_PORT 8888      //要连接的服务器端口
+#define CONFIG_WIFI_SSID "BearPi"    // 要连接的WiFi 热点账号
+#define CONFIG_WIFI_PWD "123456789"  // 要连接的WiFi 热点密码
+#define CONFIG_CLIENT_PORT 8888      // 要连接的服务器端口
 #define TCP_BACKLOG 10
 
 char recvbuf[512];
@@ -34,20 +34,20 @@ char *buf = "Hello! I'm BearPi-HM_Nano TCP Server!";
 
 static void TCPServerTask(void)
 {
-    //在sock_fd 进行监听，在 new_fd 接收新的链接
+    // 在sock_fd 进行监听，在 new_fd 接收新的链接
     int sock_fd, new_fd;
 
-    //服务端地址信息
+    // 服务端地址信息
     struct sockaddr_in server_sock;
 
-    //客户端地址信息
+    // 客户端地址信息
     struct sockaddr_in client_sock, *cli_addr;
     int sin_size;
 
-    //连接Wifi
+    // 连接Wifi
     WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
 
-    //创建socket
+    // 创建socket
     if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         perror("socket is error\r\n");
         exit(1);
@@ -58,19 +58,19 @@ static void TCPServerTask(void)
     server_sock.sin_addr.s_addr = htonl(INADDR_ANY);
     server_sock.sin_port = htons(CONFIG_CLIENT_PORT);
 
-    //调用bind函数绑定socket和地址
+    // 调用bind函数绑定socket和地址
     if (bind(sock_fd, (struct sockaddr *)&server_sock, sizeof(struct sockaddr)) == -1) {
         exit(1);
     }
 
-    //调用listen函数监听(指定port监听)
+    // 调用listen函数监听(指定port监听)
     if (listen(sock_fd, TCP_BACKLOG) == -1) {
         exit(1);
     }
 
     printf("start accept\n");
 
-    //调用accept函数从队列中
+    // 调用accept函数从队列中
     while (1) {
         sin_size = sizeof(struct sockaddr_in);
 
@@ -90,7 +90,7 @@ static void TCPServerTask(void)
                 exit(1);
             }
         }
-        //处理目标
+        // 处理目标
         ssize_t ret;
 
         while (1) {

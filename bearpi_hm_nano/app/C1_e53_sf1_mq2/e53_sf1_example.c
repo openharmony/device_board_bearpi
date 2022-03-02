@@ -33,7 +33,7 @@ static void ExampleTask(void)
     float  ppm;
 
     E53SF1Init();
-    //Sensor calibration
+    // Sensor calibration
     usleep(TASK_DELAY_1S);
     MQ2PPMCalibration();
 
@@ -41,7 +41,7 @@ static void ExampleTask(void)
         printf("=======================================\r\n");
         printf("*************E53_SF1_example***********\r\n");
         printf("=======================================\r\n");
-        //get mq2 ppm
+        // get mq2 ppm
         ret = GetMQ2PPM(&ppm);
         if (ret != 0) {
             printf("ADC Read Fail\n");

@@ -61,7 +61,7 @@ static int WifiConnectAp(const char *ssid, const char *psk, WifiScanInfo *info, 
         int result;
         printf("Select:%3d wireless, Waiting...\r\n", i + 1);
 
-        //拷贝要连接的热点信息
+        // 拷贝要连接的热点信息
         WifiDeviceConfig select_ap_config = { 0 };
         strcpy_s(select_ap_config.ssid, sizeof(select_ap_config.ssid), info[i].ssid);
         strcpy_s(select_ap_config.preSharedKey, sizeof(select_ap_config.preSharedKey), psk);
@@ -81,29 +81,29 @@ static BOOL WifiStaTask(void)
 {
     unsigned int size = WIFI_SCAN_HOTSPOT_LIMIT;
 
-    //初始化WIFI
+    // 初始化WIFI
     if (WiFiInit() != WIFI_SUCCESS) {
         printf("WiFiInit failed, error = %d\r\n", error);
         return -1;
     }
-    //分配空间，保存WiFi信息
+    // 分配空间，保存WiFi信息
     WifiScanInfo *info = malloc(sizeof(WifiScanInfo) * WIFI_SCAN_HOTSPOT_LIMIT);
     if (info == NULL) {
         return -1;
     }
-    //轮询查找WiFi列表
+    // 轮询查找WiFi列表
     do {
         Scan();
         WaitSacnResult();
         error = GetScanInfoList(info, &size);
     } while (g_staScanSuccess != 1);
-    //打印WiFi列表
+    // 打印WiFi列表
     printf("********************\r\n");
     for (uint8_t i = 0; i < g_ssid_count; i++) {
         printf("no:%03d, ssid:%-30s, rssi:%5d\r\n", i + 1, info[i].ssid, info[i].rssi);
     }
     printf("********************\r\n");
-    //连接指定的WiFi热点
+    // 连接指定的WiFi热点
     for (uint8_t i = 0; i < g_ssid_count; i++) {
         if (WifiConnectAp(SELECT_WIFI_SSID, SELECT_WIFI_PASSWORD, info, i) == WIFI_SUCCESS) {
             printf("WiFi connect succeed!\r\n");
@@ -117,23 +117,23 @@ static BOOL WifiStaTask(void)
         }
     }
 
-    //启动DHCP
+    // 启动DHCP
     if (g_lwip_netif) {
         dhcp_start(g_lwip_netif);
         printf("begain to dhcp\r\n");
     }
-    //等待DHCP
+    // 等待DHCP
     for (;;) {
         if (dhcp_is_bound(g_lwip_netif) == ERR_OK) {
             printf("<-- DHCP state:OK -->\r\n");
-            //打印获取到的IP信息
+            // 打印获取到的IP信息
             netifapi_netif_common(g_lwip_netif, dhcp_clients_info_show, NULL);
             break;
         }
         osDelay(DHCP_DELAY);
     }
 
-    //执行其他操作
+    // 执行其他操作
     for (;;) {
         osDelay(DHCP_DELAY);
     }
@@ -151,12 +151,12 @@ int WiFiInit(void)
         printf("register wifi event fail!\r\n");
         return -1;
     }
-    //使能WIFI
+    // 使能WIFI
     if (EnableWifi() != WIFI_SUCCESS) {
         printf("EnableWifi failed, error = %d\r\n", error);
         return -1;
     }
-    //判断WIFI是否激活
+    // 判断WIFI是否激活
     if (IsWifiActive() == 0) {
         printf("Wifi station is not actived.\r\n");
         return -1;

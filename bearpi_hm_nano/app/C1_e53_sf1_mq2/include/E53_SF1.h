@@ -24,7 +24,7 @@
 #define MQ2_CONSTANT_2          613.9f
 #define MQ2_CONSTANT_3          (-2.074f)
 
-#define CAL_PPM 20 //校准环境中PPM值
+#define CAL_PPM 20 // 校准环境中PPM值
 #define RL 1       // RL阻值
 
 #define WIFI_IOT_IO_NAME_GPIO_8 8

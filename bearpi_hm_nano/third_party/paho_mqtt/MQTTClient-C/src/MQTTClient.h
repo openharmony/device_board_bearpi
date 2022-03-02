@@ -52,7 +52,7 @@ typedef struct Network
 {
     int (*mqttread)(Network*, unsigned char* read_buffer, int, int);
     int (*mqttwrite)(Network*, unsigned char* send_buffer, int, int);
-} Network;*/
+} Network;* /
 
 /* The Timer structure must be defined in the platform specific header,
  * and have the following functions to operate on it.  */

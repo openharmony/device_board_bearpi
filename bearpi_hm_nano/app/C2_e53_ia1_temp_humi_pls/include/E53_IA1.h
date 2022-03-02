@@ -52,9 +52,9 @@ typedef enum {
 
 /* E53_IA1传感器数据类型定义 ------------------------------------------------------------*/
 typedef struct {
-    float    Lux;			  //光照强度
-    float    Humidity;        //湿度
-    float    Temperature;     //温度
+    float    Lux;			  // 光照强度
+    float    Humidity;        // 湿度
+    float    Temperature;     // 温度
 } E53IA1Data;
 
 enum CheckDataPart {

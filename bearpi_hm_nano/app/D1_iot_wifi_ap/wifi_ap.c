@@ -57,12 +57,12 @@ WifiErrorCode error;
 static void StartUdpServer(void)
 {
     /****************以下为UDP服务器代码,默认IP:192.168.5.1***************/
-    //在sock_fd 进行监听
+    // 在sock_fd 进行监听
     int sock_fd;
-    //服务端地址信息
+    // 服务端地址信息
     struct sockaddr_in server_sock;
 
-    //创建socket
+    // 创建socket
     if ((sock_fd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
         perror("socket is error.\r\n");
         return -1;
@@ -73,7 +73,7 @@ static void StartUdpServer(void)
     server_sock.sin_addr.s_addr = htonl(INADDR_ANY);
     server_sock.sin_port = htons(UDP_SERVERPORT);
 
-    //调用bind函数绑定socket和地址
+    // 调用bind函数绑定socket和地址
     if (bind(sock_fd, (struct sockaddr *)&server_sock, sizeof(struct sockaddr)) == -1) {
         perror("bind is error.\r\n");
         return -1;
@@ -81,7 +81,7 @@ static void StartUdpServer(void)
 
     int ret;
     char recvBuf[512] = { 0 };
-    //客户端地址信息
+    // 客户端地址信息
     struct sockaddr_in client_addr;
     int size_client_addr = sizeof(struct sockaddr_in);
     while (1) {
@@ -107,10 +107,10 @@ static void StartUdpServer(void)
 
 static BOOL WifiAPTask(void)
 {
-    //延时2S便于查看日志
+    // 延时2S便于查看日志
     osDelay(TASK_DELAY_2S);
 
-    //注册wifi事件的回调函数
+    // 注册wifi事件的回调函数
     g_wifiEventHandler.OnHotspotStaJoin = OnHotspotStaJoinHandler;
     g_wifiEventHandler.OnHotspotStaLeave = OnHotspotStaLeaveHandler;
     g_wifiEventHandler.OnHotspotStateChanged = OnHotspotStateChangedHandler;
@@ -120,12 +120,12 @@ static BOOL WifiAPTask(void)
         return -1;
     }
     printf("RegisterWifiEvent succeed!\r\n");
-        //检查热点模式是否使能
+    // 检查热点模式是否使能
     if (IsHotspotActive() == WIFI_HOTSPOT_ACTIVE) {
         printf("Wifi station is  actived.\r\n");
         return -1;
     }
-    //设置指定的热点配置
+    // 设置指定的热点配置
     HotspotConfig config = { 0 };
 
     strcpy_s(config.ssid, strlen(AP_SSID) + 1, AP_SSID);
@@ -141,7 +141,7 @@ static BOOL WifiAPTask(void)
     }
     printf("SetHotspotConfig succeed!\r\n");
 
-    //启动wifi热点模式
+    // 启动wifi热点模式
     error = EnableHotspot();
     if (error != WIFI_SUCCESS) {
         printf("EnableHotspot failed, error = %d.\r\n", error);

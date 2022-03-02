@@ -36,11 +36,11 @@ static void E53IA1IoInit(void)
 {
     IoTGpioInit(E53_IA1_MOTOR_GPIO);
     IoTGpioSetFunc(E53_IA1_MOTOR_GPIO, WIFI_IOT_IO_FUNC_GPIO_8_GPIO);
-    IoTGpioSetDir(E53_IA1_MOTOR_GPIO, IOT_GPIO_DIR_OUT); //设置GPIO_8为输出模式
+    IoTGpioSetDir(E53_IA1_MOTOR_GPIO, IOT_GPIO_DIR_OUT); // 设置GPIO_8为输出模式
 
     IoTGpioInit(E53_IA1_LIGHT_GPIO);
     IoTGpioSetFunc(E53_IA1_LIGHT_GPIO, WIFI_IOT_IO_FUNC_GPIO_14_GPIO);
-    IoTGpioSetDir(E53_IA1_LIGHT_GPIO, IOT_GPIO_DIR_OUT); //设置GPIO_14为输出模式
+    IoTGpioSetDir(E53_IA1_LIGHT_GPIO, IOT_GPIO_DIR_OUT); // 设置GPIO_14为输出模式
 
     IoTGpioInit(E53_IA1_I2C1_SDA_GPIO);
     IoTGpioSetFunc(E53_IA1_I2C1_SDA_GPIO, WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA); // GPIO_0复用为I2C1_SDA
@@ -276,11 +276,11 @@ int E53IA1ReadData(E53IA1Data *ReadData)
 void LightStatusSet(E53IA1Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(E53_IA1_LIGHT_GPIO, 1); //设置GPIO_14输出高电平点亮灯
+        IoTGpioSetOutputVal(E53_IA1_LIGHT_GPIO, 1); // 设置GPIO_14输出高电平点亮灯
     }
 
     if (status == OFF) {
-        IoTGpioSetOutputVal(E53_IA1_LIGHT_GPIO, 0); //设置GPIO_14输出低电平关闭灯
+        IoTGpioSetOutputVal(E53_IA1_LIGHT_GPIO, 0); // 设置GPIO_14输出低电平关闭灯
     }
 }
 
@@ -295,10 +295,10 @@ void LightStatusSet(E53IA1Status status)
 void MotorStatusSet(E53IA1Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(E53_IA1_MOTOR_GPIO, 1); //设置GPIO_8输出高电平打开电机
+        IoTGpioSetOutputVal(E53_IA1_MOTOR_GPIO, 1); // 设置GPIO_8输出高电平打开电机
     }
 
     if (status == OFF) {
-        IoTGpioSetOutputVal(E53_IA1_MOTOR_GPIO, 0); //设置GPIO_8输出低电平关闭电机
+        IoTGpioSetOutputVal(E53_IA1_MOTOR_GPIO, 0); // 设置GPIO_8输出低电平关闭电机
     }
 }

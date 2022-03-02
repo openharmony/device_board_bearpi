@@ -254,22 +254,22 @@ en_mqtt_al_connect_state mqtt_al_check_status(VOID *handle);
 //////////////////////API USED FOR THE MQTT IMPLEMENT/////////////////////////
 
 /**
- *@brief the mqtt lib should call this function to register its implement as a service
-    *
-    *@param[in] op  refer to the data  mqtt_al_op_t
-    *
-    *@return 0 success while -1 failed
-    *
-    */
+ *  @brief the mqtt lib should call this function to register its implement as a service
+ *
+ *  @param[in] op  refer to the data  mqtt_al_op_t
+ *
+ *  @return 0 success while -1 failed
+ *
+ */
 int mqtt_al_install(mqtt_al_op_t *op);
 /**
- *@brief call this function to unregister the mqtt service
-    *
-    *@param[in] op  refer to the data  mqtt_al_op_t
-    *
-    *@return 0 success while -1 failed
-    *
-    */
+ *  @brief call this function to unregister the mqtt service
+ *
+ *  @param[in] op  refer to the data  mqtt_al_op_t
+ *
+ *  @return 0 success while -1 failed
+ *
+*/
 int mqtt_al_uninstall(void);
 
 #if defined(__cplusplus)
