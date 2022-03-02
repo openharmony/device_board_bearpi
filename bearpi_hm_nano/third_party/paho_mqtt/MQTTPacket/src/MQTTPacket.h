@@ -81,7 +81,6 @@ int MQTTstrlen(MQTTString mqttstring);
 #include "MQTTPublish.h"
 #include "MQTTSubscribe.h"
 #include "MQTTUnsubscribe.h"
-#define VOID void
 
 DLLExport int MQTTSerialize_ack(unsigned char* buf, int buflen, unsigned char type, unsigned char dup,
     unsigned short packetid);
@@ -107,7 +106,7 @@ DLLExport int MQTTPacket_read(unsigned char* buf, int buflen, int (*getfn)(unsig
 
 typedef struct {
     /* must return -1 for error, 0 for call again, or the number of bytes read */
-    int (*getfn)(VOID *, unsigned char*, int);
+    int (*getfn)(void *, unsigned char*, int);
     /* pointer to whatever the system may use to identify the transport */
     void *sck;
     int multiplier;

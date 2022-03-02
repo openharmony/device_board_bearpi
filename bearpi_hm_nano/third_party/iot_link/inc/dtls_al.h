@@ -43,8 +43,6 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define VOID void
-
 typedef enum {
     EN_DTLS_AL_ERR_OK = 0,
     EN_DTLS_AL_ERR_PARA,
@@ -102,17 +100,17 @@ typedef struct {
     dtls_al_security_t  security;
 }dtls_al_para_t;
 
-en_dtls_al_err_t  dtls_al_new(dtls_al_para_t *para, VOID **handle);
-int   dtls_al_connect(VOID *handle, const char *ip, const char *port, int timeout);
-int   dtls_al_write(VOID *handle, uint8_t *msg, size_t len, int timeout);
-int   dtls_al_read(VOID *handle, uint8_t *buf, size_t len, int timeout);
-en_dtls_al_err_t   dtls_al_destroy(VOID *handle);
+en_dtls_al_err_t  dtls_al_new(dtls_al_para_t *para, void **handle);
+int   dtls_al_connect(void *handle, const char *ip, const char *port, int timeout);
+int   dtls_al_write(void *handle, uint8_t *msg, size_t len, int timeout);
+int   dtls_al_read(void *handle, uint8_t *buf, size_t len, int timeout);
+en_dtls_al_err_t   dtls_al_destroy(void *handle);
 
-typedef en_dtls_al_err_t(*fn_dtls_al_new)(dtls_al_para_t *para, VOID **handle);
-typedef int (*fn_dtls_al_connect)(VOID *handle, const char *server_ip, const char *server_port, int timeout);
-typedef int (*fn_dtls_al_write)(VOID *handle, uint8_t *msg, size_t len, int timeout);
-typedef int (*fn_dtls_al_read)(VOID *handle, uint8_t *buf, size_t len, int timeout);
-typedef en_dtls_al_err_t(*fn_dtls_al_destroy)(VOID *handle);
+typedef en_dtls_al_err_t(*fn_dtls_al_new)(dtls_al_para_t *para, void **handle);
+typedef int (*fn_dtls_al_connect)(void *handle, const char *server_ip, const char *server_port, int timeout);
+typedef int (*fn_dtls_al_write)(void *handle, uint8_t *msg, size_t len, int timeout);
+typedef int (*fn_dtls_al_read)(void *handle, uint8_t *buf, size_t len, int timeout);
+typedef en_dtls_al_err_t(*fn_dtls_al_destroy)(void *handle);
 
 typedef struct {
     fn_dtls_al_new            io_new;

@@ -38,8 +38,6 @@
 #include <stdint.h>
 #include <dtls_al.h>
 
-#define VOID void
-
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -107,7 +105,7 @@ typedef struct {
 }mqtt_al_msgrcv_t;
 
 /** @brief  defines the mqtt received message dealer, called by mqtt engine*/
-typedef void (*fn_mqtt_al_msg_dealer)(VOID *arg, mqtt_al_msgrcv_t *msg);
+typedef void (*fn_mqtt_al_msg_dealer)(void *arg, mqtt_al_msgrcv_t *msg);
 
 /** @brief defines the mqtt subscribe parameter*/
 typedef struct {
@@ -157,15 +155,15 @@ typedef struct {
     ///< connect to the server
     void* (*connect)   (mqtt_al_conpara_t *param);
     ///< disconnect from the server
-    int    (*disconnect)(VOID *handle);
+    int    (*disconnect)(void *handle);
     ///< publish a message to the server
-    int    (*publish)    (VOID *handle, mqtt_al_pubpara_t *msg);
+    int    (*publish)    (void *handle, mqtt_al_pubpara_t *msg);
     ///< subscribe a topic to the server
-    int    (*subscribe)   (VOID *handle, mqtt_al_subpara_t *subpara);
+    int    (*subscribe)   (void *handle, mqtt_al_subpara_t *subpara);
     ///< unsubscribe a topic to the server
-    int    (*unsubscribe) (VOID *handle, mqtt_al_unsubpara_t *unsubpara);
+    int    (*unsubscribe) (void *handle, mqtt_al_unsubpara_t *unsubpara);
     ///< check the mqtt engine status
-    en_mqtt_al_connect_state(*check_status) (VOID *handle);
+    en_mqtt_al_connect_state(*check_status) (void *handle);
 }mqtt_al_op_t;
 
 //////////////////////API USED FOR THE MQTT APPLICAITON/////////////////////////
@@ -204,7 +202,7 @@ void * mqtt_al_connect(mqtt_al_conpara_t *conparam);
     * @return  0 success -1 failed
 
     */
-int mqtt_al_disconnect(VOID *handle);
+int mqtt_al_disconnect(void *handle);
 
 /**
  * @brief you could use this function to publish a message to the server
@@ -216,7 +214,7 @@ int mqtt_al_disconnect(VOID *handle);
  * @return 0 success  -1  failed
  *
  */
-int mqtt_al_publish(VOID *handle, mqtt_al_pubpara_t *pubpara);
+int mqtt_al_publish(void *handle, mqtt_al_pubpara_t *pubpara);
 
 /**
  * @brief you could use this function subscribe a topic from the server
@@ -228,7 +226,7 @@ int mqtt_al_publish(VOID *handle, mqtt_al_pubpara_t *pubpara);
  * @return 0 success  -1  failed
  *
  */
-int mqtt_al_subscribe(VOID *handle, mqtt_al_subpara_t *subpara);
+int mqtt_al_subscribe(void *handle, mqtt_al_subpara_t *subpara);
 
 /**
  * @brief you could use this function unsubscribe a topic from the server
@@ -240,7 +238,7 @@ int mqtt_al_subscribe(VOID *handle, mqtt_al_subpara_t *subpara);
  * @return 0 success  -1  failed
  *
  */
-int mqtt_al_unsubscribe(VOID *handle, mqtt_al_unsubpara_t *unsubpara);
+int mqtt_al_unsubscribe(void *handle, mqtt_al_unsubpara_t *unsubpara);
 
 /**
  *  @brief the mqtt engine state now
@@ -249,7 +247,7 @@ int mqtt_al_unsubscribe(VOID *handle, mqtt_al_unsubpara_t *unsubpara);
  *
  *  @return refer to  en_mqtt_al_connect_state
  */
-en_mqtt_al_connect_state mqtt_al_check_status(VOID *handle);
+en_mqtt_al_connect_state mqtt_al_check_status(void *handle);
 
 //////////////////////API USED FOR THE MQTT IMPLEMENT/////////////////////////
 

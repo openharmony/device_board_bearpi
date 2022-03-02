@@ -162,7 +162,7 @@ static float SHT3xCalcTemperatureC(uint16_t u16sT)
 {
     float temperatureC = 0; // variable for result
     u16sT &= ~0x0003;       // clear bits [1..0] (status bits)
-    //-- calculate temperature [℃] --
+    // -- calculate temperature [℃] --
     temperatureC = (SHT30_CONSTANT_1 * (float)u16sT / 0xffff - SHT30_CONSTANT_2); // T = -45 + 175 * rawValue / (2^16-1)
     return temperatureC;
 }
@@ -177,7 +177,7 @@ static float SHT3xCalcRH(uint16_t u16sRH)
 {
     float humidityRH = 0; // variable for result
     u16sRH &= ~0x0003;    // clear bits [1..0] (status bits)
-    //-- calculate relative humidity [%RH] --
+    // -- calculate relative humidity [%RH] --
     humidityRH = (SHT30_CONSTANT_3 * (float)u16sRH / 0xffff); // RH = rawValue / (2^16-1) * 10
     return humidityRH;
 }

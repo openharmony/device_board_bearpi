@@ -40,7 +40,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <mqtt_al.h>
-#define VOID void
 
 ///< the mode for the huawei OceanConnect  mode
 ///< bs: if bs then the connection will first connect the bootstrap server then the hub server
@@ -84,7 +83,7 @@ typedef void (*fn_oc_mqtt_log)(en_oc_mqtt_log_t  logtype);
 
 
 /** @brief this is the message dealer module for the application*/
-typedef int (*fn_oc_mqtt_msg_deal)(VOID *arg, mqtt_al_msgrcv_t *msg);
+typedef int (*fn_oc_mqtt_msg_deal)(void *arg, mqtt_al_msgrcv_t *msg);
 
 typedef struct {
     en_oc_mqtt_mode  boot_mode;            ///< if bs mode, then the server and port must be the bs server's
@@ -98,7 +97,7 @@ typedef struct {
     char                   *pwd;
     char                   *scope_id;
     fn_oc_mqtt_msg_deal    msg_deal;       ///< when the agent receive any applciation data, please call this function
-    VOID                   *msg_deal_arg;   ///< call back for the fn_oc_mqtt_msg_deal
+    void                   *msg_deal_arg;   ///< call back for the fn_oc_mqtt_msg_deal
     fn_oc_mqtt_log         log_dealer;
 }oc_mqtt_config_t;
 

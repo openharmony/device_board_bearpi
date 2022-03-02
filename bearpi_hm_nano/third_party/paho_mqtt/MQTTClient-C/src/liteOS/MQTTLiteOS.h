@@ -53,13 +53,12 @@
 #include "lwip/sockets.h"
 
 #define MQTT_TASK
-#define VOID void
 
 typedef struct Thread {
     osThreadId_t task;
 } Thread;
 
-int ThreadStart(Thread* thread, VOID (*fn)(VOID*), VOID* arg);
+int ThreadStart(Thread* thread, void (*fn)(void*), void* arg);
 
 typedef struct Timer {
     struct timeval end_time;
