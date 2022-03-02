@@ -210,16 +210,16 @@ int oc_mqtt_subscribe(char *topic, int qos);
 int oc_mqtt_unsubscribe(char *topic);
 
 /**
- *@brief this is the oc mqtt  initialize function,must be called first
+ * @brief this is the oc mqtt  initialize function,must be called first
  *
- *@return 0 success while <0 failed
+ * @return 0 success while <0 failed
  */
 int oc_mqtt_init(void);
 
 /**
- *@brief use this function to get the errcode for the oc mqtt
+ * @brief use this function to get the errcode for the oc mqtt
  *
- *@return the  reason  corresponding to the code
+ * @return the  reason  corresponding to the code
  */
 const char *oc_mqtt_err(en_oc_mqtt_err_code_t code);
 
