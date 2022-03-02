@@ -22,16 +22,15 @@
 #include "lwip/sockets.h"
 #include "wifi_connect.h"
 
+#define TASK_STACK_SIZE (1024 * 10)
+#define TASK_DELAY_2S 2
 #define CONFIG_WIFI_SSID "BearPi"    //要连接的WiFi 热点账号
-#define CONFIG_WIFI_PWD "BearPi" //要连接的WiFi 热点密码
+#define CONFIG_WIFI_PWD "123456789" //要连接的WiFi 热点密码
 #define CONFIG_CLIENT_PORT 8888      //要连接的服务器端口
 #define TCP_BACKLOG 10
 
-//在sock_fd 进行监听，在 new_fd 接收新的链接
-int sock_fd, new_fd;
-
 char recvbuf[512];
-char* buf = "Hello! I'm BearPi-HM_Nano TCP Server!";
+char *buf = "Hello! I'm BearPi-HM_Nano TCP Server!";
 
 static void TCPServerTask(void)
 {
@@ -42,10 +41,8 @@ static void TCPServerTask(void)
     struct sockaddr_in server_sock;
 
     //客户端地址信息
-    struct sockaddr_in client_sock;
+    struct sockaddr_in client_sock, *cli_addr;
     int sin_size;
-
-    struct sockaddr_in* cli_addr;
 
     //连接Wifi
     WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
@@ -62,14 +59,12 @@ static void TCPServerTask(void)
     server_sock.sin_port = htons(CONFIG_CLIENT_PORT);
 
     //调用bind函数绑定socket和地址
-    if (bind(sock_fd, (struct sockaddr*)&server_sock, sizeof(struct sockaddr)) == -1) {
-        perror("bind is error\r\n");
+    if (bind(sock_fd, (struct sockaddr *)&server_sock, sizeof(struct sockaddr)) == -1) {
         exit(1);
     }
 
     //调用listen函数监听(指定port监听)
     if (listen(sock_fd, TCP_BACKLOG) == -1) {
-        perror("listen is error\r\n");
         exit(1);
     }
 
@@ -79,7 +74,7 @@ static void TCPServerTask(void)
     while (1) {
         sin_size = sizeof(struct sockaddr_in);
 
-        if ((new_fd = accept(sock_fd, (struct sockaddr*)&client_sock, (socklen_t*)&sin_size)) == -1) {
+        if ((new_fd = accept(sock_fd, (struct sockaddr *)&client_sock, (socklen_t *)&sin_size)) == -1) {
             perror("accept");
             continue;
         }
@@ -89,25 +84,27 @@ static void TCPServerTask(void)
         printf("accept addr\r\n");
 
         if (cli_addr != NULL) {
-            memcpy(cli_addr, &client_sock, sizeof(struct sockaddr));
+            int ret;
+            if  (ret = memcpy_s(cli_addr, sizeof(struct sockaddr), &client_sock, sizeof(struct sockaddr)) != 0) {
+                perror("memcpy is error\r\n");
+                exit(1);
+            }
         }
-
         //处理目标
         ssize_t ret;
 
         while (1) {
+            memset_s(recvbuf, sizeof(recvbuf), 0, sizeof(recvbuf));
             if ((ret = recv(new_fd, recvbuf, sizeof(recvbuf), 0)) == -1) {
                 printf("recv error \r\n");
             }
             printf("recv :%s\r\n", recvbuf);
-            sleep(2);
+            sleep(TASK_DELAY_2S);
             if ((ret = send(new_fd, buf, strlen(buf) + 1, 0)) == -1) {
                 perror("send : ");
             }
-
-            sleep(2);
+            sleep(TASK_DELAY_2S);
         }
-
         close(new_fd);
     }
 }
@@ -121,7 +118,7 @@ static void TCPServerDemo(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 10240;
+    attr.stack_size = TASK_STACK_SIZE;
     attr.priority = osPriorityNormal;
 
     if (osThreadNew((osThreadFunc_t)TCPServerTask, NULL, &attr) == NULL) {

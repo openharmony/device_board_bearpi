@@ -41,7 +41,6 @@ config("pahomqtt_config") {
         "MQTTPacket/src/MQTTSubscribeServer.c",
         "MQTTPacket/src/MQTTUnsubscribeClient.c",
         "MQTTPacket/src/MQTTUnsubscribeServer.c",
-        "MQTTPacket/samples/transport.c",
     ]
 
 lite_library("pahomqtt_static") {

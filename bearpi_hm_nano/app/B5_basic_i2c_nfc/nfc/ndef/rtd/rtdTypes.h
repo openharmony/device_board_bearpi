@@ -4,18 +4,17 @@
 #include "rtdText.h"
 #include "rtdUri.h"
 
-
 #define RTD_TEXT 'T'
 #define RTD_URI  'U'
 
 typedef union {
-	RtdTextTypeStr text;
-	RTDUriTypeStr uri;
+    RtdTextTypeStr text;
+    RTDUriTypeStr uri;
 } RTDTypeUnion;
 
 typedef struct {
-	uint8_t typeCode;
-	RTDTypeUnion typePayload;
+    uint8_t typeCode;
+    RTDTypeUnion typePayload;
 }RTDTypeStr;
 
 #endif /* RTDTYPES_H_ */

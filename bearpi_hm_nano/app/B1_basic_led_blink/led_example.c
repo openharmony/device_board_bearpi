@@ -20,6 +20,8 @@
 #include "iot_gpio.h"
 #include "ohos_init.h"
 
+#define LED_TASK_STACK_SIZE (1024 * 4)
+#define LED_TASK_PRIO 25
 #define LED_GPIO 2
 
 /**
@@ -62,8 +64,8 @@ static void LedExampleEntry(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
-    attr.priority = 25;
+    attr.stack_size = LED_TASK_STACK_SIZE;
+    attr.priority = LED_TASK_PRIO;
 
     if (osThreadNew((osThreadFunc_t)LedTask, NULL, &attr) == NULL) {
         printf("Failed to create LedTask!\n");

@@ -29,13 +29,13 @@
 
 #define CONFIG_WIFI_SSID "BearPi" // 修改为自己的WiFi 热点账号
 
-#define CONFIG_WIFI_PWD "BearPi" // 修改为自己的WiFi 热点密码
+#define CONFIG_WIFI_PWD "123456789" // 修改为自己的WiFi 热点密码
 
 #define CONFIG_APP_SERVERIP "121.36.42.100"
 
 #define CONFIG_APP_SERVERPORT "1883"
 
-#define CONFIG_APP_DEVICEID "60154da604feea02d7f9ae8d_2354566786" // 替换为注册设备后生成的deviceid
+#define CONFIG_APP_DEVICEID "613c0fc6010993028731a9e8_64223" // 替换为注册设备后生成的deviceid
 
 #define CONFIG_APP_DEVICEPWD "123456789" // 替换为注册设备后生成的密钥
 
@@ -55,8 +55,8 @@ typedef enum {
 } en_msg_type_t;
 
 typedef struct {
-    char* request_id;
-    char* payload;
+    char *request_id;
+    char *payload;
 } cmd_t;
 
 typedef struct {
@@ -93,7 +93,7 @@ static void deal_report_msg(void)
 
 osEventFlagsId_t g_eventFlagsId;
 
-static void BeepAlarm(char* arg)
+static void BeepAlarm(char *arg)
 {
     (void)arg;
     osEventFlagsSet(g_eventFlagsId, FLAGS_MSK1);

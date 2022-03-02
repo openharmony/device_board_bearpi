@@ -13,7 +13,6 @@
  */
 bool storeUrihttp(RecordPosEnu position, uint8_t *http);
 
-
 /*
  * The function write in the NT3H a new Text Rtd on the required position
  *

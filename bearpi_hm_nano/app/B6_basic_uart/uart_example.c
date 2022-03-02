@@ -22,12 +22,13 @@
 #include "iot_uart.h"
 #include "ohos_init.h"
 
-#define UART_TASK_STACK_SIZE 1024 * 8
+#define UART_TASK_STACK_SIZE (1024 * 8)
 #define UART_TASK_PRIO 25
 #define UART_BUFF_SIZE 1000
 #define WIFI_IOT_UART_IDX_1 1
+#define TASK_DELAY_1S 1000000
 
-static const char* data = "Hello, BearPi!\r\n";
+static const char *data = "Hello, BearPi!\r\n";
 
 /**
  * @brief uart task send data through uart1 and receive data through uart1
@@ -35,8 +36,8 @@ static const char* data = "Hello, BearPi!\r\n";
  */
 static void UartTask(void)
 {
-    uint8_t uart_buff[UART_BUFF_SIZE] = {0};
-    uint8_t* uart_buff_ptr = uart_buff;
+    uint8_t uart_buff[UART_BUFF_SIZE] = { 0 };
+    uint8_t *uart_buff_ptr = uart_buff;
     uint32_t ret;
 
     IotUartAttribute uart_attr = {
@@ -63,13 +64,13 @@ static void UartTask(void)
         printf("=======================================\r\n");
 
         // send data through uart1
-        IoTUartWrite(WIFI_IOT_UART_IDX_1, (unsigned char*)data, strlen(data));
+        IoTUartWrite(WIFI_IOT_UART_IDX_1, (unsigned char *)data, strlen(data));
 
         // receive data through uart1
         IoTUartRead(WIFI_IOT_UART_IDX_1, uart_buff_ptr, UART_BUFF_SIZE);
 
         printf("Uart1 read data:%s\n", uart_buff_ptr);
-        usleep(1000000);
+        usleep(TASK_DELAY_1S);
     }
 }
 
@@ -79,7 +80,6 @@ static void UartTask(void)
  */
 static void UartExampleEntry(void)
 {
-
     osThreadAttr_t attr;
 
     attr.name = "UartTask";

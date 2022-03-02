@@ -13,24 +13,30 @@
  * limitations under the License.
  */
 
-#include "cmsis_os2.h"
-#include "ohos_init.h"
+
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "E53_ST1.h"
+#include "cmsis_os2.h"
+#include "ohos_init.h"
 #include "iot_errno.h"
 #include "iot_gpio.h"
 #include "iot_gpio_ex.h"
 #include "iot_pwm.h"
 #include "iot_uart.h"
+#include "E53_ST1.h"
 
 #define WIFI_IOT_PWM_PORT_PWM1 1
+#define WIFI_IOT_PWM1_GPIO 8
 #define WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT 5
+#define PWM_DUTY 50
+#define PWM_FREQ 4000
+
 #define WIFI_IOT_IO_FUNC_GPIO_7_GPIO 0
 #define WIFI_IOT_UART_IDX_1 1
+#define WIFI_IOT_GPIO_IDX_7 7
 
 gps_msg gpsmsg;
 static unsigned char gps_uart[1000];
@@ -42,7 +48,6 @@ static unsigned char gps_uart[1000];
  ***************************************************************/
 void GPSInit(void)
 {
-
     uint32_t ret;
 
     IotUartAttribute uart_attr = {
@@ -72,16 +77,15 @@ void GPSInit(void)
  ***************************************************************/
 void E53ST1Init(void)
 {
-    IoTGpioInit(8);                                      //初始化GPIO
-    IoTGpioSetFunc(8, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); //设置GPIO_8引脚复用功能为PWM
-    IoTGpioSetDir(8, IOT_GPIO_DIR_OUT);                  //设置GPIO_8引脚为输出模式
+    IoTGpioInit(WIFI_IOT_PWM1_GPIO);                                      //初始化GPIO
+    IoTGpioSetFunc(WIFI_IOT_PWM1_GPIO, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); //设置GPIO_8引脚复用功能为PWM
+    IoTGpioSetDir(WIFI_IOT_PWM1_GPIO, IOT_GPIO_DIR_OUT);                  //设置GPIO_8引脚为输出模式
     IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                  //初始化PWM1端口
-    /*****初始化F1按键，设置为下降沿触发中断*****/
 
-    IoTGpioInit(7);
-    IoTGpioSetFunc(7, WIFI_IOT_IO_FUNC_GPIO_7_GPIO);
-    IoTGpioSetDir(7, IOT_GPIO_DIR_OUT); //设置GPIO_7为输出模式
-    IoTGpioSetOutputVal(7, 0);
+    IoTGpioInit(WIFI_IOT_GPIO_IDX_7);
+    IoTGpioSetFunc(WIFI_IOT_GPIO_IDX_7, WIFI_IOT_IO_FUNC_GPIO_7_GPIO);
+    IoTGpioSetDir(WIFI_IOT_GPIO_IDX_7, IOT_GPIO_DIR_OUT); //设置GPIO_7为输出模式
+    IoTGpioSetOutputVal(WIFI_IOT_GPIO_IDX_7, 0);
 
     GPSInit();
 }
@@ -89,19 +93,21 @@ void E53ST1Init(void)
 /***************************************************\
 * 函数名称: NMEA_Comma_Pos
 *	函数功能：从buf里面得到第cx个逗号所在的位置
-*	输入值：
+*	输入值：buf和第cx个逗号
 *	返回值：0~0xFE，代表逗号所在位置的便宜
 *				 	0xFF，代表不存在第cx个逗号
 \***************************************************/
 
-uint8_t NMEA_Comma_Pos(uint8_t* buf, uint8_t cx)
+uint8_t NMEA_Comma_Pos(uint8_t *buf, uint8_t cx)
 {
-    uint8_t* p = buf;
+    uint8_t *p = buf;
     while (cx) {
-        if (*buf == '*' || *buf < ' ' || *buf > 'z')
+        if (*buf == '*' || *buf < ' ' || *buf > 'z') {
             return 0xFF;
-        if (*buf == ',')
+        }
+        if (*buf == ',') {
             cx--;
+        }
         buf++;
     }
     return buf - p;
@@ -115,8 +121,9 @@ uint8_t NMEA_Comma_Pos(uint8_t* buf, uint8_t cx)
 uint32_t NMEA_Pow(uint8_t m, uint8_t n)
 {
     uint32_t result = 1;
-    while (n--)
+    while (n--) {
         result *= m;
+    }
     return result;
 }
 /***************************************************\
@@ -126,9 +133,9 @@ uint32_t NMEA_Pow(uint8_t m, uint8_t n)
 *				 	dx，小数点位数，返回给调用函数
 *	返回值：转换后的数值
 \***************************************************/
-int NMEA_Str2num(uint8_t* buf, uint8_t* dx)
+int NMEA_Str2num(uint8_t *buf, uint8_t *dx)
 {
-    uint8_t* p = buf;
+    uint8_t *p = buf;
     uint32_t ires = 0, fres = 0;
     uint8_t ilen = 0, flen = 0, i;
     uint8_t mask = 0;
@@ -138,14 +145,13 @@ int NMEA_Str2num(uint8_t* buf, uint8_t* dx)
             mask |= 0x02;
             p++;
         } //说明有负数
-        if (*p == ',' || *p == '*')
+        if (*p == ',' || *p == '*') {
             break; //遇到结束符
-        if (*p == '.') {
+        }
+        if (*p == '.') {//遇到小数点
             mask |= 0x01;
             p++;
-        }                                //遇到小数点
-        else if (*p > '9' || (*p < '0')) //数字不在0和9之内，说明有非法字符
-        {
+        } else if (*p > '9' || (*p < '0')) { //数字不在0和9之内，说明有非法字符
             ilen = 0;
             flen = 0;
             break;
@@ -156,20 +162,20 @@ int NMEA_Str2num(uint8_t* buf, uint8_t* dx)
             ilen++; // str长度加一
         p++;        //下一个字符
     }
-    if (mask & 0x02)
+    if (mask & 0x02) {
         buf++;                 //移到下一位，除去负号
-    for (i = 0; i < ilen; i++) //得到整数部分数据
-    {
-        ires += NMEA_Pow(10, ilen - 1 - i) * (buf[i] - '0');
     }
-    if (flen > 5)
-        flen = 5; //最多取五位小数
+    for (i = 0; i < ilen; i++) { //得到整数部分数据
+        ires += NMEA_Pow(L80R_CONSTANT_10, ilen - 1 - i) * (buf[i] - '0');
+    }
+    if (flen > L80R_CONSTANT_5) {
+        flen = L80R_CONSTANT_5; //最多取五位小数
+    }
     *dx = flen;
-    for (i = 0; i < flen; i++) //得到小数部分数据
-    {
-        fres += NMEA_Pow(10, flen - 1 - i) * (buf[ilen + 1 + i] - '0');
+    for (i = 0; i < flen; i++) { //得到小数部分数据
+        fres += NMEA_Pow(L80R_CONSTANT_10, flen - 1 - i) * (buf[ilen + 1 + i] - '0');
     }
-    res = ires * NMEA_Pow(10, flen) + fres;
+    res = ires * NMEA_Pow(L80R_CONSTANT_10, flen) + fres;
     if (mask & 0x02)
         res = -res;
     return res;
@@ -180,32 +186,35 @@ int NMEA_Str2num(uint8_t* buf, uint8_t* dx)
 *	输入值：gpsx,NMEA信息结构体
 *				 buf：接收到的GPS数据缓冲区首地址
 \***************************************************/
-void NMEA_BDS_GPRMC_Analysis(gps_msg* gpsmsg, uint8_t* buf)
+void NMEA_BDS_GPRMC_Analysis(gps_msg *gpsmsg, uint8_t *buf)
 {
     uint8_t *p4, dx;
     uint8_t posx;
     uint32_t temp;
     float rs;
-    p4 = (uint8_t*)strstr((const char*)buf, "$GPRMC"); //"$GPRMC",经常有&和GPRMC分开的情况,故只判断GPRMC.
+    p4 = (uint8_t *)strstr((const char *)buf, "$GPRMC"); //"$GPRMC",经常有&和GPRMC分开的情况,故只判断GPRMC.
     if (p4 != NULL) {
-        posx = NMEA_Comma_Pos(p4, 3); //得到纬度
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_2); //得到纬度
         if (posx != 0XFF) {
             temp = NMEA_Str2num(p4 + posx, &dx);
-            gpsmsg->latitude_bd = temp / NMEA_Pow(10, dx + 2);                                              //得到°
-            rs = temp % NMEA_Pow(10, dx + 2);                                                               //得到'
-            gpsmsg->latitude_bd = gpsmsg->latitude_bd * NMEA_Pow(10, 5) + (rs * NMEA_Pow(10, 5 - dx)) / 60; //转换为°
+            gpsmsg->latitude_bd = temp / NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);  //得到°
+            rs = temp % NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);                   //得到'
+            gpsmsg->latitude_bd = gpsmsg->latitude_bd * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5) +
+                (rs * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5 - dx)) / L80R_CONSTANT_60; //转换为°
         }
-        posx = NMEA_Comma_Pos(p4, 4); //南纬还是北纬
-        if (posx != 0XFF)
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_4); //南纬还是北纬
+        if (posx != 0XFF) {
             gpsmsg->nshemi_bd = *(p4 + posx);
-        posx = NMEA_Comma_Pos(p4, 5); //得到经度
+        }
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_5); //得到经度
         if (posx != 0XFF) {
             temp = NMEA_Str2num(p4 + posx, &dx);
-            gpsmsg->longitude_bd = temp / NMEA_Pow(10, dx + 2);                                               //得到°
-            rs = temp % NMEA_Pow(10, dx + 2);                                                                 //得到'
-            gpsmsg->longitude_bd = gpsmsg->longitude_bd * NMEA_Pow(10, 5) + (rs * NMEA_Pow(10, 5 - dx)) / 60; //转换为°
+            gpsmsg->longitude_bd = temp / NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2); //得到°
+            rs = temp % NMEA_Pow(L80R_CONSTANT_10, dx + L80R_CONSTANT_2);                   //得到'
+            gpsmsg->longitude_bd = gpsmsg->longitude_bd * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5) +
+                (rs * NMEA_Pow(L80R_CONSTANT_10, L80R_CONSTANT_5 - dx)) / L80R_CONSTANT_60; //转换为°
         }
-        posx = NMEA_Comma_Pos(p4, 6); //东经还是西经
+        posx = NMEA_Comma_Pos(p4, L80R_CONSTANT_6); //东经还是西经
         if (posx != 0XFF)
             gpsmsg->ewhemi_bd = *(p4 + posx);
     }
@@ -217,13 +226,13 @@ void NMEA_BDS_GPRMC_Analysis(gps_msg* gpsmsg, uint8_t* buf)
  * 参    数: 无
  * 返 回 值: 无
  ***************************************************************/
-void E53ST1ReadData(E53ST1Data* ReadData)
+void E53ST1ReadData(E53ST1Data *ReadData)
 {
     //通过串口1接收数据
-    IoTUartRead(WIFI_IOT_UART_IDX_1, gps_uart, 1000);
-    NMEA_BDS_GPRMC_Analysis(&gpsmsg, (uint8_t*)gps_uart); //分析字符串
-    ReadData->Longitude = (float)((float)gpsmsg.longitude_bd / 100000);
-    ReadData->Latitude = (float)((float)gpsmsg.latitude_bd / 100000);
+    IoTUartRead(WIFI_IOT_UART_IDX_1, gps_uart, L80R_DATA_LEN);
+    NMEA_BDS_GPRMC_Analysis(&gpsmsg, (uint8_t *)gps_uart); //分析字符串
+    ReadData->Longitude = (float)((float)gpsmsg.longitude_bd / L80R_COEFFICIENT);
+    ReadData->Latitude = (float)((float)gpsmsg.latitude_bd / L80R_COEFFICIENT);
 }
 
 /***************************************************************
@@ -237,7 +246,7 @@ void E53ST1ReadData(E53ST1Data* ReadData)
 void BeepStatusSet(E53ST1Status status)
 {
     if (status == ON) {
-        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, 20000, 40000); //输出不同占空比的PWM波
+        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, PWM_DUTY, PWM_FREQ); //输出不同占空比的PWM波
     }
 
     if (status == OFF) {

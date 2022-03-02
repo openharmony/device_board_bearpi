@@ -21,26 +21,11 @@
 #include <sys/types.h>
 
 #if !defined(SOCKET_ERROR)
-	/** error in socket operation */
-	#define SOCKET_ERROR -1
+    /** error in socket operation */
+#define SOCKET_ERROR (-1)
 #endif
 
-#if defined(WIN32)
-/* default on Windows is 64 - increase to make Linux and Windows the same */
-#define FD_SETSIZE 1024
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#define MAXHOSTNAMELEN 256
-#define EAGAIN WSAEWOULDBLOCK
-#define EINTR WSAEINTR
-#define EINVAL WSAEINVAL
-#define EINPROGRESS WSAEINPROGRESS
-#define EWOULDBLOCK WSAEWOULDBLOCK
-#define ENOTCONN WSAENOTCONN
-#define ECONNRESET WSAECONNRESET
-#define ioctl ioctlsocket
-#define socklen_t int
-#else
+
 #define INVALID_SOCKET SOCKET_ERROR
 #include <sys/socket.h>
 #include <sys/param.h>
@@ -55,14 +40,9 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
-#endif
 
-#if defined(WIN32)
-#include <Iphlpapi.h>
-#else
 #include <sys/ioctl.h>
 #include <net/if.h>
-#endif
 
 #include "ohos_init.h"
 #include "cmsis_os2.h"
@@ -73,46 +53,43 @@
 #include "lwip/sockets.h"
 
 #define MQTT_TASK
+#define VOID void
 
-typedef struct Thread
-{
-	osThreadId_t task;
+typedef struct Thread {
+    osThreadId_t task;
 } Thread;
 
-int ThreadStart(Thread*, void (*fn)(void*), void* arg);
+int ThreadStart(Thread* thread, VOID (*fn)(VOID*), VOID* arg);
 
-typedef struct Timer
-{
-	struct timeval end_time;
+typedef struct Timer {
+    struct timeval end_time;
 } Timer;
 
-typedef struct Mutex
-{
-	osSemaphoreId_t sem;
+typedef struct Mutex {
+    osSemaphoreId_t sem;
 } Mutex;
 
-void MqttMutexInit(Mutex*);
-int MqttMutexLock(Mutex*);
-int MqttMutexUnlock(Mutex*);
+void MqttMutexInit(Mutex* mutex);
+int MqttMutexLock(Mutex* mutex);
+int MqttMutexUnlock(Mutex* mutex);
 
-void TimerInit(Timer*);
-char TimerIsExpired(Timer*);
-void TimerCountdownMS(Timer*, unsigned int);
-void TimerCountdown(Timer*, unsigned int);
-int TimerLeftMS(Timer*);
+void TimerInit(Timer* timer);
+char TimerIsExpired(Timer* timer);
+void TimerCountdownMS(Timer* timer, unsigned int);
+void TimerCountdown(Timer* timer, unsigned int);
+int TimerLeftMS(Timer* timer);
 
-typedef struct Network
-{
-	int my_socket;
-	int (*mqttread) (struct Network*, unsigned char*, int, int);
-	int (*mqttwrite) (struct Network*, unsigned char*, int, int);
+typedef struct Network {
+    int my_socket;
+    int (*mqttread) (struct Network*, unsigned char*, int, int);
+    int (*mqttwrite) (struct Network*, unsigned char*, int, int);
 } Network;
 
-int linux_read(Network*, unsigned char*, int, int);
-int linux_write(Network*, unsigned char*, int, int);
+int linux_read(Network* n, unsigned char*, int, int);
+int linux_write(Network* n, unsigned char*, int, int);
 
- void NetworkInit(Network*);
- int NetworkConnect(Network*, char*, int);
- void NetworkDisconnect(Network*);
+void NetworkInit(Network* n);
+int NetworkConnect(Network* n, char*, int);
+void NetworkDisconnect(Network* n);
 
 #endif

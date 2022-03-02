@@ -15,6 +15,9 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <netdb.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "ohos_init.h"
 #include "cmsis_os2.h"
@@ -22,14 +25,14 @@
 #include "wifi_device.h"
 #include "lwip/netifapi.h"
 #include "lwip/api_shell.h"
-#include <netdb.h>
-#include <string.h>
-#include <stdlib.h>
+
 #include "lwip/sockets.h"
 #include "wifi_connect.h"
 
+#define TASK_STACK_SIZE (1024 * 10)
+#define TASK_DELAY_10S 10
 #define CONFIG_WIFI_SSID            "BearPi"                            //要连接的WiFi 热点账号
-#define CONFIG_WIFI_PWD             "BearPi"                        //要连接的WiFi 热点密码
+#define CONFIG_WIFI_PWD             "BearPi"                            //要连接的WiFi 热点密码
 #define CONFIG_SERVER_IP            "192.168.0.175"                     //要连接的服务器IP
 #define CONFIG_SERVER_PORT          8888                                //要连接的服务器端口
 
@@ -39,7 +42,7 @@ static void UDPClientTask(void)
 {
     //在sock_fd 进行监听，在 new_fd 接收新的链接
     int sock_fd;
-    
+
     //服务器的地址信息
     struct sockaddr_in send_addr;
     socklen_t addr_length = sizeof(send_addr);
@@ -68,7 +71,7 @@ static void UDPClientTask(void)
         sendto(sock_fd, send_data, strlen(send_data), 0, (struct sockaddr *)&send_addr, addr_length);
 
         //线程休眠一段时间
-        sleep(10);
+        sleep(TASK_DELAY_10S);
 
         //接收服务端返回的字符串
         recvfrom(sock_fd, recvBuf, sizeof(recvBuf), 0, (struct sockaddr *)&send_addr, &addr_length);
@@ -88,7 +91,7 @@ static void UDPClientDemo(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 10240;
+    attr.stack_size = TASK_STACK_SIZE;
     attr.priority = osPriorityNormal;
 
     if (osThreadNew((osThreadFunc_t)UDPClientTask, NULL, &attr) == NULL) {

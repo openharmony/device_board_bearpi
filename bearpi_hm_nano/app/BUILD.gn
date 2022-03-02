@@ -25,7 +25,7 @@ lite_component("app") {
         "B1_basic_led_blink:led_example",
         # "B2_basic_button:button_example",
         # "B3_basic_pwm_led:pwm_example",
-        # "B4_basic_adc:adc_example", 
+        # "B4_basic_adc:adc_example",
         # "B5_basic_i2c_nfc:i2c_example",
         # "B6_basic_uart:uart_example",
         

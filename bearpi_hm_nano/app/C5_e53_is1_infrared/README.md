@@ -51,14 +51,14 @@ static void ExampleTask(void)
     int ret;
     E53IS1Init();
     ret = E53IS1ReadData(BeepAlarm);
-    if (ret != 0) {	
+    if (ret != 0) {
         printf("E53_IS1 Read Data failed!\r\n");
-        return ;
+        return;
     }
     while (1) {
         osEventFlagsWait(g_eventFlagsId, FLAGS_MSK1, osFlagsWaitAny, osWaitForever);
         BeepStatusSet(ON);
-        osDelay(300);
+        osDelay(TASK_DELAY_3S);
         BeepStatusSet(OFF);
     }
 }

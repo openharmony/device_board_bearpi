@@ -21,8 +21,10 @@
 #include "cmsis_os2.h"
 #include "ohos_init.h"
 
-#define TASK_STACK_SIZE 1024 * 8
+#define TASK_STACK_SIZE (1024 * 8)
 #define TASK_PRIO 25
+#define MIN_LUX 20
+#define TASK_DELAY_1S 1000000
 
 static void ExampleTask(void)
 {
@@ -45,12 +47,12 @@ static void ExampleTask(void)
             return;
         }
         printf("Lux data:%.2f\r\n", Lux);
-        if (Lux < 20) {
+        if (Lux < MIN_LUX) {
             LightStatusSet(ON);
         } else {
             LightStatusSet(OFF);
         }
-        usleep(1000000);
+        usleep(TASK_DELAY_1S);
     }
 }
 

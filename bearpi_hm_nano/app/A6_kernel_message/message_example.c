@@ -21,11 +21,17 @@
 #include "ohos_init.h"
 
 // number of Message Queue Objects
-#define MSGQUEUE_OBJECTS 16
+#define MSGQUEUE_COUNT 16
+#define MSGQUEUE_SIZE 100
+
+#define THREAD_STACK_SIZE (1024 * 10)
+#define THREAD_PRIO 25
+
+#define THREAD_DELAY_1S 100
 
 typedef struct {
     // object data type
-    char* buf;
+    char *buf;
     uint8_t idx;
 } MSGQUEUE_OBJ_t;
 
@@ -34,10 +40,8 @@ MSGQUEUE_OBJ_t msg;
 // message queue id
 osMessageQueueId_t g_msgQueueId;
 
-void MsgQueue1Thread(void* argument)
+void MsgQueue1Thread(void)
 {
-    (void)argument;
-
     // do some work...
     msg.buf = "Hello BearPi-HM_Nano!";
     msg.idx = 0U;
@@ -46,15 +50,14 @@ void MsgQueue1Thread(void* argument)
 
         // suspend thread
         osThreadYield();
-        osDelay(100);
+        osDelay(THREAD_DELAY_1S);
     }
 }
 
-void MsgQueue2Thread(void* argument)
+void MsgQueue2Thread(void)
 {
     osStatus_t status;
 
-    (void)argument;
     while (1) {
         // wait for message
         status = osMessageQueueGet(g_msgQueueId, &msg, NULL, osWaitForever);
@@ -70,8 +73,7 @@ void MsgQueue2Thread(void* argument)
  */
 static void MessageExample(void)
 {
-
-    g_msgQueueId = osMessageQueueNew(MSGQUEUE_OBJECTS, 100, NULL);
+    g_msgQueueId = osMessageQueueNew(MSGQUEUE_COUNT, MSGQUEUE_SIZE, NULL);
     if (g_msgQueueId == NULL) {
         printf("Failed to create Message Queue!\n");
     }
@@ -82,8 +84,8 @@ static void MessageExample(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 10;
-    attr.priority = 25;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
     attr.name = "MsgQueue1Thread";
     if (osThreadNew(MsgQueue1Thread, NULL, &attr) == NULL) {

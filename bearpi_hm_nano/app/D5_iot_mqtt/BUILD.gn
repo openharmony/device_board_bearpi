@@ -11,20 +11,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+config_file = [ "../../third_party/libs/libpahomqtt_static.a" ]
+copy("config") {
+  sources = config_file
+  outputs = [ "//out/bearpi_hm_nano/bearpi_hm_nano/libs/{{source_file_part}}" ]
+}
+
 static_library("iot_mqtt") {
-    sources = [
-        "iot_mqtt.c",
-        "wifi/wifi_connect.c",
-    ]
-    
-    cflags = [ "-Wno-unused-variable" ]
-    cflags += [ "-Wno-unused-but-set-variable" ]
-    include_dirs = [
-        "//foundation/communication/wifi_lite/interfaces/wifiservice",
-        "//third_party/cJSON",
-        "wifi"
-    ]
-    deps = [
-             "../../third_party/paho_mqtt:pahomqtt_static",
-    ]
+  sources = [
+    "iot_mqtt.c",
+    "wifi/wifi_connect.c",
+  ]
+
+  cflags = [ "-Wno-unused-variable" ]
+  cflags += [ "-Wno-unused-but-set-variable" ]
+  include_dirs = [
+    "//foundation/communication/wifi_lite/interfaces/wifiservice",
+    "//third_party/cJSON",
+    "wifi",
+    "../../third_party/paho_mqtt/MQTTClient-C/src",
+    "../../third_party/paho_mqtt/MQTTPacket/src",
+  ]
+  deps = [ ":config" ]
 }
