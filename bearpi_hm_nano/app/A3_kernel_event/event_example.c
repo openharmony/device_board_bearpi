@@ -21,6 +21,9 @@
 #include "ohos_init.h"
 
 #define FLAGS_MSK1 0x00000001U
+#define THREAD_STACK_SIZE (1024 * 4)
+#define THREAD_PRIO 25
+#define SEND_THREAD_DELAY_1S 100
 
 osEventFlagsId_t g_eventFlagsId; // event flags id
 
@@ -28,16 +31,15 @@ osEventFlagsId_t g_eventFlagsId; // event flags id
  * @brief Event sender thread used to set event flag
  *
  */
-void EventSenderThread(void* argument)
+void EventSenderThread(void)
 {
-    (void)argument;
     while (1) {
         osEventFlagsSet(g_eventFlagsId, FLAGS_MSK1);
 
         // suspend thread
         osThreadYield();
 
-        osDelay(100);
+        osDelay(SEND_THREAD_DELAY_1S);
     }
 }
 
@@ -45,11 +47,10 @@ void EventSenderThread(void* argument)
  * @brief Event receiver thread blocking wait event flag
  *
  */
-void EventReceiverThread(void* argument)
+void EventReceiverThread(void)
 {
-    uint32_t flags;
+    uint8_t flags;
 
-    (void)argument;
     while (1) {
         flags = osEventFlagsWait(g_eventFlagsId, FLAGS_MSK1, osFlagsWaitAny, osWaitForever);
         printf("Receive Flags is %d\n", flags);
@@ -73,8 +74,8 @@ static void EventExample(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
-    attr.priority = 25;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
     attr.name = "EventSenderThread";
     if (osThreadNew(EventSenderThread, NULL, &attr) == NULL) {

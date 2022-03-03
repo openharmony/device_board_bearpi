@@ -32,7 +32,7 @@ osThreadId_t osThreadNew(osThreadFunc_t	func, void *argument,const osThreadAttr_
 ```c
 /**
  * @brief Thread1 entry
- * 
+ *
  */
 void Thread1(void)
 {
@@ -40,13 +40,13 @@ void Thread1(void)
 
     while (1) {
         printf("This is BearPi-HM_Nano Thread1----%d\n", sum++);
-        usleep(1000000);
+        usleep(THREAD_DELAY_1S);
     }
 }
 
 /**
  * @brief Thread2 entry
- * 
+ *
  */
 void Thread2(void)
 {
@@ -54,13 +54,13 @@ void Thread2(void)
 
     while (1) {
         printf("This is BearPi-HM_Nano Thread2----%d\n", sum++);
-        usleep(500000);
+        usleep(THREAD_DELAY_500MS);
     }
 }
 
 /**
  * @brief Main Entry of the Thread Example
- * 
+ *
  */
 static void ThreadExample(void)
 {
@@ -71,8 +71,8 @@ static void ThreadExample(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
-    attr.priority = 25;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
     // Create the Thread1 task
     if (osThreadNew((osThreadFunc_t)Thread1, NULL, &attr) == NULL) {

@@ -14,7 +14,7 @@
     oc_mqtt_init();
     
     g_app_cb.app_msg = queue_create("queue_rcvmsg",10,1);
-    if(NULL ==  g_app_cb.app_msg){
+    if(g_app_cb.app_msg == NULL){
         printf("Create receive msg queue failed");
         
     }
@@ -85,20 +85,21 @@ static void deal_report_msg(report_t *report)
 
 ```c
 
+// use this function to push all the message to the buffer
 static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t *msg)
 {
-    int    ret = 0;
-    char  *buf;
-    int    buf_len;
+    int ret = 0;
+    char *buf;
+    int buf_len;
     app_msg_t *app_msg;
 
-    if ((NULL == msg)|| (msg->request_id == NULL) || (msg->type != EN_OC_MQTT_PROFILE_MSG_TYPE_DOWN_COMMANDS)) {
+    if ((msg == NULL) || (msg->request_id == NULL) || (msg->type != EN_OC_MQTT_PROFILE_MSG_TYPE_DOWN_COMMANDS)) {
         return ret;
     }
 
     buf_len = sizeof(app_msg_t) + strlen(msg->request_id) + 1 + msg->msg_len + 1;
     buf = malloc(buf_len);
-    if (NULL == buf) {
+    if (buf == NULL) {
         return ret;
     }
     app_msg = (app_msg_t *)buf;
@@ -108,22 +109,31 @@ static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t *msg)
     app_msg->msg.cmd.request_id = buf;
     buf_len = strlen(msg->request_id);
     buf += buf_len + 1;
-    memcpy(app_msg->msg.cmd.request_id, msg->request_id, buf_len);
+    memcpy_s(app_msg->msg.cmd.request_id, buf_len, msg->request_id, buf_len);
     app_msg->msg.cmd.request_id[buf_len] = '\0';
 
     buf_len = msg->msg_len;
     app_msg->msg.cmd.payload = buf;
-    memcpy(app_msg->msg.cmd.payload, msg->msg, buf_len);
+    memcpy_s(app_msg->msg.cmd.payload, buf_len, msg->msg, buf_len);
     app_msg->msg.cmd.payload[buf_len] = '\0';
 
-    ret = queue_push(g_app_cb.app_msg,app_msg,10);
+    ret = osMessageQueuePut(g_app_cb.app_msg, &app_msg, 0U, CONFIG_QUEUE_TIMEOUT);
     if (ret != 0) {
         free(app_msg);
     }
 
     return ret;
 }
-
+static void oc_cmdresp(cmd_t *cmd, int cmdret)
+{
+    oc_mqtt_profile_cmdresp_t cmdresp;
+    ///< do the response
+    cmdresp.paras = NULL;
+    cmdresp.request_id = cmd->request_id;
+    cmdresp.ret_code = cmdret;
+    cmdresp.ret_name = NULL;
+    (void)oc_mqtt_profile_cmdresp(NULL, &cmdresp);
+}
 ///< COMMAND DEAL
 #include <cJSON.h>
 static void deal_cmd_msg(cmd_t *cmd)
@@ -134,50 +144,39 @@ static void deal_cmd_msg(cmd_t *cmd)
     cJSON *obj_para;
 
     int cmdret = 1;
-    oc_mqtt_profile_cmdresp_t cmdresp;
+
     obj_root = cJSON_Parse(cmd->payload);
-    if (NULL == obj_root) {
-        goto EXIT_JSONPARSE;
+    if (obj_root == NULL) {
+        oc_cmdresp(cmd, cmdret);
     }
 
     obj_cmdname = cJSON_GetObjectItem(obj_root, "command_name");
-    if (NULL == obj_cmdname) {
-        goto EXIT_CMDOBJ;
+    if (obj_cmdname == NULL) {
+        cJSON_Delete(obj_root);
     }
-    if (0 == strcmp(cJSON_GetStringValue(obj_cmdname), "Light_Control_Led")) {
+    if (strcmp(cJSON_GetStringValue(obj_cmdname), "Light_Control_Led") == 0) {
         obj_paras = cJSON_GetObjectItem(obj_root, "paras");
-        if (NULL == obj_paras) {
-            goto EXIT_OBJPARAS;
+        if (obj_paras == NULL) {
+            cJSON_Delete(obj_root);
         }
         obj_para = cJSON_GetObjectItem(obj_paras, "Led");
-        if (NULL == obj_para) {
-            goto EXIT_OBJPARA;
+        if (obj_para == NULL) {
+            cJSON_Delete(obj_root);
         }
         ///< operate the LED here
-        if (0 == strcmp(cJSON_GetStringValue(obj_para), "ON")) {
+        if (strcmp(cJSON_GetStringValue(obj_para), "ON") == 0) {
             g_app_cb.led = 1;
-            Light_StatusSet(ON);
+            LightStatusSet(ON);
             printf("Led On!\r\n");
         } else {
             g_app_cb.led = 0;
-            Light_StatusSet(OFF);
+            LightStatusSet(OFF);
             printf("Led Off!\r\n");
         }
         cmdret = 0;
+        oc_cmdresp(cmd, cmdret);
     }
-    
 
-EXIT_OBJPARA:
-EXIT_OBJPARAS:
-EXIT_CMDOBJ:
-    cJSON_Delete(obj_root);
-EXIT_JSONPARSE:
-    ///< do the response
-    cmdresp.paras = NULL;
-    cmdresp.request_id = cmd->request_id;
-    cmdresp.ret_code = cmdret;
-    cmdresp.ret_name = NULL;
-    (void)oc_mqtt_profile_cmdresp(NULL, &cmdresp);
     return;
 }
 ```

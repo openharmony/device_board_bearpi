@@ -16,7 +16,7 @@
     oc_mqtt_init();
     
     g_app_cb.app_msg = queue_create("queue_rcvmsg",10,1);
-    if(NULL ==  g_app_cb.app_msg){
+    if(g_app_cb.app_msg == NULL){
         printf("Create receive msg queue failed");
         
     }

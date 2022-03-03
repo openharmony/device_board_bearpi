@@ -25,7 +25,7 @@
 #include "nfc.h"
 #include "ohos_init.h"
 
-#define I2C_TASK_STACK_SIZE 1024 * 8
+#define I2C_TASK_STACK_SIZE (1024 * 8)
 #define I2C_TASK_PRIO 25
 
 #define TEXT "Welcome to BearPi-HM_Nano!"
@@ -33,7 +33,9 @@
 
 #define WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA 6
 #define WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL 6
-#define WIFI_IOT_I2C_IDX_1 1
+#define WIFI_IOT_I2C_IDX 1
+#define WIFI_IOT_I2C_BAUDRATE 400000
+#define TASK_DELAY_1S 1000000
 
 /**
  * @brief i2c task writes data to NFC tag
@@ -52,15 +54,15 @@ static void I2cTask(void)
     IoTGpioSetFunc(1, WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL);
 
     // baudrate: 400kbps
-    IoTI2cInit(WIFI_IOT_I2C_IDX_1, 400000);
+    IoTI2cInit(WIFI_IOT_I2C_IDX, WIFI_IOT_I2C_BAUDRATE);
 
     printf("I2C Test Start\n");
 
-    ret = storeText(NDEFFirstPos, (uint8_t*)TEXT);
+    ret = storeText(NDEFFirstPos, (uint8_t *)TEXT);
     if (ret != 1) {
         printf("NFC Write Data Falied :%d \n", ret);
     }
-    ret = storeUrihttp(NDEFLastPos, (uint8_t*)WEB);
+    ret = storeUrihttp(NDEFLastPos, (uint8_t *)WEB);
     if (ret != 1) {
         printf("NFC Write Data Falied :%d \n", ret);
     }
@@ -69,7 +71,7 @@ static void I2cTask(void)
         printf("***********I2C_NFC_example**********\n");
         printf("=======================================\n");
         printf("Please use the mobile phone with NFC function close to the development board!\n");
-        usleep(1000000);
+        usleep(TASK_DELAY_1S);
     }
 }
 

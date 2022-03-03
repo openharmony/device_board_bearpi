@@ -13,23 +13,18 @@
  * limitations under the License.
  */
 
-#include "E53_IA1.h"
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "cmsis_os2.h"
 #include "iot_errno.h"
 #include "iot_gpio.h"
 #include "iot_gpio_ex.h"
 #include "iot_i2c.h"
 #include "iot_i2c_ex.h"
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-#define WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA 6
-#define WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL 6
-#define WIFI_IOT_IO_FUNC_GPIO_8_GPIO 0
-#define WIFI_IOT_IO_FUNC_GPIO_14_GPIO 4
-#define WIFI_IOT_I2C_IDX_1 1
+#include "E53_IA1.h"
 
 /***************************************************************
  * 函数名称: E53IA1IoInit
@@ -39,19 +34,19 @@
  ***************************************************************/
 static void E53IA1IoInit(void)
 {
-    IoTGpioInit(8);
-    IoTGpioSetFunc(8, WIFI_IOT_IO_FUNC_GPIO_8_GPIO);
-    IoTGpioSetDir(8, IOT_GPIO_DIR_OUT); //设置GPIO_8为输出模式
+    IoTGpioInit(E53_IA1_MOTOR_GPIO);
+    IoTGpioSetFunc(E53_IA1_MOTOR_GPIO, WIFI_IOT_IO_FUNC_GPIO_8_GPIO);
+    IoTGpioSetDir(E53_IA1_MOTOR_GPIO, IOT_GPIO_DIR_OUT); // 设置GPIO_8为输出模式
 
-    IoTGpioInit(14);
-    IoTGpioSetFunc(14, WIFI_IOT_IO_FUNC_GPIO_14_GPIO);
-    IoTGpioSetDir(14, IOT_GPIO_DIR_OUT); //设置GPIO_14为输出模式
+    IoTGpioInit(E53_IA1_LIGHT_GPIO);
+    IoTGpioSetFunc(E53_IA1_LIGHT_GPIO, WIFI_IOT_IO_FUNC_GPIO_14_GPIO);
+    IoTGpioSetDir(E53_IA1_LIGHT_GPIO, IOT_GPIO_DIR_OUT); // 设置GPIO_14为输出模式
 
-    IoTGpioInit(0);
-    IoTGpioSetFunc(0, WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA); // GPIO_0复用为I2C1_SDA
-    IoTGpioInit(1);
-    IoTGpioSetFunc(1, WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL); // GPIO_1复用为I2C1_SCL
-    IoTI2cInit(WIFI_IOT_I2C_IDX_1, 400000);
+    IoTGpioInit(E53_IA1_I2C1_SDA_GPIO);
+    IoTGpioSetFunc(E53_IA1_I2C1_SDA_GPIO, WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA); // GPIO_0复用为I2C1_SDA
+    IoTGpioInit(E53_IA1_I2C1_SCL_GPIO);
+    IoTGpioSetFunc(E53_IA1_I2C1_SCL_GPIO, WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL); // GPIO_1复用为I2C1_SCL
+    IoTI2cInit(WIFI_IOT_I2C_IDX_1, WIFI_IOT_I2C_BAUDRATE);
 }
 
 /***************************************************************
@@ -63,7 +58,7 @@ static void E53IA1IoInit(void)
 static int InitBH1750(void)
 {
     int ret;
-    uint8_t send_data[1] = {0x01};
+    uint8_t send_data[1] = { 0x01 };
     ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (BH1750_ADDR << 1) | 0x00, send_data, 1);
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
@@ -81,7 +76,7 @@ static int InitBH1750(void)
 static int StartBH1750(void)
 {
     int ret;
-    uint8_t send_data[1] = {0x10};
+    uint8_t send_data[1] = { 0x10 };
     ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (BH1750_ADDR << 1) | 0x00, send_data, 1);
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
@@ -99,8 +94,8 @@ static int StartBH1750(void)
 static int SHT30Reset(void)
 {
     int ret;
-    uint8_t send_data[2] = {0x30, 0xA2};
-    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (SHT30_ADDR << 1) | 0x00, send_data, 2);
+    uint8_t send_data[BH1750_SEND_DATA_LEN] = { 0x30, 0xA2 };
+    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (SHT30_ADDR << 1) | 0x00, send_data, sizeof(send_data));
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
         return -1;
@@ -117,8 +112,8 @@ static int SHT30Reset(void)
 static int InitSHT30(void)
 {
     int ret;
-    uint8_t send_data[2] = {0x22, 0x36};
-    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (SHT30_ADDR << 1) | 0x00, send_data, 2);
+    uint8_t send_data[BH1750_SEND_DATA_LEN] = { 0x22, 0x36 };
+    ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (SHT30_ADDR << 1) | 0x00, send_data, sizeof(send_data));
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
         return -1;
@@ -143,7 +138,7 @@ static uint8_t SHT3xCheckCrc(uint8_t data[], uint8_t nbrOfBytes, uint8_t checksu
     // calculates 8-Bit checksum with given polynomial
     for (byteCtr = 0; byteCtr < nbrOfBytes; ++byteCtr) {
         crc ^= (data[byteCtr]);
-        for (bit = 8; bit > 0; --bit) {
+        for (bit = DATA_WIDTH_8_BIT; bit > 0; --bit) {
             if (crc & 0x80)
                 crc = (crc << 1) ^ POLYNOMIAL;
             else
@@ -167,8 +162,8 @@ static float SHT3xCalcTemperatureC(uint16_t u16sT)
 {
     float temperatureC = 0; // variable for result
     u16sT &= ~0x0003;       // clear bits [1..0] (status bits)
-    //-- calculate temperature [℃] --
-    temperatureC = (175 * (float)u16sT / 65535 - 45); // T = -45 + 175 * rawValue / (2^16-1)
+    // -- calculate temperature [℃] --
+    temperatureC = (SHT30_CONSTANT_1 * (float)u16sT / 0xffff - SHT30_CONSTANT_2); // T = -45 + 175 * rawValue / (2^16-1)
     return temperatureC;
 }
 
@@ -182,8 +177,8 @@ static float SHT3xCalcRH(uint16_t u16sRH)
 {
     float humidityRH = 0; // variable for result
     u16sRH &= ~0x0003;    // clear bits [1..0] (status bits)
-    //-- calculate relative humidity [%RH] --
-    humidityRH = (100 * (float)u16sRH / 65535); // RH = rawValue / (2^16-1) * 10
+    // -- calculate relative humidity [%RH] --
+    humidityRH = (SHT30_CONSTANT_3 * (float)u16sRH / 0xffff); // RH = rawValue / (2^16-1) * 10
     return humidityRH;
 }
 
@@ -215,7 +210,7 @@ int E53IA1Init(void)
  * 参    数: ReadData,光照强度、温度、湿度数据
  * 返 回 值: 0 成功; -1 失败
  ***************************************************************/
-int E53IA1ReadData(E53IA1Data* ReadData)
+int E53IA1ReadData(E53IA1Data *ReadData)
 {
     int ret;
     ret = StartBH1750(); // 启动传感器采集数据
@@ -223,48 +218,48 @@ int E53IA1ReadData(E53IA1Data* ReadData)
         printf("Start BH1750 failed!\r\n");
         return -1;
     }
-    usleep(180000);
-    uint8_t recv_data[2] = {0};
-    ret = IoTI2cRead(WIFI_IOT_I2C_IDX_1, (BH1750_ADDR << 1) | 0x01, recv_data, 2); // 读取传感器数据
+    usleep(BH1750_READ_DELAY_US);
+    uint8_t recv_data[BH1750_RECV_DATA_LEN] = { 0 };
+    ret = IoTI2cRead(WIFI_IOT_I2C_IDX_1, (BH1750_ADDR << 1) | 0x01, recv_data, sizeof(recv_data)); // 读取传感器数据
     if (ret != 0) {
         return -1;
     }
-    ReadData->Lux = (float)(((recv_data[0] << 8) + recv_data[1]) / 1.2);
+    ReadData->Lux = (float)(((recv_data[0] << DATA_WIDTH_8_BIT) + recv_data[1]) / BH1750_COEFFICIENT_LUX);
 
-    uint8_t data[3]; // data array for checksum verification
+    uint8_t data[CHECK_DATA_BUTT]; // data array for checksum verification
     uint16_t dat, tmp;
-    uint8_t SHT3X_Data_Buffer[6]; // byte 0,1 is temperature byte 4,5 is humidity
+    uint8_t SHT3X_Data_Buffer[SHT3X_DATA_BUTT]; // byte 0,1 is temperature byte 4,5 is humidity
 
-    IotI2cData sht30_i2c_data = {0};
-    uint8_t send_data[2] = {0xE0, 0x00};
+    IotI2cData sht30_i2c_data = { 0 };
+    uint8_t send_data[SHT30_SEND_DATA_LEN] = { 0xE0, 0x00 };
     sht30_i2c_data.sendBuf = send_data;
-    sht30_i2c_data.sendLen = 2;
+    sht30_i2c_data.sendLen = sizeof(send_data);
     sht30_i2c_data.receiveBuf = SHT3X_Data_Buffer;
-    sht30_i2c_data.receiveLen = 6;
+    sht30_i2c_data.receiveLen = sizeof(SHT3X_Data_Buffer);
     ret = IoTI2cWriteread(WIFI_IOT_I2C_IDX_1, (SHT30_ADDR << 1) | 0x00, &sht30_i2c_data); // Read bh1750 sensor data
     if (ret != 0) {
         return -1;
     }
     /* check tem */
-    data[0] = SHT3X_Data_Buffer[0];
-    data[1] = SHT3X_Data_Buffer[1];
-    data[2] = SHT3X_Data_Buffer[2];
+    data[DATA_LSB] = SHT3X_Data_Buffer[TEMP_LSB];
+    data[DATA_MSB] = SHT3X_Data_Buffer[TEMP_MSB];
+    data[DATA_CHECK] = SHT3X_Data_Buffer[TEMP_HSB];
 
-    tmp = SHT3xCheckCrc(data, 2, data[2]);
+    tmp = SHT3xCheckCrc(data, SHT30_TEMP_DATA_LEN, data[DATA_CHECK]);
     /* value is ture */
     if (!tmp) {
-        dat = ((uint16_t)data[0] << 8) | data[1];
+        dat = ((uint16_t)data[0] << DATA_WIDTH_8_BIT) | data[1];
         ReadData->Temperature = SHT3xCalcTemperatureC(dat);
     }
 
     /* check humidity */
-    data[0] = SHT3X_Data_Buffer[3];
-    data[1] = SHT3X_Data_Buffer[4];
-    data[2] = SHT3X_Data_Buffer[5];
+    data[DATA_LSB] = SHT3X_Data_Buffer[HUM_LSB];
+    data[DATA_MSB] = SHT3X_Data_Buffer[HUM_MSB];
+    data[DATA_CHECK] = SHT3X_Data_Buffer[HUM_HSB];
     /* value is ture */
-    tmp = SHT3xCheckCrc(data, 2, data[2]);
+    tmp = SHT3xCheckCrc(data, SHT30_HUM_DATA_LEN, data[DATA_CHECK]);
     if (!tmp) {
-        dat = ((uint16_t)data[0] << 8) | data[1];
+        dat = ((uint16_t)data[0] << DATA_WIDTH_8_BIT) | data[1];
         ReadData->Humidity = SHT3xCalcRH(dat);
     }
     return 0;
@@ -281,11 +276,11 @@ int E53IA1ReadData(E53IA1Data* ReadData)
 void LightStatusSet(E53IA1Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(14, 1); //设置GPIO_14输出高电平点亮灯
+        IoTGpioSetOutputVal(E53_IA1_LIGHT_GPIO, 1); // 设置GPIO_14输出高电平点亮灯
     }
 
     if (status == OFF) {
-        IoTGpioSetOutputVal(14, 0); //设置GPIO_14输出低电平关闭灯
+        IoTGpioSetOutputVal(E53_IA1_LIGHT_GPIO, 0); // 设置GPIO_14输出低电平关闭灯
     }
 }
 
@@ -300,10 +295,10 @@ void LightStatusSet(E53IA1Status status)
 void MotorStatusSet(E53IA1Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(8, 1); //设置GPIO_8输出高电平打开电机
+        IoTGpioSetOutputVal(E53_IA1_MOTOR_GPIO, 1); // 设置GPIO_8输出高电平打开电机
     }
 
     if (status == OFF) {
-        IoTGpioSetOutputVal(8, 0); //设置GPIO_8输出低电平关闭电机
+        IoTGpioSetOutputVal(E53_IA1_MOTOR_GPIO, 0); // 设置GPIO_8输出低电平关闭电机
     }
 }

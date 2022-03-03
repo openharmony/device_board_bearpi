@@ -93,24 +93,23 @@ static void PwmTask(void)
 {
     unsigned int i;
 
-    //init gpio of LED
+    // init gpio of LED
     IoTGpioInit(LED_GPIO);
 
-    //set the GPIO_2 multiplexing function to PWM
+    // set the GPIO_2 multiplexing function to PWM
     IoTGpioSetFunc(LED_GPIO, IOT_GPIO_FUNC_GPIO_2_PWM2_OUT);
 
-    //set GPIO_2 is output mode
+    // set GPIO_2 is output mode
     IoTGpioSetDir(LED_GPIO, IOT_GPIO_DIR_OUT);
 
-    //init PWM2 
+    // init PWM2
     IoTPwmInit(LED_GPIO);
 
     while (1) {
-        for (i = 0; i < 100; i ++)
-        {
-            //output PWM with different duty cycle
-            IoTPwmStart(LED_GPIO, i, 40000);
-            usleep(10);
+        for (i = 0; i < PWM_CHANGE_TIMES; i++) {
+            // output PWM with different duty cycle
+            IoTPwmStart(LED_GPIO, i, PWM_FREQ);
+            usleep(PWM_DELAY_10US);
         }
         i = 0;
     }

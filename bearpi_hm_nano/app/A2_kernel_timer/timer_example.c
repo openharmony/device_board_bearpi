@@ -24,9 +24,8 @@
  * @brief Callback for Timer1 triggering
  *
  */
-void Timer1Callback(void* arg)
+void Timer1Callback(void)
 {
-    (void)arg;
     printf("This is BearPi Timer1Callback!\n");
 }
 
@@ -34,9 +33,8 @@ void Timer1Callback(void* arg)
  * @brief Callback for Timer2 triggering
  *
  */
-void Timer2Callback(void* arg)
+void Timer2Callback(void)
 {
-    (void)arg;
     printf("This is BearPi Timer2Callback!\n");
 }
 
@@ -52,7 +50,6 @@ static void TimerExample(void)
 
     id1 = osTimerNew(Timer1Callback, osTimerPeriodic, NULL, NULL);
     if (id1 != NULL) {
-
         // Hi3861 1U=10ms,100U=1S
         timerDelay = 100U;
 
@@ -64,7 +61,6 @@ static void TimerExample(void)
 
     id2 = osTimerNew(Timer2Callback, osTimerPeriodic, NULL, NULL);
     if (id2 != NULL) {
-
         // Hi3861 1U=10ms,300U=3S
         timerDelay = 300U;
 

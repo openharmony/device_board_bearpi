@@ -11,27 +11,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+config_file = [ "../../third_party/libs/libpahomqtt_static.a" ]
+copy("config") {
+  sources = config_file
+  outputs = [ "//out/bearpi_hm_nano/bearpi_hm_nano/libs/{{source_file_part}}" ]
+}
+
 static_library("oc_mqtt") {
-    sources = [
-        "iot_cloud_oc_sample.c",
-        "src/wifi_connect.c",
-        "src/oc_mqtt.c",
-        "src/oc_mqtt_profile_package.c",
-        "src/E53_IA1.c"
-        
-    ]
-    
-    cflags = [ "-Wno-unused-variable" ]
-    cflags += [ "-Wno-unused-but-set-variable" ]
-    
-    include_dirs = [
-        "//base/iot_hardware/peripheral/interfaces/kits",
-        "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
-        "//foundation/communication/wifi_lite/interfaces/wifiservice",
-        "//third_party/cJSON",
-        "include"
-    ]
-    deps = [ 
-             "../../third_party/paho_mqtt:pahomqtt_static",
-    ]
+  sources = [
+    "iot_cloud_oc_sample.c",
+    "src/E53_IA1.c",
+    "src/oc_mqtt.c",
+    "src/oc_mqtt_profile_package.c",
+    "src/wifi_connect.c",
+  ]
+
+  cflags = [ "-Wno-unused-variable" ]
+  cflags += [ "-Wno-unused-but-set-variable" ]
+
+  include_dirs = [
+    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
+    "//foundation/communication/wifi_lite/interfaces/wifiservice",
+    "//third_party/cJSON",
+    "include",
+    "../../third_party/paho_mqtt/MQTTClient-C/src",
+    "../../third_party/paho_mqtt/MQTTPacket/src",
+  ]
+  deps = [ ":config" ]
 }

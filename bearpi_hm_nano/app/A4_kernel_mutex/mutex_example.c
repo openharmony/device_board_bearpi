@@ -22,17 +22,25 @@
 
 osMutexId_t g_mutexId;
 
+#define THREAD_STACK_SIZE (1024 * 4)
+#define HIGH_THREAD_PRIO 24
+#define MID_THREAD_PRIO 25
+#define LOW_THREAD_PRIO 26
+
+#define THREAD_DELAY_3S 300
+#define THREAD_DELAY_1S 100
+
 void HighPrioThread(void)
 {
     // wait 1s until start actual work
-    osDelay(100);
+    osDelay(THREAD_DELAY_1S);
 
     while (1) {
         // try to acquire mutex
         osMutexAcquire(g_mutexId, osWaitForever);
 
         printf("HighPrioThread is running.\n");
-        osDelay(300);
+        osDelay(THREAD_DELAY_3S);
         osMutexRelease(g_mutexId);
     }
 }
@@ -40,11 +48,11 @@ void HighPrioThread(void)
 void MidPrioThread(void)
 {
     // wait 1s until start actual work
-    osDelay(100);
+    osDelay(THREAD_DELAY_1S);
 
     while (1) {
         printf("MidPrioThread is running.\n");
-        osDelay(100);
+        osDelay(THREAD_DELAY_1S);
     }
 }
 
@@ -55,7 +63,7 @@ void LowPrioThread(void)
         printf("LowPrioThread is running.\n");
 
         // block mutex for 3s
-        osDelay(300);
+        osDelay(THREAD_DELAY_3S);
         osMutexRelease(g_mutexId);
     }
 }
@@ -72,22 +80,22 @@ void MutexExample(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
+    attr.stack_size = THREAD_STACK_SIZE;
 
     attr.name = "HighPrioThread";
-    attr.priority = 24;
+    attr.priority = HIGH_THREAD_PRIO;
     if (osThreadNew((osThreadFunc_t)HighPrioThread, NULL, &attr) == NULL) {
         printf("Failed to create HighPrioThread!\n");
     }
 
     attr.name = "MidPrioThread";
-    attr.priority = 25;
+    attr.priority = MID_THREAD_PRIO;
     if (osThreadNew((osThreadFunc_t)MidPrioThread, NULL, &attr) == NULL) {
         printf("Failed to create MidPrioThread!\n");
     }
 
     attr.name = "LowPrioThread";
-    attr.priority = 26;
+    attr.priority = LOW_THREAD_PRIO;
     if (osThreadNew((osThreadFunc_t)LowPrioThread, NULL, &attr) == NULL) {
         printf("Failed to create LowPrioThread!\n");
     }

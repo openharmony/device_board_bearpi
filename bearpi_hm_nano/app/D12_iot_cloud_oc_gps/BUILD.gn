@@ -11,6 +11,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+config_file = [ "../../third_party/libs/libiot_link.a" ]
+copy("config") {
+  sources = config_file
+  outputs = [ "//out/bearpi_hm_nano/bearpi_hm_nano/libs/{{source_file_part}}" ]
+}
+
 static_library("cloud_oc_gps") {
   sources = [
     "iot_cloud_oc_sample.c",
@@ -29,7 +35,5 @@ static_library("cloud_oc_gps") {
     "include",
   ]
 
-  deps = [
-    "//device/board/bearpi/bearpi_hm_nano/third_party/iot_link:iot_link",
-  ]
+  deps = [ ":config" ]
 }

@@ -51,12 +51,12 @@ static void ExampleTask(void)
 {
     int ret;
     float  ppm;
-    
+
     E53SF1Init();
     //Sensor calibration
-    usleep(1000000);        
-    MQ2PPMCalibration();  
-    
+    usleep(TASK_DELAY_US);
+    MQ2PPMCalibration();
+
     while (1) {
         printf("=======================================\r\n");
         printf("*************E53_SF1_example***********\r\n");
@@ -65,16 +65,16 @@ static void ExampleTask(void)
         ret = GetMQ2PPM(&ppm);
         if (ret != 0) {
             printf("ADC Read Fail\n");
-            return ;
+            return;
         }
         printf("ppm:%.3f \n", ppm);
-        if (ppm > 15) {
+        if (ppm > MAX_PPM) {
             BeepStatusSet(ON);
         } else {
             BeepStatusSet(OFF);
         }
-        usleep(1000000);                          
-    } 
+        usleep(TASK_DELAY_1S);
+    }
 }
 ```
 

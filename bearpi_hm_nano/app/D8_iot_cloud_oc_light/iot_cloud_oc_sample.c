@@ -28,13 +28,13 @@
 
 #define CONFIG_WIFI_SSID "BearPi" // 修改为自己的WiFi 热点账号
 
-#define CONFIG_WIFI_PWD "BearPi" // 修改为自己的WiFi 热点密码
+#define CONFIG_WIFI_PWD "123456789" // 修改为自己的WiFi 热点密码
 
 #define CONFIG_APP_SERVERIP "121.36.42.100"
 
 #define CONFIG_APP_SERVERPORT "1883"
 
-#define CONFIG_APP_DEVICEID "6012d1394b835702d79aa5a7_12334556443" // 替换为注册设备后生成的deviceid
+#define CONFIG_APP_DEVICEID "613c0dff047d380287e0bc3b_12321243" // 替换为注册设备后生成的deviceid
 
 #define CONFIG_APP_DEVICEPWD "123456789" // 替换为注册设备后生成的密钥
 
@@ -56,8 +56,8 @@ typedef enum {
 } en_msg_type_t;
 
 typedef struct {
-    char* request_id;
-    char* payload;
+    char *request_id;
+    char *payload;
 } cmd_t;
 
 typedef struct {
@@ -79,7 +79,7 @@ typedef struct {
 } app_cb_t;
 static app_cb_t g_app_cb;
 
-static void deal_report_msg(report_t* report)
+static void deal_report_msg(report_t *report)
 {
     oc_mqtt_profile_service_t service;
     oc_mqtt_profile_kv_t luminance;
@@ -109,12 +109,12 @@ static void deal_report_msg(report_t* report)
 }
 
 // use this function to push all the message to the buffer
-static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t* msg)
+static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t *msg)
 {
     int ret = 0;
-    char* buf;
+    char *buf;
     int buf_len;
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
 
     if ((msg == NULL) || (msg->request_id == NULL) || (msg->type != EN_OC_MQTT_PROFILE_MSG_TYPE_DOWN_COMMANDS)) {
         return ret;
@@ -125,7 +125,7 @@ static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t* msg)
     if (buf == NULL) {
         return ret;
     }
-    app_msg = (app_msg_t*)buf;
+    app_msg = (app_msg_t *)buf;
     buf += sizeof(app_msg_t);
 
     app_msg->msg_type = en_msg_cmd;
@@ -147,7 +147,7 @@ static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t* msg)
 
     return ret;
 }
-static void oc_cmdresp(cmd_t* cmd, int cmdret)
+static void oc_cmdresp(cmd_t *cmd, int cmdret)
 {
     oc_mqtt_profile_cmdresp_t cmdresp;
     ///< do the response
@@ -159,12 +159,12 @@ static void oc_cmdresp(cmd_t* cmd, int cmdret)
 }
 ///< COMMAND DEAL
 #include <cJSON.h>
-static void deal_cmd_msg(cmd_t* cmd)
+static void deal_cmd_msg(cmd_t *cmd)
 {
-    cJSON* obj_root;
-    cJSON* obj_cmdname;
-    cJSON* obj_paras;
-    cJSON* obj_para;
+    cJSON *obj_root;
+    cJSON *obj_cmdname;
+    cJSON *obj_paras;
+    cJSON *obj_para;
 
     int cmdret = 1;
 
@@ -205,7 +205,7 @@ static void deal_cmd_msg(cmd_t* cmd)
 
 static int CloudMainTaskEntry(void)
 {
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
     uint32_t ret;
 
     WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
@@ -238,7 +238,7 @@ static int CloudMainTaskEntry(void)
 
     while (1) {
         app_msg = NULL;
-        (void)osMessageQueueGet(g_app_cb.app_msg, (void**)&app_msg, NULL, 0xFFFFFFFF);
+        (void)osMessageQueueGet(g_app_cb.app_msg, (void **)&app_msg, NULL, 0xFFFFFFFF);
         if (app_msg != NULL) {
             switch (app_msg->msg_type) {
                 case en_msg_cmd:
@@ -258,7 +258,7 @@ static int CloudMainTaskEntry(void)
 
 static int SensorTaskEntry(void)
 {
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
     int ret;
     float Lux;
 

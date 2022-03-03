@@ -226,78 +226,64 @@ void oc_cmd_rsp_cb(uint8_t *recv_data, size_t recv_size, uint8_t **resp_data, si
 
 ///< COMMAND DEAL
 #include <cJSON.h>
-static void deal_cmd_msg(cmd_t *cmd)
+static void DealCmdMsg(cmd_t *cmd)
 {
-    cJSON *obj_root;
-    cJSON *obj_cmdname;
-    cJSON *obj_paras;
-    cJSON *obj_para;
+    cJSON *obj_root, *obj_cmdname, *obj_paras, *obj_para;
 
     int cmdret = 1;
-    oc_mqtt_profile_cmdresp_t cmdresp;
+
     obj_root = cJSON_Parse(cmd->payload);
-    if (NULL == obj_root) {
-        goto EXIT_JSONPARSE;
+    if (obj_root == NULL) {
+        oc_cmdresp(cmd, cmdret);
     }
 
     obj_cmdname = cJSON_GetObjectItem(obj_root, "command_name");
-    if (NULL == obj_cmdname) {
-        goto EXIT_CMDOBJ;
+    if (obj_cmdname == NULL) {
+        cJSON_Delete(obj_root);
     }
-    if (0 == strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_light")) {
+    if (strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_light") == 0) {
         obj_paras = cJSON_GetObjectItem(obj_root, "paras");
-        if (NULL == obj_paras) {
-            goto EXIT_OBJPARAS;
+        if (obj_paras == NULL) {
+            cJSON_Delete(obj_root);
         }
         obj_para = cJSON_GetObjectItem(obj_paras, "Light");
-        if (NULL == obj_para) {
-            goto EXIT_OBJPARA;
+        if (obj_para == NULL) {
+            cJSON_Delete(obj_root);
         }
         ///< operate the LED here
-        if (0 == strcmp(cJSON_GetStringValue(obj_para), "ON")) {
+        if (strcmp(cJSON_GetStringValue(obj_para), "ON")) {
             g_app_cb.led = 1;
-            Light_StatusSet(ON);
+            LightStatusSet(ON);
             printf("Light On!");
         } else {
             g_app_cb.led = 0;
-            Light_StatusSet(OFF);
+            LightStatusSet(OFF);
             printf("Light Off!");
         }
         cmdret = 0;
-    } else if (0 == strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_Motor")) {
+    } else if (strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_Motor") == 0) {
         obj_paras = cJSON_GetObjectItem(obj_root, "Paras");
-        if (NULL == obj_paras) {
-            goto EXIT_OBJPARAS;
+        if (obj_paras == NULL) {
+            cJSON_Delete(obj_root);
         }
         obj_para = cJSON_GetObjectItem(obj_paras, "Motor");
-        if (NULL == obj_para) {
-            goto EXIT_OBJPARA;
+        if (obj_para == NULL) {
+            cJSON_Delete(obj_root);
         }
         ///< operate the Motor here
-        if (0 == strcmp(cJSON_GetStringValue(obj_para), "ON")) {
+        if (strcmp(cJSON_GetStringValue(obj_para), "ON") == 0) {
             g_app_cb.motor = 1;
-            Motor_StatusSet(ON);
+            MotorStatusSet(ON);
             printf("Motor On!");
         } else {
             g_app_cb.motor = 0;
-            Motor_StatusSet(OFF);
+            MotorStatusSet(OFF);
             printf("Motor Off!");
         }
         cmdret = 0;
     }
 
-EXIT_OBJPARA:
-EXIT_OBJPARAS:
-EXIT_CMDOBJ:
     cJSON_Delete(obj_root);
-EXIT_JSONPARSE:
-    ///< do the response
-    cmdresp.paras = NULL;
-    cmdresp.request_id = cmd->request_id;
-    cmdresp.ret_code = cmdret;
-    cmdresp.ret_name = NULL;
-    (void)oc_mqtt_profile_cmdresp(NULL, &cmdresp);
-    return;
 }
 ```
 

@@ -1,7 +1,6 @@
 #ifndef RTDTEXT_H_
 #define RTDTEXT_H_
 
-
 #include "NT3H.h"
 
 #define BIT_STATUS (1<<7)
@@ -22,7 +21,6 @@ typedef struct {
     uint8_t     language[2];
     RtdTextUserPayload rtdPayload;
 }RtdTextTypeStr;
-
 
 uint8_t addRtdText(RtdTextTypeStr *typeStr);
 

@@ -13,29 +13,18 @@
  * limitations under the License.
  */
 
-#include "E53_SC2.h"
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "cmsis_os2.h"
 #include "iot_errno.h"
 #include "iot_gpio.h"
 #include "iot_gpio_ex.h"
 #include "iot_i2c.h"
 #include "iot_i2c_ex.h"
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-#define WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA 6
-#define WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL 6
-#define WIFI_IOT_IO_FUNC_GPIO_8_GPIO 0
-#define WIFI_IOT_IO_FUNC_GPIO_7_GPIO 0
-#define WIFI_IOT_I2C_IDX_1 1
-#define WIFI_IOT_IO_NAME_GPIO_7 7
-#define WIFI_IOT_IO_NAME_GPIO_8 8
-#define WIFI_IOT_IO_NAME_GPIO_0 0
-#define WIFI_IOT_IO_NAME_GPIO_1 1
-#define RESET_DELAY_US 20000
-#define READ_DATA_DELAY_US 50000
+#include "E53_SC2.h"
 
 /***************************************************************
  * 函数名称: E53SC2IoInit
@@ -57,7 +46,7 @@ static void E53SC2IoInit(void)
     IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_0, WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA); // GPIO_0复用为I2C1_SDA
     IoTGpioInit(WIFI_IOT_IO_NAME_GPIO_1);
     IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_1, WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL); // GPIO_1复用为I2C1_SCL
-    IoTI2cInit(WIFI_IOT_I2C_IDX_1, 400000);              /* baudrate: 400kbps */
+    IoTI2cInit(WIFI_IOT_I2C_IDX_1, WIFI_IOT_I2C_BAUDRATE);              /* baudrate: 400kbps */
 }
 /***************************************************************
  * 函数功能: 通过I2C写入一个值到指定寄存器内
@@ -70,7 +59,7 @@ static void E53SC2IoInit(void)
 static int MPU6050WriteData(uint8_t Reg, uint8_t Value)
 {
     uint32_t ret;
-    uint8_t send_data[2] = {Reg, Value};
+    uint8_t send_data[MPU6050_DATA_2_BYTE] = { Reg, Value };
     ret = IoTI2cWrite(WIFI_IOT_I2C_IDX_1, (MPU6050_ADDRESS << 1) | 0x00, send_data, sizeof(send_data));
     if (ret != 0) {
         printf("===== Error: I2C write ret = 0x%x! =====\r\n", ret);
@@ -88,10 +77,10 @@ static int MPU6050WriteData(uint8_t Reg, uint8_t Value)
  * 返 回 值: HAL_StatusTypeDef：操作结果
  * 说    明: 在循环调用是需加一定延时时间
  **************************************************************/
-static int MPU6050WriteBuffer(uint8_t Reg, uint8_t* pBuffer, uint16_t Length)
+static int MPU6050WriteBuffer(uint8_t Reg, uint8_t *pBuffer, uint16_t Length)
 {
     uint32_t ret = 0;
-    uint8_t send_data[256] = {0};
+    uint8_t send_data[MPU6050_DATA_256_BYTE] = { 0 };
 
     send_data[0] = Reg;
     for (int j = 0; j < Length; j++) {
@@ -116,11 +105,11 @@ static int MPU6050WriteBuffer(uint8_t Reg, uint8_t* pBuffer, uint16_t Length)
  * 返 回 值: HAL_StatusTypeDef：操作结果
  * 说    明: 无
  **************************************************************/
-static int MPU6050ReadBuffer(uint8_t Reg, uint8_t* pBuffer, uint16_t Length)
+static int MPU6050ReadBuffer(uint8_t Reg, uint8_t *pBuffer, uint16_t Length)
 {
     uint32_t ret = 0;
-    IotI2cData mpu6050_i2c_data = {0};
-    uint8_t buffer[1] = {Reg};
+    IotI2cData mpu6050_i2c_data = { 0 };
+    uint8_t buffer[1] = { Reg };
     mpu6050_i2c_data.sendBuf = buffer;
     mpu6050_i2c_data.sendLen = 1;
     mpu6050_i2c_data.receiveBuf = pBuffer;
@@ -149,7 +138,7 @@ static void MPU6050WriteReg(uint8_t reg_add, uint8_t reg_dat)
  * 返 回 值: 无
  * 说    明: 无
  ***************************************************************/
-static int MPU6050ReadData(uint8_t reg_add, unsigned char* read, uint8_t num)
+static int MPU6050ReadData(uint8_t reg_add, unsigned char *read, uint8_t num)
 {
     return MPU6050ReadBuffer(reg_add, read, num);
 }
@@ -160,7 +149,7 @@ static int MPU6050ReadData(uint8_t reg_add, unsigned char* read, uint8_t num)
  * 返 回 值: 无
  * 说    明: 无
  ***************************************************************/
-static int MPU6050ReadAcc(short* accData)
+static int MPU6050ReadAcc(short *accData)
 {
     int ret;
     uint8_t buf[ACCEL_DATA_LEN];
@@ -180,7 +169,7 @@ static int MPU6050ReadAcc(short* accData)
  * 返 回 值: 无
  * 说    明: 无
  ***************************************************************/
-static int MPU6050ReadGyro(short* gyroData)
+static int MPU6050ReadGyro(short *gyroData)
 {
     int ret;
     uint8_t buf[ACCEL_DATA_LEN];
@@ -200,7 +189,7 @@ static int MPU6050ReadGyro(short* gyroData)
  * 返 回 值: 无
  * 说    明: 无
  ***************************************************************/
-static int MPU6050ReadTemp(short* tempData)
+static int MPU6050ReadTemp(short *tempData)
 {
     int ret;
     uint8_t buf[TEMP_DATA_LEN];
@@ -218,7 +207,7 @@ static int MPU6050ReadTemp(short* tempData)
  * 返 回 值: 无
  * 说    明: 无
  **************************************************************/
-static int MPU6050ReturnTemp(short* Temperature)
+static int MPU6050ReturnTemp(short *Temperature)
 {
     int ret;
     short temp3;
@@ -229,7 +218,7 @@ static int MPU6050ReturnTemp(short* Temperature)
         return -1;
     }
     temp3 = (buf[TEMP_LSB] << SENSOR_DATA_WIDTH_8_BIT) | buf[TEMP_MSB];
-    *Temperature = (((double)(temp3 + 13200)) / 280) - 13;
+    *Temperature = (((double)(temp3 + MPU6050_CONSTANT_1)) / MPU6050_CONSTANT_2) - MPU6050_CONSTANT_3;
     return 0;
 }
 
@@ -270,7 +259,7 @@ void MPU6050Init(void)
     MPU6050WriteReg(MPU6050_RA_USER_CTRL, 0X00);  // I2C主模式关闭
     MPU6050WriteReg(MPU6050_RA_FIFO_EN, 0X00);    // 关闭FIFO
     MPU6050WriteReg(MPU6050_RA_INT_PIN_CFG,
-                    0X80); // 中断的逻辑电平模式,设置为0，中断信号为高电；设置为1，中断信号为低电平时。
+        0X80); // 中断的逻辑电平模式,设置为0，中断信号为高电；设置为1，中断信号为低电平时。
     MotionInterrupt();                              // 运动中断
     MPU6050WriteReg(MPU6050_RA_CONFIG, 0x04);       // 配置外部引脚采样和DLPF数字低通滤波器
     MPU6050WriteReg(MPU6050_RA_ACCEL_CONFIG, 0x1C); // 加速度传感器量程和高通滤波器配置
@@ -310,7 +299,7 @@ int E53SC2Init(void)
     if (ret != 0) {
         return -1;
     }
-    osDelay(100);
+    osDelay(MPU6050_DATA_DELAY);
     return 0;
 }
 /***************************************************************
@@ -319,10 +308,10 @@ int E53SC2Init(void)
  * 参    数: 无
  * 返 回 值: 无
  ***************************************************************/
-int E53SC2ReadData(E53SC2Data* ReadData)
+int E53SC2ReadData(E53SC2Data *ReadData)
 {
     int ret;
-    short Accel[3];
+    short Accel[ACCEL_AXIS_NUM];
     short Temp;
     if (MPU6050ReadID() != 0) {
         return -1;
@@ -354,10 +343,10 @@ int E53SC2ReadData(E53SC2Data* ReadData)
 void LedD1StatusSet(E53SC2Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(7, 1); // 设置GPIO_7输出高电平点亮灯
+        IoTGpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_7, 1); // 设置GPIO_7输出高电平点亮灯
     }
     if (status == OFF) {
-        IoTGpioSetOutputVal(7, 0); // 设置GPIO_7输出低电平关闭灯
+        IoTGpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_7, 0); // 设置GPIO_7输出低电平关闭灯
     }
 }
 
@@ -372,10 +361,10 @@ void LedD1StatusSet(E53SC2Status status)
 void LedD2StatusSet(E53SC2Status status)
 {
     if (status == ON) {
-        IoTGpioSetOutputVal(8, 1); // 设置GPIO_8输出高电平点亮灯
+        IoTGpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_8, 1); // 设置GPIO_8输出高电平点亮灯
     }
 
     if (status == OFF) {
-        IoTGpioSetOutputVal(8, 0); // 设置GPIO_8输出低电平关闭灯
+        IoTGpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_8, 0); // 设置GPIO_8输出低电平关闭灯
     }
 }

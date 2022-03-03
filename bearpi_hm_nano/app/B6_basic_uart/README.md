@@ -85,7 +85,7 @@ if (ret != IOT_SUCCESS) {
     return;
 }
 ```
-这部分的代码主要实现通过 `IoTUartWrite()` 函数在串口1发送一串数据，然后通过 `IoTUartRead()` 函数将数据都回来，并通过 `debug` 串口打印出来。
+这部分的代码主要实现通过 `IoTUartWrite()` 函数在串口1发送一串数据，然后通过 `IoTUartRead()` 函数将数据读回来，并通过 `debug` 串口打印出来。
 ```c
 //send data through uart1
 IoTUartWrite(WIFI_IOT_UART_IDX_1, (unsigned char *)data, strlen(data));

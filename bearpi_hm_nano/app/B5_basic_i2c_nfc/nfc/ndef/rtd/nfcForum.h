@@ -12,8 +12,8 @@
 #define NTAG_ERASED 	0xD0
 
 typedef struct {
-	uint8_t startByte;
-	uint8_t payloadLength;
+    uint8_t startByte;
+    uint8_t payloadLength;
 }NDEFHeaderStr;
 
 #define BIT_MB (1<<7)
@@ -29,17 +29,26 @@ typedef struct {
 #define MASK_IL  0x08
 #define MASK_TNF 0x07
 
+#define TEXT_RECORD_LEN  7
+#define URI_RECORD_LEN  5
 
+typedef enum {
+    HEADER,
+    TYPE_LENGTH,
+    PALOAD_LENGTH,
+    TYPE_CODE,
+    TYPE_PAYLOAD
+}I2CMsgNum;
 
 typedef struct {
-	uint8_t     header;
-	uint8_t		typeLength;
-	uint8_t		payloadLength;
-	RTDTypeStr type;
+    uint8_t     header;
+    uint8_t		typeLength;
+    uint8_t		payloadLength;
+    RTDTypeStr type;
 }NDEFRecordStr;
 
-uint8_t composeRtdText(const NDEFDataStr *ndef,  NDEFRecordStr *ndefRecord, uint8_t *I2CMsg);
-uint8_t composeRtdUri(const NDEFDataStr *ndef,  NDEFRecordStr *ndefRecord, uint8_t *I2CMsg);
+uint8_t composeRtdText(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8_t *I2CMsg);
+uint8_t composeRtdUri(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8_t *I2CMsg);
 
 void composeNDEFMBME(bool isFirstRecord, bool isLastRecord, NDEFRecordStr *ndefRecord);
 

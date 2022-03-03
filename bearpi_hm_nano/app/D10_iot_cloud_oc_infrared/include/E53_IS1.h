@@ -18,14 +18,13 @@
 
 typedef void (*E53IS1CallbackFunc) (char *arg);
 
-typedef enum
-{
-	OFF = 0,
-	ON
+typedef enum {
+    OFF = 0,
+    ON
 } E53IS1Status;
 
 void E53IS1Init(void);
 int E53IS1ReadData(E53IS1CallbackFunc func);
 void BeepStatusSet(E53IS1Status status);
 
-#endif 
+#endif
