@@ -67,7 +67,7 @@ static void MQTTDemoTask(void)
     data.clientID = clientId;
     data.willFlag = 0;
     data.MQTTVersion = MQTT_VERSION;
-    data.keepAliveInterval = MQTT_KEEP_ALIVE;
+    data.keepAliveInterval = MQTT_KEEP_ALIVE_MS;
     data.cleansession = 1;
 
     printf("MQTTConnect  ...\n");
