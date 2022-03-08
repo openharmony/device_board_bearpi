@@ -42,7 +42,7 @@ static bool writeTimeout(uint8_t *data, uint8_t dataSend)
         printf("===== Error: I2C write status = 0x%x! =====\r\n", status);
         return 0;
     }
-    usleep(NT3H1X_WRITE_TIMEOUT_MS);
+    usleep(NT3H1X_WRITE_TIMEOUT_US);
     return 1;
 }
 

@@ -176,7 +176,7 @@ static void DealCmdMsg(cmd_t *cmd)
             cJSON_Delete(obj_root);
         }
         ///< operate the LED here
-        if (strcmp(cJSON_GetStringValue(obj_para), "ON")) {
+        if (strcmp(cJSON_GetStringValue(obj_para), "ON") == 0) {
             g_app_cb.led = 1;
             LightStatusSet(ON);
             printf("Light On!");

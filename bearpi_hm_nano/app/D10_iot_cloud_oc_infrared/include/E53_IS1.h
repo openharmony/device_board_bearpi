@@ -16,6 +16,14 @@
 #ifndef __E53_IS1_H__
 #define __E53_IS1_H__
 
+#define WIFI_IOT_IO_NAME_GPIO_7 7
+#define WIFI_IOT_IO_NAME_GPIO_8 8
+#define WIFI_IOT_PWM_PORT_PWM1 1
+#define WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT 5
+#define WIFI_IOT_IO_FUNC_GPIO_7_GPIO 0
+#define PWM_DUTY 50
+#define PWM_FREQ 4000
+
 typedef void (*E53IS1CallbackFunc) (char *arg);
 
 typedef enum {
