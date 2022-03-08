@@ -128,11 +128,11 @@ typedef struct {
 }oc_mqtt_t;
 
 /**
- *@brief the mqtt agent should use this function to register the method for the application
+ * @brief the mqtt agent should use this function to register the method for the application
  *
- *@param[in] opt, the operation method implement by the mqtt agent developer
+ * @param[in] opt, the operation method implement by the mqtt agent developer
  *
- *@return 0 success while -1 failed
+ * @return 0 success while -1 failed
  */
 int oc_mqtt_register(const oc_mqtt_t *opt);
 
@@ -165,7 +165,7 @@ int oc_mqtt_config(oc_mqtt_config_t *param);
 int oc_mqtt_report(uint8_t *msg, int len, int qos);
 
 /**
- *@brief: the application use this function to deconfigure the mqtt agent
+ * @brief: the application use this function to deconfigure the mqtt agent
  *
  * @return code: define by en_oc_mqtt_err_code while 0 means success
  */

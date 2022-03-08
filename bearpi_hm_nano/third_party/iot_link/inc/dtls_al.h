@@ -126,7 +126,7 @@ typedef struct {
 }dtls_al_t;
 
 int dtls_al_install(const dtls_al_t *dtls);
-int dtls_al_uninstall(const char*name);
+int dtls_al_uninstall(const char *name);
 
 ///< this function should implemented by the developer of the tls
 int dtls_imp_init(void);
