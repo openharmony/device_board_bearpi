@@ -46,7 +46,7 @@ extern "C" {
 typedef struct {
     char *data;      ///< buffer to storage the data
     int   len;       ///< buffer data length
-}mqtt_al_string_t;   //used to represent any type string (maybe not ascii)
+}mqtt_al_string_t;   // used to represent any type string (maybe not ascii)
 
 /** @brief enum all the qos supported for the application */
 typedef enum {
@@ -147,8 +147,8 @@ typedef enum {
 #define cn_mqtt_al_sub_code_err       0x80  ///< subscribe failure
 
 /**
- *@brief defines the operation will be registered  to the mqtt service
- *@brief parameter and return code refere to the corresponding api
+ * @brief defines the operation will be registered  to the mqtt service
+ * @brief parameter and return code refere to the corresponding api
  *
  */
 typedef struct {
@@ -183,25 +183,25 @@ int mqtt_al_init(void);
  */
 int  mqtt_al_deinit(void);
 /**
- *@brief: you could use this function to connect to the mqtt server
-    *
-    *@param[in] conparam  the parameter we will use in connect, refer to the data mqtt_al_conpara_t
-    *@
-    *@return: first you should check the return value then the return code in conparam
-    *
-    *@retval NULL which means you could not get the connect to the server,maybe network reason
-    *@retval handle, which means you get the context, please check the conparam for more
-    */
-void * mqtt_al_connect(mqtt_al_conpara_t *conparam);
+ * @brief: you could use this function to connect to the mqtt server
+ *
+ * @param[in] conparam  the parameter we will use in connect, refer to the data mqtt_al_conpara_t
+ *
+ * @return: first you should check the return value then the return code in conparam
+ *
+ * @retval NULL which means you could not get the connect to the server,maybe network reason
+ * @retval handle, which means you get the context, please check the conparam for more
+*/
+void *mqtt_al_connect(mqtt_al_conpara_t *conparam);
 
 /**
  * @brief  : you could use this function to disconnect from the mqtt server
  *
  * @param[in] handle  the handle we get from mqtt_al_connect
 
-    * @return  0 success -1 failed
+ * @return  0 success -1 failed
 
-    */
+ */
 int mqtt_al_disconnect(void *handle);
 
 /**
