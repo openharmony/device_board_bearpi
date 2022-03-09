@@ -20,6 +20,11 @@
 #include "cmsis_os2.h"
 #include "ohos_init.h"
 
+#define THREAD_STACK_SIZE (1024 * 4)
+#define THREAD_PRIO 25
+#define THREAD_DELAY_1S 1000000
+#define THREAD_DELAY_500MS 500000
+
 /**
  * @brief Thread1 entry
  *
@@ -30,7 +35,7 @@ void Thread1(void)
 
     while (1) {
         printf("This is BearPi-HM_Nano Thread1----%d\n", sum++);
-        usleep(1000000);
+        usleep(THREAD_DELAY_1S);
     }
 }
 
@@ -44,7 +49,7 @@ void Thread2(void)
 
     while (1) {
         printf("This is BearPi-HM_Nano Thread2----%d\n", sum++);
-        usleep(500000);
+        usleep(THREAD_DELAY_500MS);
     }
 }
 
@@ -61,8 +66,8 @@ static void ThreadExample(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
-    attr.priority = 25;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
     // Create the Thread1 task
     if (osThreadNew((osThreadFunc_t)Thread1, NULL, &attr) == NULL) {

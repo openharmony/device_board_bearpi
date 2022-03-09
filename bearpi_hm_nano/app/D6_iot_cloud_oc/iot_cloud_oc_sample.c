@@ -13,23 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "cmsis_os2.h"
-#include "ohos_init.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+#include "cmsis_os2.h"
+#include "ohos_init.h"
 #include "lwip/sockets.h"
 #include "wifi_connect.h"
 
 #include "E53_IA1.h"
 #include "oc_mqtt.h"
 
-#define MSGQUEUE_OBJECTS 16 // number of Message Queue Objects
+#define MSGQUEUE_COUNT 16 // number of Message Queue Objects
+#define MSGQUEUE_SIZE 10
+#define CLOUD_TASK_STACK_SIZE (1024 * 10)
+#define CLOUD_TASK_PRIO 24
+#define SENSOR_TASK_STACK_SIZE (1024 * 2)
+#define SENSOR_TASK_PRIO 25
+#define TASK_DELAY_3S 3
 
 typedef struct { // object data type
-    char* Buf;
+    char *Buf;
     uint8_t Idx;
 } MSGQUEUE_OBJ_t;
 
@@ -46,8 +53,8 @@ typedef enum {
 } en_msg_type_t;
 
 typedef struct {
-    char* request_id;
-    char* payload;
+    char *request_id;
+    char *payload;
 } cmd_t;
 
 typedef struct {
@@ -71,7 +78,7 @@ typedef struct {
 } app_cb_t;
 static app_cb_t g_app_cb;
 
-static void ReportMsg(report_t* report)
+static void ReportMsg(report_t *report)
 {
     oc_mqtt_profile_service_t service;
     oc_mqtt_profile_kv_t temperature;
@@ -114,16 +121,16 @@ static void ReportMsg(report_t* report)
     return;
 }
 
-void MsgRcvCallback(uint8_t* recv_data, size_t recv_size, uint8_t** resp_data, size_t* resp_size)
+void MsgRcvCallback(uint8_t *recv_data, size_t recv_size, uint8_t **resp_data, size_t *resp_size)
 {
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
 
     int ret = 0;
     app_msg = malloc(sizeof(app_msg_t));
     app_msg->msg_type = en_msg_cmd;
-    app_msg->msg.cmd.payload = (char*)recv_data;
+    app_msg->msg.cmd.payload = (char *)recv_data;
 
-    printf("recv data is %.*s\n", recv_size, recv_data);
+    printf("recv data is %s\n", recv_data);
     ret = osMessageQueuePut(mid_MsgQueue, &app_msg, 0U, 0U);
     if (ret != 0) {
         free(recv_data);
@@ -132,37 +139,44 @@ void MsgRcvCallback(uint8_t* recv_data, size_t recv_size, uint8_t** resp_data, s
     *resp_size = 0;
 }
 
+static void oc_cmdresp(cmd_t *cmd, int cmdret)
+{
+    oc_mqtt_profile_cmdresp_t cmdresp;
+    ///< do the response
+    cmdresp.paras = NULL;
+    cmdresp.request_id = cmd->request_id;
+    cmdresp.ret_code = cmdret;
+    cmdresp.ret_name = NULL;
+    (void)oc_mqtt_profile_cmdresp(NULL, &cmdresp);
+}
 ///< COMMAND DEAL
 #include <cJSON.h>
-static void DealCmdMsg(cmd_t* cmd)
+static void DealCmdMsg(cmd_t *cmd)
 {
-    cJSON* obj_root;
-    cJSON* obj_cmdname;
-    cJSON* obj_paras;
-    cJSON* obj_para;
+    cJSON *obj_root, *obj_cmdname, *obj_paras, *obj_para;
 
     int cmdret = 1;
-    oc_mqtt_profile_cmdresp_t cmdresp;
+
     obj_root = cJSON_Parse(cmd->payload);
-    if (NULL == obj_root) {
-        goto EXIT_JSONPARSE;
+    if (obj_root == NULL) {
+        oc_cmdresp(cmd, cmdret);
     }
 
     obj_cmdname = cJSON_GetObjectItem(obj_root, "command_name");
-    if (NULL == obj_cmdname) {
-        goto EXIT_CMDOBJ;
+    if (obj_cmdname == NULL) {
+        cJSON_Delete(obj_root);
     }
-    if (0 == strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_light")) {
+    if (strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_light") == 0) {
         obj_paras = cJSON_GetObjectItem(obj_root, "paras");
-        if (NULL == obj_paras) {
-            goto EXIT_OBJPARAS;
+        if (obj_paras == NULL) {
+            cJSON_Delete(obj_root);
         }
         obj_para = cJSON_GetObjectItem(obj_paras, "Light");
-        if (NULL == obj_para) {
-            goto EXIT_OBJPARA;
+        if (obj_para == NULL) {
+            cJSON_Delete(obj_root);
         }
         ///< operate the LED here
-        if (0 == strcmp(cJSON_GetStringValue(obj_para), "ON")) {
+        if (strcmp(cJSON_GetStringValue(obj_para), "ON") == 0) {
             g_app_cb.led = 1;
             LightStatusSet(ON);
             printf("Light On!");
@@ -172,17 +186,17 @@ static void DealCmdMsg(cmd_t* cmd)
             printf("Light Off!");
         }
         cmdret = 0;
-    } else if (0 == strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_Motor")) {
+    } else if (strcmp(cJSON_GetStringValue(obj_cmdname), "Agriculture_Control_Motor") == 0) {
         obj_paras = cJSON_GetObjectItem(obj_root, "Paras");
-        if (NULL == obj_paras) {
-            goto EXIT_OBJPARAS;
+        if (obj_paras == NULL) {
+            cJSON_Delete(obj_root);
         }
         obj_para = cJSON_GetObjectItem(obj_paras, "Motor");
-        if (NULL == obj_para) {
-            goto EXIT_OBJPARA;
+        if (obj_para == NULL) {
+            cJSON_Delete(obj_root);
         }
         ///< operate the Motor here
-        if (0 == strcmp(cJSON_GetStringValue(obj_para), "ON")) {
+        if (strcmp(cJSON_GetStringValue(obj_para), "ON") == 0) {
             g_app_cb.motor = 1;
             MotorStatusSet(ON);
             printf("Motor On!");
@@ -194,25 +208,14 @@ static void DealCmdMsg(cmd_t* cmd)
         cmdret = 0;
     }
 
-EXIT_OBJPARA:
-EXIT_OBJPARAS:
-EXIT_CMDOBJ:
     cJSON_Delete(obj_root);
-EXIT_JSONPARSE:
-    ///< do the response
-    cmdresp.paras = NULL;
-    cmdresp.request_id = cmd->request_id;
-    cmdresp.ret_code = cmdret;
-    cmdresp.ret_name = NULL;
-    (void)oc_mqtt_profile_cmdresp(NULL, &cmdresp);
-    return;
 }
 
 static int CloudMainTaskEntry(void)
 {
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
 
-    uint32_t ret = WifiConnect("Hold", "0987654321");
+    uint32_t ret = WifiConnect("BearPi", "123456789");
 
     device_info_init(CLIENT_ID, USERNAME, PASSWORD);
     oc_mqtt_init();
@@ -220,8 +223,8 @@ static int CloudMainTaskEntry(void)
 
     while (1) {
         app_msg = NULL;
-        (void)osMessageQueueGet(mid_MsgQueue, (void**)&app_msg, NULL, 0U);
-        if (NULL != app_msg) {
+        (void)osMessageQueueGet(mid_MsgQueue, (void **)&app_msg, NULL, 0U);
+        if (app_msg != NULL) {
             switch (app_msg->msg_type) {
                 case en_msg_cmd:
                     DealCmdMsg(&app_msg->msg.cmd);
@@ -241,7 +244,7 @@ static int CloudMainTaskEntry(void)
 static int SensorTaskEntry(void)
 {
     int ret;
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
     E53IA1Data data;
     ret = E53IA1Init();
     if (ret != 0) {
@@ -256,23 +259,23 @@ static int SensorTaskEntry(void)
         }
         app_msg = malloc(sizeof(app_msg_t));
         printf("SENSOR:lum:%.2f temp:%.2f hum:%.2f\r\n", data.Lux, data.Temperature, data.Humidity);
-        if (NULL != app_msg) {
+        if (app_msg != NULL) {
             app_msg->msg_type = en_msg_report;
             app_msg->msg.report.hum = (int)data.Humidity;
             app_msg->msg.report.lum = (int)data.Lux;
             app_msg->msg.report.temp = (int)data.Temperature;
-            if (0 != osMessageQueuePut(mid_MsgQueue, &app_msg, 0U, 0U)) {
+            if (osMessageQueuePut(mid_MsgQueue, &app_msg, 0U, 0U) != 0) {
                 free(app_msg);
             }
         }
-        sleep(3);
+        sleep(TASK_DELAY_3S);
     }
     return 0;
 }
 
 static void IotMainTaskEntry(void)
 {
-    mid_MsgQueue = osMessageQueueNew(MSGQUEUE_OBJECTS, 10, NULL);
+    mid_MsgQueue = osMessageQueueNew(MSGQUEUE_COUNT, MSGQUEUE_SIZE, NULL);
     if (mid_MsgQueue == NULL) {
         printf("Failed to create Message Queue!\n");
     }
@@ -284,14 +287,14 @@ static void IotMainTaskEntry(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 10240;
-    attr.priority = 24;
+    attr.stack_size = CLOUD_TASK_STACK_SIZE;
+    attr.priority = CLOUD_TASK_PRIO;
 
     if (osThreadNew((osThreadFunc_t)CloudMainTaskEntry, NULL, &attr) == NULL) {
         printf("Failed to create CloudMainTaskEntry!\n");
     }
-    attr.stack_size = 2048;
-    attr.priority = 25;
+    attr.stack_size = SENSOR_TASK_STACK_SIZE;
+    attr.priority = SENSOR_TASK_PRIO;
     attr.name = "SensorTaskEntry";
     if (osThreadNew((osThreadFunc_t)SensorTaskEntry, NULL, &attr) == NULL) {
         printf("Failed to create SensorTaskEntry!\n");

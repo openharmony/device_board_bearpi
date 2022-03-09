@@ -67,8 +67,8 @@ static void ExampleTask(void)
 
     ret = E53SC1Init();
     if (ret != 0) {
-       printf("E53_SC1 Init failed!\r\n");
-       return;
+        printf("E53_SC1 Init failed!\r\n");
+        return;
     }
 
     while (1) {
@@ -81,12 +81,12 @@ static void ExampleTask(void)
             return;
         }
         printf("Lux data:%.2f\r\n", Lux);
-        if (Lux < 20) {
+        if (Lux < MIN_LUX) {
             LightStatusSet(ON);
         } else {
             LightStatusSet(OFF);
         }
-        usleep(1000000);
+        usleep(TASK_DELAY_1S);
     }
 }
 ```

@@ -13,26 +13,19 @@
  * limitations under the License.
  */
 
-#include "E53_SF1.h"
-#include "iot_adc.h"
-#include "iot_errno.h"
-#include "iot_gpio.h"
-#include "iot_gpio_ex.h"
-#include "iot_pwm.h"
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
-#define CAL_PPM 20 //校准环境中PPM值
-#define RL 1       // RL阻值
+#include "iot_adc.h"
+#include "iot_errno.h"
+#include "iot_gpio.h"
+#include "iot_gpio_ex.h"
+#include "iot_pwm.h"
+#include "E53_SF1.h"
 
-#define WIFI_IOT_IO_NAME_GPIO_8 8
-#define WIFI_IOT_PWM_PORT_PWM1 1
-#define WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT 5
-#define WIFI_IOT_ADC_6 6
-
-static float R0; //元件在洁净空气中的阻值
+static float R0; // 元件在洁净空气中的阻值
 
 /***************************************************************
  * 函数名称: E53SF1Init
@@ -42,16 +35,16 @@ static float R0; //元件在洁净空气中的阻值
  ***************************************************************/
 void E53SF1Init(void)
 {
-    IoTGpioInit(WIFI_IOT_IO_NAME_GPIO_8);                                      //初始化GPIO_8
-    IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_8, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); //设置GPIO_8引脚复用功能为PWM
-    IoTGpioSetDir(WIFI_IOT_IO_NAME_GPIO_8, IOT_GPIO_DIR_OUT);                  //设置GPIO_8引脚为输出模式
-    IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                                        //初始化PWM1端口
+    IoTGpioInit(WIFI_IOT_IO_NAME_GPIO_8);                                      // 初始化GPIO_8
+    IoTGpioSetFunc(WIFI_IOT_IO_NAME_GPIO_8, WIFI_IOT_IO_FUNC_GPIO_8_PWM1_OUT); // 设置GPIO_8引脚复用功能为PWM
+    IoTGpioSetDir(WIFI_IOT_IO_NAME_GPIO_8, IOT_GPIO_DIR_OUT);                  // 设置GPIO_8引脚为输出模式
+    IoTPwmInit(WIFI_IOT_PWM_PORT_PWM1);                                        // 初始化PWM1端口
 }
 /***************************************************************
 * 函数名称: GetVoltage
 * 说    明: 获取电压值函数
 * 参    数: 无
-*								
+*
 * 返 回 值: 无
 ***************************************************************/
 static float GetVoltage(void)
@@ -60,11 +53,10 @@ static float GetVoltage(void)
     unsigned short data;
 
     ret = IoTAdcRead(WIFI_IOT_ADC_6, &data, IOT_ADC_EQU_MODEL_8, IOT_ADC_CUR_BAIS_DEFAULT, 0xff);
-    if (ret != IOT_SUCCESS)
-    {
+    if (ret != IOT_SUCCESS) {
         printf("ADC Read Fail\n");
     }
-    return (float)data * 1.8 * 4 / 4096.0;
+    return (float)data * ADC_VREF_VOL * ADC_COEFFICIENT / ADC_RATIO;
 }
 /***************************************************************
  * 函数名称: GetMQ2PPM
@@ -72,7 +64,7 @@ static float GetVoltage(void)
  * 参    数: ppm 烟雾浓度
  * 返 回 值: 0 成功; -1 失败
  ***************************************************************/
-int GetMQ2PPM(float* ppm)
+int GetMQ2PPM(float *ppm)
 {
     unsigned int ret;
     unsigned short data;
@@ -83,9 +75,9 @@ int GetMQ2PPM(float* ppm)
         printf("ADC Read Fail\n");
         return -1;
     }
-    voltage = (float)data * 1.8 * 4 / 4096.0;
-    RS = (5 - voltage) / voltage * RL;     //计算RS
-    *ppm = 613.9f * pow(RS / R0, -2.074f); //计算ppm
+    voltage = (float)data * ADC_VREF_VOL * ADC_COEFFICIENT / ADC_RATIO;
+    RS = (MQ2_CONSTANT_1 - voltage) / voltage * RL;     // 计算RS
+    *ppm = MQ2_CONSTANT_2 * pow(RS / R0, MQ2_CONSTANT_3); // 计算ppm
     return 0;
 }
 
@@ -98,8 +90,10 @@ int GetMQ2PPM(float* ppm)
 void MQ2PPMCalibration(void)
 {
     float voltage = GetVoltage();
-    float RS = (5 - voltage) / voltage * RL;
-    R0 = RS / pow(CAL_PPM / 613.9f, 1 / -2.074f);
+    if (voltage != 0) {
+        float RS = (MQ2_CONSTANT_1 - voltage) / voltage * RL;
+        R0 = RS / pow(CAL_PPM / MQ2_CONSTANT_2, 1 / MQ2_CONSTANT_3);
+    }
 }
 
 /***************************************************************
@@ -113,7 +107,7 @@ void MQ2PPMCalibration(void)
 void BeepStatusSet(E53SF1Status status)
 {
     if (status == ON) {
-        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, 50, 4000); //输出PWM波
+        IoTPwmStart(WIFI_IOT_PWM_PORT_PWM1, PWM_DUTY, PWM_FREQ); // 输出PWM波
     }
     if (status == OFF) {
         IoTPwmStop(WIFI_IOT_PWM_PORT_PWM1);

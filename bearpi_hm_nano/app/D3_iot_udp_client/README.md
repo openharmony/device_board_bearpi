@@ -58,7 +58,7 @@ static void UDPClientTask(void)
 {
     //在sock_fd 进行监听，在 new_fd 接收新的链接
     int sock_fd;
-    
+
     //服务器的地址信息
     struct sockaddr_in send_addr;
     socklen_t addr_length = sizeof(send_addr);
@@ -87,7 +87,7 @@ static void UDPClientTask(void)
         sendto(sock_fd, send_data, strlen(send_data), 0, (struct sockaddr *)&send_addr, addr_length);
 
         //线程休眠一段时间
-        sleep(10);
+        sleep(TASK_DELAY_10S);
 
         //接收服务端返回的字符串
         recvfrom(sock_fd, recvBuf, sizeof(recvBuf), 0, (struct sockaddr *)&send_addr, &addr_length);

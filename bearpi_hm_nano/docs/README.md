@@ -4,7 +4,7 @@
 | 1    | 快速上手教程 |  [docs/quick-start](quick-start/BearPi-HM_Nano十分钟上手.md) |
 | 2    | 案例代码列表 |  [app](../app/README.md) |
 | 3    | 视频学习地址 |  [B站](https://www.bilibili.com/video/BV1tv411b7SA?p=1) |
-| 4    | 视频课程PPT |  [docs/board/课程配套PPT](board/%E8%AF%BE%E7%A8%8B%E9%85%8D%E5%A5%97PPT) |
+
 
 ## 一、BearPi-HM Nano 开发板介绍
 

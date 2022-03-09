@@ -73,81 +73,81 @@ send函数用来向TCP连接的另一端发送数据。
 ```c
 static void TCPServerTask(void)
 {
-	//在sock_fd 进行监听，在 new_fd 接收新的链接
-	int sock_fd, new_fd;
-	
-	//服务端地址信息
-	struct sockaddr_in server_sock;
+    //在sock_fd 进行监听，在 new_fd 接收新的链接
+    int sock_fd, new_fd;
 
-	//客户端地址信息
-	struct sockaddr_in client_sock;
-	int sin_size;
+    //服务端地址信息
+    struct sockaddr_in server_sock;
 
-	struct sockaddr_in *cli_addr;
+    //客户端地址信息
+    struct sockaddr_in client_sock;
+    int sin_size;
 
-	//连接Wifi
-	WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
+    struct sockaddr_in *cli_addr;
 
-	//创建socket
-	if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-		perror("socket is error\r\n");
-		exit(1);
-	}
+    //连接Wifi
+    WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
 
-	bzero(&server_sock, sizeof(server_sock));
-	server_sock.sin_family = AF_INET;
-	server_sock.sin_addr.s_addr = htonl(INADDR_ANY);
-	server_sock.sin_port = htons(CONFIG_CLIENT_PORT);
+    //创建socket
+    if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+        perror("socket is error\r\n");
+        exit(1);
+    }
 
-	//调用bind函数绑定socket和地址
-	if (bind(sock_fd, (struct sockaddr *)&server_sock, sizeof(struct sockaddr)) == -1) {
-		perror("bind is error\r\n");
-		exit(1);
-	}
+    bzero(&server_sock, sizeof(server_sock));
+    server_sock.sin_family = AF_INET;
+    server_sock.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_sock.sin_port = htons(CONFIG_CLIENT_PORT);
 
-	//调用listen函数监听(指定port监听)
-	if (listen(sock_fd, TCP_BACKLOG) == -1) {
-		perror("listen is error\r\n");
-		exit(1);
-	}
+    //调用bind函数绑定socket和地址
+    if (bind(sock_fd, (struct sockaddr *)&server_sock, sizeof(struct sockaddr)) == -1) {
+        exit(1);
+    }
 
-	printf("start accept\n");
+    //调用listen函数监听(指定port监听)
+    if (listen(sock_fd, TCP_BACKLOG) == -1) {
+        exit(1);
+    }
 
-	//调用accept函数从队列中
-	while (1) {
-		sin_size = sizeof(struct sockaddr_in);
+    printf("start accept\n");
 
-		if ((new_fd = accept(sock_fd, (struct sockaddr *)&client_sock, (socklen_t *)&sin_size)) == -1) {
-			perror("accept");
-			continue;
-		}
+    //调用accept函数从队列中
+    while (1) {
+        sin_size = sizeof(struct sockaddr_in);
 
-		cli_addr = malloc(sizeof(struct sockaddr));
+        if ((new_fd = accept(sock_fd, (struct sockaddr *)&client_sock, (socklen_t *)&sin_size)) == -1) {
+            perror("accept");
+            continue;
+        }
 
-		printf("accept addr\r\n");
+        cli_addr = malloc(sizeof(struct sockaddr));
 
-		if (cli_addr != NULL) {
-			memcpy(cli_addr, &client_sock, sizeof(struct sockaddr));
-		}
+        printf("accept addr\r\n");
 
-		//处理目标
-		ssize_t ret;
+        if (cli_addr != NULL) {
+            int ret = memcpy_s(cli_addr, sizeof(cli_addr), &client_sock, sizeof(struct sockaddr));
+            if (!ret) {
+                perror("memcpy is error\r\n");
+                exit(1);
+            }
+        }
+        //处理目标
+        ssize_t ret;
 
-		while (1) {
-			if ((ret = recv(new_fd, recvbuf, sizeof(recvbuf), 0)) == -1) {
-				printf("recv error \r\n");
-			}
-			printf("recv :%s\r\n", recvbuf);
-			sleep(2);
-			if ((ret = send(new_fd, buf, strlen(buf) + 1, 0)) == -1) {
-				perror("send : ");
-			}
-
-			sleep(2);
-		}
-
-		close(new_fd);
-	}
+        while (1) {
+            memset_s(recvbuf, sizeof(recvbuf), 0, sizeof(recvbuf));
+            if ((ret = recv(new_fd, recvbuf, sizeof(recvbuf), 0)) == -1) {
+                printf("recv error \r\n");
+            }
+            printf("recv :%s\r\n", recvbuf);
+            sleep(TASK_DELAY_2S);
+            if ((ret = send(new_fd, buf, strlen(buf) + 1, 0)) == -1) {
+                perror("send : ");
+            }
+            sleep(TASK_DELAY_2S);
+        }
+        close(new_fd);
+    }
 }
 ```
 

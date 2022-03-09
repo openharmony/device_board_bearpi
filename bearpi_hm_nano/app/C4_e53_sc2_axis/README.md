@@ -49,30 +49,31 @@ static void ExampleTask(void)
     int X = 0, Y = 0, Z = 0;
 
     ret = E53SC2Init();
-    if (ret != 0) {	
-      printf("E53_SC2 Init failed!\r\n");
-      return;
+    if (ret != 0) {
+        printf("E53_SC2 Init failed!\r\n");
+        return;
     }
     while (1) {
         printf("=======================================\r\n");
         printf("*************E53_SC2_example***********\r\n");
         printf("=======================================\r\n");
         ret = E53SC2ReadData(&data);
-        if (ret != 0) {	
+        if (ret != 0) {
             printf("E53_SC2 Read Data!\r\n");
             return;
         }
         printf("\r\n**************Temperature      is  %d\r\n", (int)data.Temperature);
-        printf("\r\n**************Accel[0]         is  %d\r\n", (int)data.Accel[0]);
-        printf("\r\n**************Accel[1]         is  %d\r\n", (int)data.Accel[1]);
-        printf("\r\n**************Accel[2]         is  %d\r\n", (int)data.Accel[2]);
+        printf("\r\n**************Accel[0]         is  %d\r\n", (int)data.Accel[ACCEL_X_AXIS]);
+        printf("\r\n**************Accel[1]         is  %d\r\n", (int)data.Accel[ACCEL_Y_AXIS]);
+        printf("\r\n**************Accel[2]         is  %d\r\n", (int)data.Accel[ACCEL_Z_AXIS]);
         if (X == 0 && Y == 0 && Z == 0) {
-            X = (int)data.Accel[0];
-            Y = (int)data.Accel[1];
-            Z = (int)data.Accel[2];
+            X = (int)data.Accel[ACCEL_X_AXIS];
+            Y = (int)data.Accel[ACCEL_Y_AXIS];
+            Z = (int)data.Accel[ACCEL_Z_AXIS];
         } else {
-            if (X + 100 < data.Accel[0] || X - 100 > data.Accel[0] || Y + 100 < data.Accel[1] 
-                || Y - 100 > data.Accel[1] || Z + 100 < data.Accel[2] || Z - 100 > data.Accel[2]) {
+            if (X + ACCEL_THRESHOLD < data.Accel[ACCEL_X_AXIS] || X - ACCEL_THRESHOLD > data.Accel[ACCEL_X_AXIS]
+                || Y + ACCEL_THRESHOLD < data.Accel[ACCEL_Y_AXIS] || Y - ACCEL_THRESHOLD > data.Accel[ACCEL_Y_AXIS]
+                || Z + ACCEL_THRESHOLD < data.Accel[ACCEL_Z_AXIS] || Z - ACCEL_THRESHOLD > data.Accel[ACCEL_Z_AXIS]) {
                 LedD1StatusSet(OFF);
                 LedD2StatusSet(ON);
             } else {
@@ -80,7 +81,7 @@ static void ExampleTask(void)
                 LedD2StatusSet(OFF);
             }
         }
-        usleep(1000000);
+        usleep(TASK_DELAY_1S);
     }
 }
 ```

@@ -70,65 +70,63 @@ osEventFlagsWait函数挂起当前运行线程，直到设置了由参数ef_id�
 ```c
 /**
  * @brief Event sender thread used to set event flag
- * 
+ *
  */
-void EventSenderThread(void *argument)
+void EventSenderThread(void)
 {
-  (void)argument;
-  while (1) {
-    osEventFlagsSet(g_eventFlagsId, FLAGS_MSK1);
+    while (1) {
+        osEventFlagsSet(g_eventFlagsId, FLAGS_MSK1);
 
-    //suspend thread
-    osThreadYield();
+        // suspend thread
+        osThreadYield();
 
-    osDelay(100);
-  }
+        osDelay(SEND_THREAD_DELAY_1S);
+    }
 }
 
 /**
  * @brief Event receiver thread blocking wait event flag
- * 
+ *
  */
-void EventReceiverThread(void *argument)
+void EventReceiverThread(void)
 {
-  uint32_t flags;
+    uint32_t flags;
 
-  (void)argument;
-  while (1) {
-    flags = osEventFlagsWait(g_eventFlagsId, FLAGS_MSK1, osFlagsWaitAny, osWaitForever);
-    printf("Receive Flags is %d\n", flags);
-  }
+    while (1) {
+        flags = osEventFlagsWait(g_eventFlagsId, FLAGS_MSK1, osFlagsWaitAny, osWaitForever);
+        printf("Receive Flags is %d\n", flags);
+    }
 }
 
 /**
  * @brief Main Entry of the Event Example
- * 
+ *
  */
 static void EventExample(void)
 {
-  g_eventFlagsId = osEventFlagsNew(NULL);
-  if (g_eventFlagsId == NULL) {
-    printf("Failed to create EventFlags!\n");
-  }
+    g_eventFlagsId = osEventFlagsNew(NULL);
+    if (g_eventFlagsId == NULL) {
+        printf("Failed to create EventFlags!\n");
+    }
 
-  osThreadAttr_t attr;
+    osThreadAttr_t attr;
 
-  attr.attr_bits = 0U;
-  attr.cb_mem = NULL;
-  attr.cb_size = 0U;
-  attr.stack_mem = NULL;
-  attr.stack_size = 1024 * 4;
-  attr.priority = 25;
+    attr.attr_bits = 0U;
+    attr.cb_mem = NULL;
+    attr.cb_size = 0U;
+    attr.stack_mem = NULL;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
-  attr.name = "EventSenderThread";
-  if (osThreadNew(EventSenderThread, NULL, &attr) == NULL) {
-    printf("Failed to create EventSenderThread!\n");
-  }
+    attr.name = "EventSenderThread";
+    if (osThreadNew(EventSenderThread, NULL, &attr) == NULL) {
+        printf("Failed to create EventSenderThread!\n");
+    }
 
-  attr.name = "EventReceiverThread";
-  if (osThreadNew(EventReceiverThread, NULL, &attr) == NULL) {
-    printf("Failed to create EventReceiverThread!\n");
-  }
+    attr.name = "EventReceiverThread";
+    if (osThreadNew(EventReceiverThread, NULL, &attr) == NULL) {
+        printf("Failed to create EventReceiverThread!\n");
+    }
 }
 
 ```

@@ -21,13 +21,14 @@
 #include "cmsis_os2.h"
 #include "ohos_init.h"
 
-#define TASK_STACK_SIZE 1024 * 8
+#define TASK_STACK_SIZE (1024 * 8)
 #define TASK_PRIO 25
+#define TASK_DELAY_3S 300
 #define FLAGS_MSK1 0x00000001U
 
 osEventFlagsId_t g_eventFlagsId;
 
-static void BeepAlarm(char* arg)
+static void BeepAlarm(char *arg)
 {
     (void)arg;
     osEventFlagsSet(g_eventFlagsId, FLAGS_MSK1);
@@ -45,7 +46,7 @@ static void ExampleTask(void)
     while (1) {
         osEventFlagsWait(g_eventFlagsId, FLAGS_MSK1, osFlagsWaitAny, osWaitForever);
         BeepStatusSet(ON);
-        osDelay(300);
+        osDelay(TASK_DELAY_3S);
         BeepStatusSet(OFF);
     }
 }

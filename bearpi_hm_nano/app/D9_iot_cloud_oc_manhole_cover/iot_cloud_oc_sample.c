@@ -29,13 +29,13 @@
 
 #define CONFIG_WIFI_SSID "BearPi" // 修改为自己的WiFi 热点账号
 
-#define CONFIG_WIFI_PWD "BearPi" // 修改为自己的WiFi 热点密码
+#define CONFIG_WIFI_PWD "123456789" // 修改为自己的WiFi 热点密码
 
 #define CONFIG_APP_SERVERIP "121.36.42.100"
 
 #define CONFIG_APP_SERVERPORT "1883"
 
-#define CONFIG_APP_DEVICEID "601ceda104feea02d7069720_2143565789" // 替换为注册设备后生成的deviceid
+#define CONFIG_APP_DEVICEID "611493160ad1ed0286498b06_121212" // 替换为注册设备后生成的deviceid
 
 #define CONFIG_APP_DEVICEPWD "123456789" // 替换为注册设备后生成的密钥
 
@@ -58,8 +58,8 @@ typedef enum {
 } en_msg_type_t;
 
 typedef struct {
-    char* request_id;
-    char* payload;
+    char *request_id;
+    char *payload;
 } cmd_t;
 
 typedef struct {
@@ -84,7 +84,7 @@ static app_cb_t g_app_cb;
 
 int g_coverStatus = 0;
 
-static void deal_report_msg(report_t* report)
+static void deal_report_msg(report_t *report)
 {
     oc_mqtt_profile_service_t service;
     oc_mqtt_profile_kv_t temperature;
@@ -133,7 +133,7 @@ static void deal_report_msg(report_t* report)
 
 static int CloudMainTaskEntry(void)
 {
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
     uint32_t ret;
 
     WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
@@ -166,7 +166,7 @@ static int CloudMainTaskEntry(void)
 
     while (1) {
         app_msg = NULL;
-        (void)osMessageQueueGet(g_app_cb.app_msg, (void**)&app_msg, NULL, 0xFFFFFFFF);
+        (void)osMessageQueueGet(g_app_cb.app_msg, (void **)&app_msg, NULL, 0xFFFFFFFF);
         if (app_msg != NULL) {
             switch (app_msg->msg_type) {
                 case en_msg_report:
@@ -183,7 +183,7 @@ static int CloudMainTaskEntry(void)
 
 static int SensorTaskEntry(void)
 {
-    app_msg_t* app_msg;
+    app_msg_t *app_msg;
     uint8_t ret;
     E53SC2Data data;
     int X = 0, Y = 0, Z = 0;

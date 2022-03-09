@@ -71,66 +71,62 @@ osStatus_t osMessageQueueGet(osMessageQueueId_t mq_id,void *msg_ptr,uint8_t *msg
 
 ```c
 
-void MsgQueue1Thread(void *argument)
+void MsgQueue1Thread(void)
 {
-  (void)argument;
+    // do some work...
+    msg.buf = "Hello BearPi-HM_Nano!";
+    msg.idx = 0U;
+    while (1) {
+        osMessageQueuePut(g_msgQueueId, &msg, 0U, 0U);
 
-  //do some work...
-  msg.buf = "Hello BearPi-HM_Nano!";
-  msg.idx = 0U;
-  while (1) {
-    osMessageQueuePut(g_msgQueueId, &msg, 0U, 0U);
-
-    //suspend thread
-    osThreadYield();
-    osDelay(100);
-  }
+        // suspend thread
+        osThreadYield();
+        osDelay(THREAD_DELAY_1S);
+    }
 }
 
-void MsgQueue2Thread(void *argument)
+void MsgQueue2Thread(void)
 {
-  osStatus_t status;
+    osStatus_t status;
 
-  (void)argument;
-  while (1) {
-    //wait for message
-    status = osMessageQueueGet(g_msgQueueId, &msg, NULL, osWaitForever);
-    if (status == osOK) {
-      printf("Message Queue Get msg:%s\n", msg.buf);
+    while (1) {
+        // wait for message
+        status = osMessageQueueGet(g_msgQueueId, &msg, NULL, osWaitForever);
+        if (status == osOK) {
+            printf("Message Queue Get msg:%s\n", msg.buf);
+        }
     }
-  }
 }
 
 /**
  * @brief Main Entry of the Message Example
- * 
+ *
  */
 static void MessageExample(void)
 {
+    g_msgQueueId = osMessageQueueNew(MSGQUEUE_COUNT, MSGQUEUE_SIZE, NULL);
+    if (g_msgQueueId == NULL) {
+        printf("Failed to create Message Queue!\n");
+    }
 
-  g_msgQueueId = osMessageQueueNew(MSGQUEUE_OBJECTS, 100, NULL);
-  if (g_msgQueueId == NULL) {
-    printf("Failed to create Message Queue!\n");
-  }
+    osThreadAttr_t attr;
 
-  osThreadAttr_t attr;
+    attr.attr_bits = 0U;
+    attr.cb_mem = NULL;
+    attr.cb_size = 0U;
+    attr.stack_mem = NULL;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
-  attr.attr_bits = 0U;
-  attr.cb_mem = NULL;
-  attr.cb_size = 0U;
-  attr.stack_mem = NULL;
-  attr.stack_size = 1024 * 10;
-  attr.priority = 25;
+    attr.name = "MsgQueue1Thread";
+    if (osThreadNew(MsgQueue1Thread, NULL, &attr) == NULL) {
+        printf("Failed to create MsgQueue1Thread!\n");
+    }
 
-  attr.name = "MsgQueue1Thread";
-  if (osThreadNew(MsgQueue1Thread, NULL, &attr) == NULL) {
-    printf("Failed to create MsgQueue1Thread!\n");
-  }
-
-  attr.name = "MsgQueue2Thread";
-  if (osThreadNew(MsgQueue2Thread, NULL, &attr) == NULL) {
-    printf("Failed to create MsgQueue2Thread!\n");
-  }
+    attr.name = "MsgQueue2Thread";
+    if (osThreadNew(MsgQueue2Thread, NULL, &attr) == NULL) {
+        printf("Failed to create MsgQueue2Thread!\n");
+    }
 }
 
 ```

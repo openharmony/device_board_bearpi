@@ -21,8 +21,12 @@
 #include "cmsis_os2.h"
 #include "E53_IA1.h"
 
-#define TASK_STACK_SIZE 1024 * 8
+#define TASK_STACK_SIZE (1024 * 8)
 #define TASK_PRIO 25
+#define MIN_LUX 20
+#define MAX_HUM 70
+#define MAX_TEMP 35
+#define TASK_DELAY_1S 1000000
 
 static void ExampleTask(void)
 {
@@ -31,8 +35,8 @@ static void ExampleTask(void)
 
     ret = E53IA1Init();
     if (ret != 0) {
-       printf("E53_IA1 Init failed!\r\n");
-       return;
+        printf("E53_IA1 Init failed!\r\n");
+        return;
     }
 
     while (1) {
@@ -49,18 +53,18 @@ static void ExampleTask(void)
         printf("\r\n******************************Humidity is  %.2f\r\n", data.Humidity);
         printf("\r\n******************************Temperature is  %.2f\r\n", data.Temperature);
 
-        if ((int)data.Lux < 20) {
+        if ((int)data.Lux < MIN_LUX) {
             LightStatusSet(ON);
         } else {
             LightStatusSet(OFF);
         }
 
-        if (((int)data.Humidity > 70) | ((int)data.Temperature > 35)) {
+        if (((int)data.Humidity > MAX_HUM) | ((int)data.Temperature > MAX_TEMP)) {
             MotorStatusSet(ON);
         } else {
             MotorStatusSet(OFF);
         }
-        usleep(1000000);
+        usleep(TASK_DELAY_1S);
     }
 }
 

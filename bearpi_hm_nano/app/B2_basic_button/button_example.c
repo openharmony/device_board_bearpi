@@ -29,7 +29,7 @@
  * @brief Callback for F1 key
  *
  */
-static void F1Pressed(char* arg)
+static void F1Pressed(char *arg)
 {
     (void)arg;
     IoTGpioSetOutputVal(LED_GPIO, 1);
@@ -39,7 +39,7 @@ static void F1Pressed(char* arg)
  * @brief Callback for F2 key
  *
  */
-static void F2Pressed(char* arg)
+static void F2Pressed(char *arg)
 {
     (void)arg;
     IoTGpioSetOutputVal(LED_GPIO, 0);

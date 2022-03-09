@@ -69,41 +69,41 @@ osStatus_t osSemaphoreAcquire(osSemaphoreId_t semaphore_id,uint32_t timeout)
 void Semaphore1Thread(void)
 {
     while (1) {
-        //release Semaphores twice so that Semaphore2Thread and Semaphore3Thread can execute synchronously
+        // release Semaphores twice so that Semaphore2Thread and Semaphore3Thread can execute synchronously
         osSemaphoreRelease(g_semaphoreId);
 
-        //if the Semaphore is released only once, Semaphore2Thread and Semaphore3Thread will run alternately.
+        // if the Semaphore is released only once, Semaphore2Thread and Semaphore3Thread will run alternately.
         osSemaphoreRelease(g_semaphoreId);
 
         printf("Semaphore1Thread Release  Semap \n");
-        osDelay(100);
+        osDelay(THREAD_DELAY_1S);
     }
 }
 void Semaphore2Thread(void)
 {
     while (1) {
-        //wait Semaphore
+        // wait Semaphore
         osSemaphoreAcquire(g_semaphoreId, osWaitForever);
 
         printf("Semaphore2Thread get Semap \n");
-        osDelay(1);
+        osDelay(THREAD_DELAY_10MS);
     }
 }
 
 void Semaphore3Thread(void)
 {
     while (1) {
-        //wait Semaphore
+        // wait Semaphore
         osSemaphoreAcquire(g_semaphoreId, osWaitForever);
 
         printf("Semaphore3Thread get Semap \n");
-        osDelay(1);
+        osDelay(THREAD_DELAY_10MS);
     }
 }
 
 /**
  * @brief Main Entry of the Semaphore Example
- * 
+ *
  */
 void SemaphoreExample(void)
 {
@@ -113,8 +113,8 @@ void SemaphoreExample(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
-    attr.priority = 24;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
     attr.name = "Semaphore1Thread";
     if (osThreadNew((osThreadFunc_t)Semaphore1Thread, NULL, &attr) == NULL) {
@@ -131,7 +131,7 @@ void SemaphoreExample(void)
         printf("Failed to create Semaphore3Thread!\n");
     }
 
-    g_semaphoreId = osSemaphoreNew(4, 0, NULL);
+    g_semaphoreId = osSemaphoreNew(SEM_MAX_COUNT, 0, NULL);
     if (g_semaphoreId == NULL) {
         printf("Failed to create Semaphore!\n");
     }

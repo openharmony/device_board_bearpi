@@ -80,110 +80,54 @@ WifiErrorCode GetStationList(StationInfo* result, unsigned int* size)
     * `OnHotspotStaJoinHandler` 用于绑定STA站点加入事件，当有新的STA站点加入时，该回调函数会创建 `HotspotStaJoinTask`，在该任务中会调用 `GetStationList` 函数获取当前接入到该AP的所有STA站点信息，并打印出每个STA站点的MAC地址。
 2. 调用 `SetHotspotConfig` 接口，设置指定的热点配置。
 3. 调用 `EnableHotspot` 接口，使能 Wifi AP 模式。
-4. 调用 `IsHotspotActive` 接口，检查AP热点模式是否启用。
-5. 调用 `netifapi_netif_set_addr` 函数设置网卡信息。
-6. 调用 `netifapi_dhcps_start` 函数启动dhcp服务。
+
     
 ```c
 static BOOL WifiAPTask(void)
 {
-//延时2S便于查看日志
-    osDelay(200);
+    //延时2S便于查看日志
+    osDelay(TASK_DELAY_2S);
 
     //注册wifi事件的回调函数
     g_wifiEventHandler.OnHotspotStaJoin = OnHotspotStaJoinHandler;
     g_wifiEventHandler.OnHotspotStaLeave = OnHotspotStaLeaveHandler;
     g_wifiEventHandler.OnHotspotStateChanged = OnHotspotStateChangedHandler;
     error = RegisterWifiEvent(&g_wifiEventHandler);
-    if (error != WIFI_SUCCESS)
-    {
-        printf("RegisterWifiEvent failed, error = %d.\r\n",error);
+    if (error != WIFI_SUCCESS) {
+        printf("RegisterWifiEvent failed, error = %d.\r\n", error);
         return -1;
     }
     printf("RegisterWifiEvent succeed!\r\n");
         //检查热点模式是否使能
-    if (IsHotspotActive() == WIFI_HOTSPOT_ACTIVE)
-    {
+    if (IsHotspotActive() == WIFI_HOTSPOT_ACTIVE) {
         printf("Wifi station is  actived.\r\n");
         return -1;
     }
     //设置指定的热点配置
-    HotspotConfig config = {0};
+    HotspotConfig config = { 0 };
 
-    strcpy(config.ssid, AP_SSID);
-    strcpy(config.preSharedKey, AP_PSK);
+    strcpy_s(config.ssid, strlen(AP_SSID) + 1, AP_SSID);
+    strcpy_s(config.preSharedKey, strlen(AP_PSK) + 1, AP_PSK);
     config.securityType = WIFI_SEC_TYPE_PSK;
     config.band = HOTSPOT_BAND_TYPE_2G;
-    config.channelNum = 7;
+    config.channelNum = CHANNEL_NUM;
 
     error = SetHotspotConfig(&config);
-    if (error != WIFI_SUCCESS)
-    {
+    if (error != WIFI_SUCCESS) {
         printf("SetHotspotConfig failed, error = %d.\r\n", error);
         return -1;
     }
     printf("SetHotspotConfig succeed!\r\n");
 
     //启动wifi热点模式
-    error = EnableHotspot(); 
-    if (error != WIFI_SUCCESS)
-    {
+    error = EnableHotspot();
+    if (error != WIFI_SUCCESS) {
         printf("EnableHotspot failed, error = %d.\r\n", error);
         return -1;
     }
     printf("EnableHotspot succeed!\r\n");
 
-    /****************以下为UDP服务器代码,默认IP:192.168.5.1***************/
-	//在sock_fd 进行监听
-    int sock_fd;
-    //服务端地址信息
-	struct sockaddr_in server_sock;
-
-    //创建socket
-	if ((sock_fd = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
-	{
-		perror("socket is error.\r\n");
-		return -1;
-	}
-
-	bzero(&server_sock, sizeof(server_sock));
-	server_sock.sin_family = AF_INET;
-	server_sock.sin_addr.s_addr = htonl(INADDR_ANY);
-	server_sock.sin_port = htons(8888);
-
-	//调用bind函数绑定socket和地址
-	if (bind(sock_fd, (struct sockaddr *)&server_sock, sizeof(struct sockaddr)) == -1)
-	{
-		perror("bind is error.\r\n");
-		return -1;
-	}
-
-    int ret;
-    char recvBuf[512] = {0};
-    //客户端地址信息
-    struct sockaddr_in client_addr;
-    int size_client_addr= sizeof(struct sockaddr_in);
-    while (1)
-    {
-        
-        printf("Waiting to receive data...\r\n");
-        memset(recvBuf, 0, sizeof(recvBuf));
-        ret = recvfrom(sock_fd, recvBuf, sizeof(recvBuf), 0, (struct sockaddr*)&client_addr,(socklen_t*)&size_client_addr);
-        if(ret < 0)
-        {
-            printf("UDP server receive failed!\r\n");
-            return -1;
-        }
-        printf("receive %d bytes of data from ipaddr = %s, port = %d.\r\n", ret, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-        printf("data is %s\r\n",recvBuf);
-        ret = sendto(sock_fd, recvBuf, strlen(recvBuf), 0, (struct sockaddr *)&client_addr, sizeof(client_addr));
-        if (ret < 0)
-        {
-            printf("UDP server send failed!\r\n");
-            return -1;
-        }
-    }
-    /*********************END********************/
+    StartUdpServer();
 }
 ```
 

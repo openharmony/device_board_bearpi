@@ -17,11 +17,25 @@
 #define __E53_SC1_H__
 
 #define BH1750_ADDR 0x23
+#define BH1750_SEND_DATA_LEN 2
+#define BH1750_RECV_DATA_LEN 2
+#define BH1750_READ_DELAY_US 180000
+#define BH1750_COEFFICIENT_LUX 1.2
+#define DATA_WIDTH_8_BIT         8 // 8 bit
 
-typedef enum
-{
-	OFF = 0,
-	ON
+#define E53_SC1_LIGHT_GPIO 7
+#define E53_SC1_I2C1_SDA_GPIO 0
+#define E53_SC1_I2C1_SCL_GPIO 1
+#define WIFI_IOT_IO_FUNC_GPIO_0_I2C1_SDA 6
+#define WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL 6
+#define WIFI_IOT_IO_FUNC_GPIO_7_GPIO 0
+
+#define WIFI_IOT_I2C_IDX_1 1
+#define WIFI_IOT_I2C_BAUDRATE 400000
+
+typedef enum {
+    OFF = 0,
+    ON
 } E53SC1Status;
 
 int E53SC1Init(void);

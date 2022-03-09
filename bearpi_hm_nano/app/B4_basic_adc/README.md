@@ -45,12 +45,12 @@ static float GetVoltage(void)
     unsigned int ret;
     unsigned short data;
 
-    ret = IoTAdcRead(5, &data, IOT_ADC_EQU_MODEL_8, IOT_ADC_CUR_BAIS_DEFAULT, 0xff);
+    ret = IoTAdcRead(ADC_CHANNEL, &data, IOT_ADC_EQU_MODEL_8, IOT_ADC_CUR_BAIS_DEFAULT, 0xff);
     if (ret != IOT_SUCCESS) {
         printf("ADC Read Fail\n");
     }
 
-    return (float)data * 1.8 * 4 / 4096.0;
+    return (float)data * ADC_VREF_VOL * ADC_COEFFICIENT / ADC_RATIO;
 }
 ```
 

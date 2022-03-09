@@ -24,6 +24,12 @@
 #include "ohos_init.h"
 
 #define LED_GPIO 2
+#define THREAD_STACK_SIZE (1024 * 4)
+#define THREAD_PRIO 25
+
+#define PWM_CHANGE_TIMES 100
+#define PWM_FREQ 40000
+#define PWM_DELAY_10US 10
 
 /**
  * @brief pwm task output PWM with different duty cycle
@@ -46,10 +52,10 @@ static void PwmTask(void)
     IoTPwmInit(LED_GPIO);
 
     while (1) {
-        for (i = 0; i < 100; i++) {
+        for (i = 0; i < PWM_CHANGE_TIMES; i++) {
             // output PWM with different duty cycle
-            IoTPwmStart(LED_GPIO, i, 40000);
-            usleep(10);
+            IoTPwmStart(LED_GPIO, i, PWM_FREQ);
+            usleep(PWM_DELAY_10US);
         }
         i = 0;
     }
@@ -68,8 +74,8 @@ static void PwmExampleEntry(void)
     attr.cb_mem = NULL;
     attr.cb_size = 0U;
     attr.stack_mem = NULL;
-    attr.stack_size = 1024 * 4;
-    attr.priority = 25;
+    attr.stack_size = THREAD_STACK_SIZE;
+    attr.priority = THREAD_PRIO;
 
     if (osThreadNew((osThreadFunc_t)PwmTask, NULL, &attr) == NULL) {
         printf("Failed to create PwmTask!\n");

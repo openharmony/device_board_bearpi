@@ -51,8 +51,7 @@
 
 
 ///< UP means the device send data to the cloud
-typedef enum
-{
+typedef enum {
     EN_OC_MQTT_PROFILE_MSG_TYPE_UP_MSGUP = 0,            ///< DEVICE REPORT MESSAG DIRECTLY
     EN_OC_MQTT_PROFILE_MSG_TYPE_UP_PROPERTYREPORT,       ///< DEVICE REPORT PROPERTY
     EN_OC_MQTT_PROFILE_MSG_TYPE_UP_SUBPROPERTYREPORT,    ///< GATWAY REPORT SUBDEVICEPROPERTY
@@ -64,8 +63,7 @@ typedef enum
 
 
 ///< DOWN means the cloud send data to the device
-typedef enum
-{
+typedef enum {
     EN_OC_MQTT_PROFILE_MSG_TYPE_DOWN_MSGDOWN = 0,        ///< THIS IS THE MESSAGE DOWN
     EN_OC_MQTT_PROFILE_MSG_TYPE_DOWN_COMMANDS,           ///< THIS IS THE PLATFORM COMMANDS
     EN_OC_MQTT_PROFILE_MSG_TYPE_DOWN_PROPERTYSET,        ///< THIS IS THE PLATFORM SET PROPERTY
@@ -76,8 +74,7 @@ typedef enum
 
 
 ////< enum all the data type for the oc profile
-typedef enum
-{
+typedef enum {
     EN_OC_MQTT_PROFILE_VALUE_INT = 0,
     EN_OC_MQTT_PROFILE_VALUE_LONG,
     EN_OC_MQTT_PROFILE_VALUE_FLOAT,
@@ -85,19 +82,14 @@ typedef enum
     EN_OC_MQTT_PROFILE_VALUE_LAST,
 }en_oc_profile_data_t;
 
-
-
-typedef struct
-{
-    void                 *nxt;   ///< ponit to the next key
-    char                 *key;
+typedef struct {
+    void *nxt;   ///< ponit to the next key
+    char *key;
     en_oc_profile_data_t  type;
-    void                 *value;
+    void *value;
 }oc_mqtt_profile_kv_t;
 
-
-typedef struct
-{
+typedef struct {
     en_oc_mqtt_profile_msg_type_down_t type;       ///< defined as en_oc_mqtt_profile_msg_type_down_t
     char *request_id;                              ///< get from the topic, NULL if not supplied
     void *msg;                                     ///< the send from the cloud platform
@@ -114,9 +106,7 @@ typedef struct
  * */
 typedef int (*fn_oc_mqtt_profile_rcvdeal)(oc_mqtt_profile_msgrcv_t *payload);
 
-
-typedef struct
-{
+typedef struct {
     char *device_id;   ///< you could specify it,if NULL,then use the device_id which used to connect
     char *name;        ///< message name, could be NULL
     char *id;          ///< message id, could be NULL
@@ -125,56 +115,50 @@ typedef struct
 }oc_mqtt_profile_msgup_t;
 
 /** @brief enum all the qos supported for the application */
-typedef enum
-{
+typedef enum {
     en_mqtt_al_qos_0 = 0,     ///< mqtt QOS 0
     en_mqtt_al_qos_1,         ///< mqtt QOS 1
     en_mqtt_al_qos_2,         ///< mqtt QOS 2
     en_mqtt_al_qos_err
 }en_mqtt_al_qos_t;
 
-typedef enum
-{
-    en_oc_mqtt_err_ok          = 0,      ///< this means the status ok
-    en_oc_mqtt_err_parafmt,              ///< this means the parameter err format
-    en_oc_mqtt_err_network,              ///< this means the network wrong status
-    en_oc_mqtt_err_conversion,           ///< this means the mqtt version err
-    en_oc_mqtt_err_conclientid,          ///< this means the client id is err
-    en_oc_mqtt_err_conserver,            ///< this means the server refused the service for some reason(likely the id and pwd)
-    en_oc_mqtt_err_conuserpwd,           ///< bad user name or pwd
-    en_oc_mqtt_err_conclient,            ///< the client id /user/pwd is right, but does not allowed
-    en_oc_mqtt_err_subscribe,            ///< this means subscribe the topic failed
-    en_oc_mqtt_err_unsubscribe,          ///< this means un-subscribe failed
-    en_oc_mqtt_err_publish,              ///< this means publish the topic failed
-    en_oc_mqtt_err_configured,           ///< this means we has configured, please deconfigured it and then do configure again
-    en_oc_mqtt_err_noconfigured,         ///< this means we have not configure it yet,so could not connect
-    en_oc_mqtt_err_noconected,           ///< this means the connection has not been built, so you could not send data
-    en_oc_mqtt_err_gethubaddrtimeout,    ///< this means get the hub address timeout
-    en_oc_mqtt_err_sysmem,               ///< this means the system memory is not enough
-    en_oc_mqtt_err_system,               ///< this means that the system porting may have some problem,maybe not install yet
+typedef enum {
+    en_oc_mqtt_err_ok = 0,            ///< means the status ok
+    en_oc_mqtt_err_parafmt,           ///< means the parameter err format
+    en_oc_mqtt_err_network,           ///< means the network wrong status
+    en_oc_mqtt_err_conversion,        ///< means the mqtt version err
+    en_oc_mqtt_err_conclientid,       ///< means the client id is err
+    en_oc_mqtt_err_conserver,         ///< means the server refused the service for some reason(likely the id and pwd)
+    en_oc_mqtt_err_conuserpwd,        ///< bad user name or pwd
+    en_oc_mqtt_err_conclient,         ///< the client id /user/pwd is right, but does not allowed
+    en_oc_mqtt_err_subscribe,         ///< means subscribe the topic failed
+    en_oc_mqtt_err_unsubscribe,       ///< means un-subscribe failed
+    en_oc_mqtt_err_publish,           ///< means publish the topic failed
+    en_oc_mqtt_err_configured,        ///< means we has configured, please deconfigured it and then do configure again
+    en_oc_mqtt_err_noconfigured,      ///< means we have not configure it yet,so could not connect
+    en_oc_mqtt_err_noconected,        ///< means the connection has not been built, so you could not send data
+    en_oc_mqtt_err_gethubaddrtimeout, ///< means get the hub address timeout
+    en_oc_mqtt_err_sysmem,            ///< means the system memory is not enough
+    en_oc_mqtt_err_system,            ///< means that the system porting may have some problem,maybe not install yet
     en_oc_mqtt_err_last,
 }en_oc_mqtt_err_code_t;
 
-
-struct bp_oc_info
-{
+struct bp_oc_info {
     char client_id[OC_CLIENT_ID_LEN];
     char username[OC_USERNAME_LEN];
-
     char password[OC_PASSWORD_LEN];
-
-
     char user_device_id_flg;
 };
 typedef struct bp_oc_info *bp_oc_info_t;
 
 int oc_mqtt_init(void);
 
-void device_info_init(char *client_id, char * username, char *password);
+void device_info_init(char *client_id, char *username, char *password);
 
-void oc_set_cmd_rsp_cb(void (*cmd_rsp_cb)(uint8_t *recv_data, uint32_t recv_size, uint8_t **resp_data, uint32_t *resp_size));
+void oc_set_cmd_rsp_cb(void (*cmd_rsp_cb)(uint8_t *recv_data, uint32_t recv_size,
+    uint8_t **resp_data, uint32_t *resp_size));
 
-int oc_mqtt_publish(char  *topic,uint8_t *msg,int msg_len,int qos);
+int oc_mqtt_publish(char *topic, uint8_t *msg, int msg_len, int qos);
 /**
  * @brief: use this function to send data to the platform without profile decode
  *
@@ -185,15 +169,13 @@ int oc_mqtt_publish(char  *topic,uint8_t *msg,int msg_len,int qos);
  * @return :defined as en_oc_mqtt_err_code_t
  *
  * */
-int oc_mqtt_profile_msgup(char *deviceid,oc_mqtt_profile_msgup_t *payload);
+int oc_mqtt_profile_msgup(char *deviceid, oc_mqtt_profile_msgup_t *payload);
 
-
-typedef struct
-{
-   void *nxt;
-   char *service_id;                         ///< the service id in the profile, which could not be NULL
-   char *event_time;                         ///< eventtime, which could be NULL means use the platform time
-   oc_mqtt_profile_kv_t *service_property;   ///< the property in the profile, which could not be NULL
+typedef struct {
+    void *nxt;
+    char *service_id;                         ///< the service id in the profile, which could not be NULL
+    char *event_time;                         ///< eventtime, which could be NULL means use the platform time
+    oc_mqtt_profile_kv_t *service_property;   ///< the property in the profile, which could not be NULL
 }oc_mqtt_profile_service_t;
 
 /**
@@ -206,13 +188,12 @@ typedef struct
  * @return :defined as en_oc_mqtt_err_code_t
  *
  * */
-int oc_mqtt_profile_propertyreport(char *deviceid,oc_mqtt_profile_service_t *payload);
+int oc_mqtt_profile_propertyreport(char *deviceid, oc_mqtt_profile_service_t *payload);
 
-typedef struct
-{
+typedef struct {
     void *nxt;                                                  ///< maybe much more
-    char                                *subdevice_id;          ///< the specified device, which could not be NULL
-    oc_mqtt_profile_service_t           *subdevice_property;    ///< the property of the specified device, which could not be NULL
+    char *subdevice_id;          ///< the specified device, which could not be NULL
+    oc_mqtt_profile_service_t *subdevice_property;    ///< the property of the specified device, which could not be NULL
 }oc_mqtt_profile_device_t;
 
 /**
@@ -225,14 +206,12 @@ typedef struct
  * @return :defined as en_oc_mqtt_err_code_t
  *
  * */
-int oc_mqtt_profile_gwpropertyreport(char *deviceid,oc_mqtt_profile_device_t *payload);
+int oc_mqtt_profile_gwpropertyreport(char *deviceid, oc_mqtt_profile_device_t *payload);
 
-
-typedef struct
-{
+typedef struct {
     int     ret_code;           ///< response code, 0 success while others failed
-    char   *ret_description;    ///< response description,maybe used when failed
-    char   *request_id;         ///< specified by the setproperty command
+    char *ret_description;    ///< response description,maybe used when failed
+    char *request_id;         ///< specified by the setproperty command
 }oc_mqtt_profile_propertysetresp_t;
 /**
  * @brief: use this function to send the response to the setproperty command
@@ -244,13 +223,11 @@ typedef struct
  * @return :defined as en_oc_mqtt_err_code_t
  *
  * */
-int oc_mqtt_profile_propertysetresp(char *deviceid,oc_mqtt_profile_propertysetresp_t *payload);
+int oc_mqtt_profile_propertysetresp(char *deviceid, oc_mqtt_profile_propertysetresp_t *payload);
 
-
-typedef struct
-{
+typedef struct {
     char *request_id;                              ///< specified by the getproperty command
-    oc_mqtt_profile_service_t  *services;          ///< defined as oc_mqtt_profile_service_t
+    oc_mqtt_profile_service_t *services;          ///< defined as oc_mqtt_profile_service_t
 }oc_mqtt_profile_propertygetresp_t;
 
 /**
@@ -263,16 +240,13 @@ typedef struct
  * @return :defined as en_oc_mqtt_err_code_t
  *
  * */
-int oc_mqtt_profile_propertygetresp(char *deviceid,oc_mqtt_profile_propertygetresp_t *payload);
+int oc_mqtt_profile_propertygetresp(char *deviceid, oc_mqtt_profile_propertygetresp_t *payload);
 
-
-typedef struct
-{
+typedef struct {
     int     ret_code;           ///< response code, 0 success while others failed
-    char   *ret_name;           ///< response description,maybe used when failed
-    char   *request_id;         ///< specified by the message command
-    oc_mqtt_profile_kv_t  *paras;///< the command paras
-
+    char *ret_name;           ///< response description,maybe used when failed
+    char *request_id;         ///< specified by the message command
+    oc_mqtt_profile_kv_t *paras;///< the command paras
 }oc_mqtt_profile_cmdresp_t;
 /**
  * @brief: use this function to send the response to the setproperty command
@@ -284,10 +258,6 @@ typedef struct
  * @return :defined as en_oc_mqtt_err_code_t
  *
  * */
-int oc_mqtt_profile_cmdresp(char *deviceid,oc_mqtt_profile_cmdresp_t *payload);
-
-
-
-
+int oc_mqtt_profile_cmdresp(char *deviceid, oc_mqtt_profile_cmdresp_t *payload);
 
 #endif /* LITEOS_LAB_IOT_LINK_OC_OC_MQTT_OC_MQTT_PROFILE_OC_MQTT_PROFILE_H_ */
