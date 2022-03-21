@@ -100,7 +100,7 @@ static BOOL WifiAPTask(void)
     printf("RegisterWifiEvent succeed!\r\n");
         //检查热点模式是否使能
     if (IsHotspotActive() == WIFI_HOTSPOT_ACTIVE) {
-        printf("Wifi station is  actived.\r\n");
+        printf("Wifi station is  active.\r\n");
         return -1;
     }
     //设置指定的热点配置
@@ -158,7 +158,7 @@ HotspotStateChanged:state is 1.
 
 EnableHotspot succeed!
 
-Wifi station is actived!
+Wifi station is active!
 
 +NOTICE:STA CONNECTED
 New Sta Join

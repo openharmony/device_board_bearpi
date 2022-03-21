@@ -129,7 +129,7 @@ static BOOL WifiStaTask(void)
     //轮询查找WiFi列表
     do {
         Scan();
-        WaitSacnResult();
+        WaitScanResult();
         error = GetScanInfoList(info, &size);
     } while (g_staScanSuccess != 1);
     //打印WiFi列表
@@ -207,7 +207,7 @@ static BOOL WifiStaTask(void)
 register wifi event succeed!
 
 +NOTICE:SCANFINISH
-WaitSacnResult:wait success[1]s
+WaitScanResult:wait success[1]s
 
 
 Select:  2 wireless, Waiting...

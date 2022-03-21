@@ -34,7 +34,7 @@
 #define DHCP_DELAY 100
 
 static int WiFiInit(void);
-static void WaitSacnResult(void);
+static void WaitScanResult(void);
 static int WaitConnectResult(void);
 static void OnWifiScanStateChangedHandler(int state, int size);
 static void OnWifiConnectionChangedHandler(int state, WifiLinkedInfo *info);
@@ -94,7 +94,7 @@ static BOOL WifiStaTask(void)
     // 轮询查找WiFi列表
     do {
         Scan();
-        WaitSacnResult();
+        WaitScanResult();
         error = GetScanInfoList(info, &size);
     } while (g_staScanSuccess != 1);
     // 打印WiFi列表
@@ -158,7 +158,7 @@ int WiFiInit(void)
     }
     // 判断WIFI是否激活
     if (IsWifiActive() == 0) {
-        printf("Wifi station is not actived.\r\n");
+        printf("Wifi station is not active.\r\n");
         return -1;
     }
     return 0;
@@ -207,19 +207,19 @@ static void OnHotspotStateChangedHandler(int state)
     return;
 }
 
-static void WaitSacnResult(void)
+static void WaitScanResult(void)
 {
     int scanTimeout = DEF_TIMEOUT;
     while (scanTimeout > 0) {
         sleep(ONE_SECOND);
         scanTimeout--;
         if (g_staScanSuccess == 1) {
-            printf("WaitSacnResult:wait success[%d]s\n", (DEF_TIMEOUT - scanTimeout));
+            printf("WaitScanResult:wait success[%d]s\n", (DEF_TIMEOUT - scanTimeout));
             break;
         }
     }
     if (scanTimeout <= 0) {
-        printf("WaitSacnResult:timeout!\n");
+        printf("WaitScanResult:timeout!\n");
     }
 }
 
