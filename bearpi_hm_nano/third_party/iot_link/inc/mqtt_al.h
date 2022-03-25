@@ -166,7 +166,7 @@ typedef struct {
     en_mqtt_al_connect_state(*check_status) (void *handle);
 }mqtt_al_op_t;
 
-//////////////////////API USED FOR THE MQTT APPLICAITON/////////////////////////
+//////////////////////API USED FOR THE MQTT APPLICATION/////////////////////////
 
 /**
  * @brief maybe the mqtt lib need do some initialize

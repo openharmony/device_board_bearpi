@@ -278,7 +278,7 @@ int MPU6050ReadID(void)
     unsigned char Re = 0;
     MPU6050ReadData(MPU6050_RA_WHO_AM_I, &Re, 1); // 读器件地址
     if (Re != 0x68) {
-        printf("MPU6050 dectected error!\r\n");
+        printf("MPU6050 detected error!\r\n");
         return -1;
     } else {
         return 0;

@@ -1,13 +1,13 @@
 ### 资料导航
 | No | 类别 | 路径  |
 | :----: | ---- |  ------------------------------------------------------------ |
-| 1    | 快速上手教程 |  [docs/docs/quick-start](docs/docs/quick-start/BearPi-HM_Nano十分钟上手.md) |
+| 1    | 快速上手教程 |  [docs/quick-start](docs/quick-start/BearPi-HM_Nano十分钟上手.md) |
 | 2    | 案例代码列表 |  [app](app/README.md) |
 | 3    | 视频学习地址 |  [B站](https://www.bilibili.com/video/BV1tv411b7SA?p=1) |
 
 ## 一、BearPi-HM Nano 开发板介绍
 
-小熊派·季[（BearPi-HM Nano）](https://item.taobao.com/item.htm?id=633296694816)是一款由小熊派专为OpenHarmony系统打造的开发板，如下图所示
+小熊派·季[（BearPi-HM Nano）](https://item.taobao.com/item.htm?id=633296694816)是一款由小熊派专为OpenHarmony系统打造的开发板，如下图所示。
 
 * 采用IoTCluB的E53接口标准，可接入所有的[E53案例扩展板](https://shop336827451.taobao.com/category-1488778768.htm)。
 * 主控为WiFi SoC Hi3861，160MHz主频，SRAM 352KB、ROM 288KB、2M Flash。
