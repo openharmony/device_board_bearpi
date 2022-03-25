@@ -35,7 +35,7 @@ typedef struct {
 typedef enum {
     HEADER,
     TYPE_LENGTH,
-    PALOAD_LENGTH,
+    PAYLOAD_LENGTH,
     TYPE_CODE,
     TYPE_PAYLOAD
 }I2CMsgNum;

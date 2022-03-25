@@ -83,7 +83,7 @@ typedef enum {
 }en_oc_profile_data_t;
 
 typedef struct {
-    void *nxt;   ///< ponit to the next key
+    void *nxt;   ///< point to the next key
     char *key;
     en_oc_profile_data_t  type;
     void *value;

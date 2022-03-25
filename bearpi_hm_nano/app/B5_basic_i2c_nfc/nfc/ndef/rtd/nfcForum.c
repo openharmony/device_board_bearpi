@@ -24,7 +24,7 @@ uint8_t composeRtdText(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8
     memcpy_s(&I2CMsg[TYPE_PAYLOAD], payLoadLen, &ndefRecord->type.typePayload.text, payLoadLen);
 
     ndefRecord->payloadLength = ndef->rtdPayloadlength + payLoadLen; // added the typePayload
-    I2CMsg[PALOAD_LENGTH] = ndefRecord->payloadLength;
+    I2CMsg[PAYLOAD_LENGTH] = ndefRecord->payloadLength;
     return TEXT_RECORD_LEN;
 }
 
@@ -37,7 +37,7 @@ uint8_t composeRtdUri(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8_
     memcpy_s(&I2CMsg[TYPE_PAYLOAD], payLoadLen, &ndefRecord->type.typePayload.uri, payLoadLen);
 
     ndefRecord->payloadLength = ndef->rtdPayloadlength + payLoadLen; // added the typePayload
-    I2CMsg[PALOAD_LENGTH] = ndefRecord->payloadLength;
+    I2CMsg[PAYLOAD_LENGTH] = ndefRecord->payloadLength;
 
     return URI_RECORD_LEN;
 }
