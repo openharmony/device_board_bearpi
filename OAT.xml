@@ -65,7 +65,7 @@
 
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
-                <filteritem type="filename" name="*.iml|*.json|*.txt|*.png|*.gif|*.docx|*.jpg" desc="desc files"/>
+                <filteritem type="filename" name="*.hap|*.iml|*.json|*.txt|*.png|*.gif|*.docx|*.jpg" desc="desc files"/>
                 <filteritem type="filepath" name="target/.*" desc="Compile output files"/>
                 <filteritem type="filepath" name="out/.*" desc="Compile output files"/>
                 <filteritem type="filepath" name="log/.*" desc="log files"/>
@@ -83,12 +83,18 @@
             <filteritem type="filepath" name="bearpi_hm_nano/bearpi_hm_nano_build.sh" desc="sh file do not declare license"/>
             <filteritem type="filepath" name="bearpi_hm_nano/config/sdk.mk" desc="config file do not declare license"/>
             <filteritem type="filepath" name="bearpi_hm_nano/config/usr_config.mk" desc="config file do not declare license"/>
+            <filteritem type="filepath" name="bearpi_hm_micro/tools/download_img/kernel/.keep" desc=""/>
+            <filteritem type="filepath" name="bearpi_hm_micro/tools/download_img/flashlayout/bearpi-hm_micro.tsv" desc=""/>
+            <filteritem type="filepath" name="bearpi_hm_micro/liteos_a/config.gni" desc=""/>
             </filefilter>
 	    <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
 		    <filteritem type="filename" name="fstab" desc="This type configuration file can not declare copyright"/>
             <filteritem type="filepath" name="bearpi_hm_nano/bearpi_hm_nano_build.sh" desc="Describe the reason for filtering scan results"/>
             <filteritem type="filepath" name="bearpi_hm_nano/config/sdk.mk" desc="Describe the reason for filtering scan results"/>
             <filteritem type="filepath" name="bearpi_hm_nano/config/usr_config.mk" desc="Describe the reason for filtering scan results"/>
+            <filteritem type="filepath" name="bearpi_hm_micro/tools/download_img/kernel/.keep" desc=""/>
+            <filteritem type="filepath" name="bearpi_hm_micro/tools/download_img/flashlayout/bearpi-hm_micro.tsv" desc=""/>
+            <filteritem type="filepath" name="bearpi_hm_micro/liteos_a/config.gni" desc=""/>
             </filefilter>
             <filefilter name="licenseFileNamePolicyFilter" desc="Filters for LICENSE file policies">
             </filefilter>
@@ -97,6 +103,8 @@
             <filefilter name="readmeOpenSourcefileNamePolicyFilter" desc="Filters for README.OpenSource file policies">
             </filefilter>
             <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
+            <filteritem type="filename" name="*.stm32" desc="desc files"/>
+            <filteritem type="filepath" name="bearpi_hm_micro/tools/hap_tools/bm" desc="desc files"/>
             </filefilter>
         </filefilterlist>
     </oatconfig>
