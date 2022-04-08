@@ -1,0 +1,72 @@
+{
+    "name": "@ohos/bearpi_hm_micro_sample",
+    "version": "3.1",
+    "description": "bearpi_hm_micro samples.",
+    "homePage": "https://gitee.com/openharmony",
+    "license": "Apache License 2.0",
+    "repository": "",
+    "domain": "os",
+    "language": "",
+    "publishAs": "",
+    "private": false,
+    "scripts": {},
+    "envs": [],
+    "dirs": [
+      "device/board/bearpi/bearpi_hm_micro/app/launcher",
+      "device/board/bearpi/bearpi_hm_micro/app/setting",
+      "device/board/bearpi/bearpi_hm_micro/app/screensaver",
+      "device/board/bearpi/bearpi_hm_micro/app/communication"
+    ],
+    "component": {
+      "name": "bearpi_hm_micro_sample",
+      "subsystem": "bearpi_hm_micro_sample",
+      "syscap": [
+        ""
+      ],
+      "features": [],
+      "adapted_system_type": [
+        "liteos_a"
+      ],
+      "rom": "22KB",
+      "ram": "~10KB",
+      "output": [
+        "launcher.so",
+        "setting.so",
+        "screensaver.so"
+      ],
+      "deps": {
+        "components": [
+            "aafwk_lite",
+            "appexecfwk_lite",
+            "surface",
+            "ui",
+            "graphic_utils",
+            "kv_store",
+            "syspara_lite",
+            "permission",
+            "ipc_lite",
+            "samgr_lite",
+            "utils_base"
+        ],
+        "third_party": [
+            "bounds_checking_function",
+            "wpa_supplicant",
+            "cjson",
+            "giflib",
+            "libjpeg",
+            "libpng"
+        ]
+      },
+      "build": {
+        "sub_component": [
+          "//device/board/bearpi/bearpi_hm_micro/app/launcher:launcher_hap",
+          "//device/board/bearpi/bearpi_hm_micro/app/setting:setting_hap",
+          "//device/board/bearpi/bearpi_hm_micro/app/screensaver:screensaver_hap",
+          "//device/board/bearpi/bearpi_hm_micro/app/communication:sample"
+        ],
+        "inner_kits": [],
+        "test": []
+      }
+    }
+  }
+  
