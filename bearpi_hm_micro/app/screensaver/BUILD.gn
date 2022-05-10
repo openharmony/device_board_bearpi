@@ -23,11 +23,11 @@ shared_library("screensaver") {
     "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
     "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
     "//foundation/communication/ipc_lite:liteipc_adapter",
+    "//foundation/distributeddatamgr/appdatamgr/frameworks/native/kv_store:kv_store",
     "//foundation/distributedschedule/samgr_lite/samgr:samgr",
     "//foundation/graphic/surface",
     "//foundation/graphic/ui:lite_ui",
     "//foundation/graphic/utils:lite_graphic_utils",
-    "//utils/native/lite/kv_store:kv_store",
   ]
 
   include_dirs = [
