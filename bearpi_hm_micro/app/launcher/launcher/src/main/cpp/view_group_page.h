@@ -38,7 +38,7 @@ public:
     void SetScale(double scale);
 
 protected:
-    void SetPosion(int16_t width, int16_t height, int16_t x = 0, int16_t y = 0);
+    void SetPosition(int16_t width, int16_t height, int16_t x = 0, int16_t y = 0);
     void SetStyle(Style sty);
     bool IsFull(int16_t& row, int16_t& col);
     void SetUpApp(AppInfo* pAppInfo);
