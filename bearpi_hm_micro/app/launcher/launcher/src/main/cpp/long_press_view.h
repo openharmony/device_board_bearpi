@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_LISTENTER_H
-#define OHOS_LISTENTER_H
+#ifndef OHOS_LONG_PRESS_VIEW_H
+#define OHOS_LONG_PRESS_VIEW_H
 
 #include "app_info.h"
 #include "view_group_page.h"
