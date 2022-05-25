@@ -144,7 +144,7 @@ public:
         nativeView_->UninstallApp(app);
         return true;
     }
-    // none install app used appmanage::InstallApp, this function is invailate
+    // none install app used appmanage::InstallApp, this function is invalid
 
     static bool InstallApp(AppInfo* app)
     {
