@@ -60,11 +60,11 @@ static void I2cTask(void)
 
     ret = storeText(NDEFFirstPos, (uint8_t *)TEXT);
     if (ret != 1) {
-        printf("NFC Write Data Falied :%d \n", ret);
+        printf("NFC Write Data Failed :%d \n", ret);
     }
     ret = storeUrihttp(NDEFLastPos, (uint8_t *)WEB);
     if (ret != 1) {
-        printf("NFC Write Data Falied :%d \n", ret);
+        printf("NFC Write Data Failed :%d \n", ret);
     }
     while (1) {
         printf("=======================================\n");
@@ -92,7 +92,7 @@ static void I2cExampleEntry(void)
     attr.priority = I2C_TASK_PRIO;
 
     if (osThreadNew((osThreadFunc_t)I2cTask, NULL, &attr) == NULL) {
-        printf("Falied to create I2cTask!\n");
+        printf("Failed to create I2cTask!\n");
     }
 }
 

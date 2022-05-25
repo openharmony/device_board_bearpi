@@ -101,12 +101,12 @@ unsigned int IoTI2cRead(unsigned int id, unsigned short deviceAddr, unsigned cha
 ret=storeText(NDEFFirstPos, (uint8_t *)TEXT);
 if(ret != 1)
 {
-    printf("NFC Write Data Falied :%d ",ret);
+    printf("NFC Write Data Failed :%d ",ret);
 }
 ret=storeUrihttp(NDEFLastPos, (uint8_t *)WEB);
 if(ret != 1)
 {
-    printf("NFC Write Data Falied :%d ",ret);
+    printf("NFC Write Data Failed :%d ",ret);
 }
 ```
 

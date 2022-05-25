@@ -205,7 +205,7 @@ static void Wifi_AP_Demo(void)
     attr.priority = TASK_PRIO;
 
     if (osThreadNew((osThreadFunc_t)WifiAPTask, NULL, &attr) == NULL) {
-        printf("Falied to create WifiAPTask!\r\n");
+        printf("Failed to create WifiAPTask!\r\n");
     }
 }
 
