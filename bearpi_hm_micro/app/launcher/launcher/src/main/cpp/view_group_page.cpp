@@ -55,7 +55,7 @@ void ViewGroupPage::SetStyle(Style sty)
     viewGroup_->Invalidate();
 }
 
-void ViewGroupPage::SetPosion(int16_t width, int16_t height, int16_t x, int16_t y)
+void ViewGroupPage::SetPosition(int16_t width, int16_t height, int16_t x, int16_t y)
 {
     viewGroup_->SetPosition(x, y, width, height);
 }
