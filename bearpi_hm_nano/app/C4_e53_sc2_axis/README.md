@@ -91,7 +91,7 @@ static void ExampleTask(void)
 ## 编译调试
 
 ### 修改 BUILD.gn 文件
-修改`device\bearpi\bearpi_hm_nano\app`路径下 BUILD.gn 文件，指定 `e53_sc2_example` 参与编译。
+修改`device\board\bearpi\bearpi_hm_nano\app`路径下 BUILD.gn 文件，指定 `e53_sc2_example` 参与编译。
 ```r
 #"C1_e53_sf1_mq2:e53_sf1_example",
 #"C2_e53_ia1_temp_humi_pls:e53_ia1_example",

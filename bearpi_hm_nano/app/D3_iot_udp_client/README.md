@@ -103,7 +103,7 @@ static void UDPClientTask(void)
 
 ### 修改 BUILD.gn 文件
 
-修改 `device\bearpi\bearpi_hm_nano\app` 路径下 BUILD.gn 文件，指定 `udp_client` 参与编译。
+修改 `device\board\bearpi\bearpi_hm_nano\app` 路径下 BUILD.gn 文件，指定 `udp_client` 参与编译。
 ```r
 #"D1_iot_wifi_sta:wifi_sta",
 #"D2_iot_wifi_sta_connect:wifi_sta_connect",         
