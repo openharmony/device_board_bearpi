@@ -50,7 +50,7 @@ static void TimerExample(void)
 
     id1 = osTimerNew(Timer1Callback, osTimerPeriodic, NULL, NULL);
     if (id1 != NULL) {
-        // Hi3861 1U=10ms,100U=1S
+        // Hi3861 1U=10ms,100U=1s
         timerDelay = 100U;
 
         status = osTimerStart(id1, timerDelay);
@@ -61,7 +61,7 @@ static void TimerExample(void)
 
     id2 = osTimerNew(Timer2Callback, osTimerPeriodic, NULL, NULL);
     if (id2 != NULL) {
-        // Hi3861 1U=10ms,300U=3S
+        // Hi3861 1U=10ms,300U=3s
         timerDelay = 300U;
 
         status = osTimerStart(id2, timerDelay);
