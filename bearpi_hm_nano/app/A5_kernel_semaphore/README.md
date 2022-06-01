@@ -142,7 +142,7 @@ void SemaphoreExample(void)
 
 ### 修改 BUILD.gn 文件
 
-修改 `device\bearpi\bearpi_hm_nano\app`路径下 BUILD.gn 文件，指定 `semaphore_example` 参与编译。
+修改 `device\board\bearpi\bearpi_hm_nano\app`路径下 BUILD.gn 文件，指定 `semaphore_example` 参与编译。
 
 ```r
 #"A1_kernal_thread:thread_example",

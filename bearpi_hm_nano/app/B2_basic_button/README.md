@@ -137,7 +137,7 @@ static void ButtonExampleEntry(void)
 ### 修改 BUILD.gn 文件
 
 
-修改`device\bearpi\bearpi_hm_nano\app` 路径下 BUILD.gn 文件，指定 `button_example` 参与编译。
+修改`device\board\bearpi\bearpi_hm_nano\app` 路径下 BUILD.gn 文件，指定 `button_example` 参与编译。
 
 ```r
 #"B1_basic_led_blink:led_example",
