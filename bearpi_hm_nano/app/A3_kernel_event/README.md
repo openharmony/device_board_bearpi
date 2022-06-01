@@ -13,7 +13,7 @@ osEventFlagsId_t osEventFlagsNew(const osEventFlagsAttr_t *attr)
 **描述：**
 
 osEventFlagsNew函数创建了一个新的事件标志对象，用于跨线程发送事件，并返回事件标志对象标识符的指针，或者在出现错误时返回NULL。可以在RTOS启动(调用 osKernelStart)之前安全地调用该函数，但不能在内核初始化 (调用 osKernelInitialize)之前调用该函数。
-> **注意** :不能在中断服务调用该函数。
+> **注意** :不能在中断服务中调用该函数。
 
 
 **参数：**
@@ -28,16 +28,16 @@ osEventFlagsNew函数创建了一个新的事件标志对象，用于跨线程�
 uint32_t osEventFlagsSet(osEventFlagsId_t ef_id,uint32_t flags)
 ```
 **描述：**
-osEventFlagsSet函数在一个由参数ef_id指定的事件标记对象中设置由参数flags指定的事件标记。
+osEventFlagsSet函数在一个由参数ef_id指定的事件标志对象中设置由参数flags指定的事件标志。
 
-> **注意** :不能在中断服务调用该函数。
+> **注意** :不能在中断服务中调用该函数。
 
 
 **参数：**
 
 |参数名|描述|
 |:--|:------| 
-| ef_id | 事件标志由osEventFlagsNew获得的ID 。 |
+| ef_id | 由osEventFlagsNew获得的事件标志ID 。 |
 | flags | 指定设置的标志。 |
 
 ### osEventFlagsWait()
@@ -48,16 +48,16 @@ uint32_t osEventFlagsWait(osEventFlagsId_t ef_id,uint32_t flags,uint32_t options
 **描述：**
 osEventFlagsWait函数挂起当前运行线程，直到设置了由参数ef_id指定的事件对象中的任何或所有由参数flags指定的事件标志。当这些事件标志被设置，函数立即返回。否则，线程将被置于阻塞状态。
 
-> **注意** :如果参数timeout设置为0，可以从中断服务例程调用。
+> **注意** :如果参数timeout设置为0，可以在中断服务例程中调用。
 
 
 **参数：**
 
 |参数名|描述|
 |:--|:------| 
-| ef_id | 事件标志由osEventFlagsNew获得的ID。  |
+| ef_id | 由osEventFlagsNew获得的事件标志ID。  |
 | flags | 指定要等待的标志。 |
-| options | 指定标记选项。 |
+| options | 指定标志选项。 |
 | timeout | 超时时间，0表示不超时。 |
 
 
@@ -65,7 +65,7 @@ osEventFlagsWait函数挂起当前运行线程，直到设置了由参数ef_id�
 
 **主要代码分析**
 
-在EventExample函数中，通过osEventFlagsNew()函数创建了事件标记ID，EventReceiverThread()函数中通过osEventFlagsWait()函数一直将线程置于阻塞状态，等待事件标记。在EventSenderThread()函数中通过osEventFlagsSet()函数每隔1S设置的标志，实现任务间的同步。
+在EventExample函数中，通过osEventFlagsNew()函数创建了事件标志ID，EventReceiverThread()函数中通过osEventFlagsWait()函数一直将线程置于阻塞状态，等待从EventSenderThread()函数中通过osEventFlagsSet()函数每隔1s设置的标志，实现任务间的同步。
 
 ```c
 /**
@@ -145,12 +145,10 @@ static void EventExample(void)
 #"A5_kernel_semaphore:semaphore_example",
 #"A6_kernel_message:message_example",
 ```
-    
-
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，会每隔1S输出一次日志。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，会每隔1s输出一次日志。
 ```
 Receive Flags is 1
 Receive Flags is 1
