@@ -5,8 +5,7 @@
 本案例主要使用了以下API完成ADC采样的功能。
 ### IoTAdcRead()
 ```c
-unsigned int IoTAdcRead(unsigned int channel, unsigned short *data, IotAdcEquModelSel equModel,
-                     IotAdcCurBais curBais, unsigned short rstCnt);
+unsigned int IoTAdcRead(unsigned int channel, unsigned short *data, IotAdcEquModelSel equModel, IotAdcCurBais curBais, unsigned short rstCnt);
 ```
  **描述：**
 
@@ -18,15 +17,14 @@ unsigned int IoTAdcRead(unsigned int channel, unsigned short *data, IotAdcEquMod
 |参数名|描述|
 |:--|:------| 
 | channel | 表示ADC通道。  |
-| data |表示指向存储读取数据的地址的指针。 |
-| equModel | 表示平均算法的次数。 |
-| curBais | 表示模拟功率控制模式。 |
-| rstCnt | 指示从重置到转换开始的时间计数。一次计数等于334纳秒。值的范围必须从0到0xFF。|
-
+| data | 表示读取的ADC数据保存地址。 |
+| equModel | 表示平均算法模式。 |
+| curBais | 表示模拟电源控制。 |
+| rstCnt | 表示从配置采样到启动采样的延时时间计数，一次计数是334ns，其值需在0~0xFF0之间。|
 
 
 ## 硬件设计
-本案例将使用板载用户按键F1来模拟GPIO口电压的变化。通过查看芯片手册可知GPIO_11对应的是 ADC Channel 5 ,所以需要编写软件去读取ADC Channel 5的电压,程序设计时先将GPIO_11上拉，使GPIO_11的电压一直处于高电平，当按键按下时GPIO_11接地，此时GPIO_11的电压变为 0 V。
+本案例将使用板载用户按键F1来模拟GPIO口电压的变化。通过查看芯片手册可知GPIO_11对应的是 ADC Channel 5，所以需要编写软件去读取ADC Channel 5的电压，程序设计时先将GPIO_11上拉，使GPIO_11的电压一直处于高电平，当按键按下时GPIO_11接地，此时GPIO_11的电压变为 0 V。
 
 ![按键电路](../../docs/figures/B4_basic_adc/按键电路.png "按键电路")
 
@@ -34,7 +32,8 @@ unsigned int IoTAdcRead(unsigned int channel, unsigned short *data, IotAdcEquMod
 
 **主要代码分析**
  
-该函数通过使用AdcRead()函数来读取 `ADC_CHANNEL_5` 的数值存储在data中， `IOT_ADC_EQU_MODEL_8` 表示8次平均算法模式，`IOT_ADC_CUR_BAIS_DEFAULT` 表示默认的自动识别模式，最后通过 `data * 1.8 * 4 / 4096.0` 计算出实际的电压值。
+ ADC测试任务，主要的功能实现函数为GetVoltage()，
+该函数通过使用IoTAdcRead()函数来读取 ADC Channel 5 的数值并存储在data中， `IOT_ADC_EQU_MODEL_8` 表示8次平均算法模式，`IOT_ADC_CUR_BAIS_DEFAULT` 表示默认使用自动识别模式，最后通过算式 `data * 1.8 * 4 / 4096.0` 计算出实际的电压值。
 ```c
 /**
  * @brief get ADC sampling value and convert it to voltage
@@ -55,7 +54,6 @@ static float GetVoltage(void)
 ```
 
 
-
 ## 编译调试
 
 ### 修改 BUILD.gn 文件
@@ -70,14 +68,12 @@ static float GetVoltage(void)
 "B4_basic_adc:adc_example",
 #"B5_basic_i2c_nfc:i2c_example",
 # "B6_basic_uart:uart_example",
-```   
-
-    
+```
 
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，当F1按键未按下时采集到的电压为3.3V左右，当按键按下时，电压变为0.2V左右。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，当F1按键未按下时采集到的电压为3.3V左右，当按键按下时，电压变为0.2V左右。
 ```c
 =======================================
 *************ADC_example***********
@@ -100,4 +96,3 @@ vlt:0.248V
 =======================================
 vlt:0.244V
 ```
-
