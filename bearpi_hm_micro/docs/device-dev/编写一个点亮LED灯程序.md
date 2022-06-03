@@ -35,11 +35,11 @@
 
 2.  确定目录结构。
 
-    在device\soc\st\common\platform路径下新建led文件，并创建驱动文件led.c和编译构建文件BUILD.gn、Makefile
-    。
+    在device\soc\st\common\platform路径下新建led文件夹，并创建驱动文件led.c和编译构建文件BUILD.gn、Makefile。
+
     ```
     .
-    └── device        
+    └── device
         └── soc
             └── st
                 └── common
@@ -54,7 +54,7 @@
     在device\soc\st\stm32mp1xx\sdk_liteos\hdf_config路径下新建led文件夹，并创建驱动配置文件led_config.hcs。
     ```
     .
-    └── device        
+    └── device
         └── soc
             └── st
                 └── stm32mp1xx
@@ -359,17 +359,20 @@
 
 1.  <a name="li5479332115116"></a>确定目录结构。
 
-    开发者编写业务时，务必先在./applications/sample路径下新建一个目录（或一套目录结构），用于存放业务源码文件。
+    开发者编写业务时，务必先在./device/board/bearpi/bearpi\_hm\_micro/app路径下新建一个目录（或一套目录结构），用于存放业务源码文件。
 
-    例如：在app下新增业务my_led_app，其中my_led_app.c为业务代码，BUILD.gn为编译脚本，具体规划目录结构如下：
+    例如：在app下新增业务my\_led\_app，其中my\_led\_app.c为业务代码，BUILD.gn为编译脚本，具体规划目录结构如下：
 
     ```
     .
-    └── applications        
-        └── sample
-            │── my_led_app
-                │── my_led_app.c
-                └── BUILD.gn
+    └── device
+        └── board
+            └── bearpi
+                └── bearpi_hm_micro
+                    └── app
+                        │── my_led_app
+                            │── my_led_app.c
+                            └── BUILD.gn
 
     ```
 
@@ -464,7 +467,7 @@
 
 3.  编写将构建业务代码的BUILD.gn文件。
 
-    BUILD.gn文件由三部分内容（目标、源文件、头文件路径）构成，需由开发者完成填写。以my_led_app为例，需要创建./applications/sample/my_led_app/BUILD.gn，并完如下配置。
+    BUILD.gn文件由三部分内容（目标、源文件、头文件路径）构成，需由开发者完成填写。以my\_led\_app为例，需要创建./device/board/bearpi/bearpi_hm_micro/app/my\_led\_app/BUILD.gn，并完如下配置。
 
     ```
     import("//build/lite/config/component/lite_component.gni")
@@ -511,76 +514,24 @@
     -   deps 里面加入所依赖的库。
     -   然后将led_lib打包成 lite_component，命名为my_led_app组件。
 
- 
+4. 修改bundle.json配置文件
 
-4. 添加新组件
-
-    修改文件build/lite/components/applications.json，添加组件my_sample的配置，如下所示为applications.json文件片段，"##start##"和"##end##"之间为新增配置（"##start##"和"##end##"仅用来标识位置，添加完配置后删除这两行），可基于在[hello_world](编写一个hello_world程序.md)基础上在dirs里添加my_led_app路径。在targets里面添加my_led_app目标项。
+    修改文件./device/board/bearpi/bearpi_hm_micro/app/bundle.json，新增编译my\_led\_app条目，如下所示，"##start##"和"##end##"之间为新增条目（"##start##"和"##end##"仅用来标识位置，添加完配置后删除这两行）：
 
     ```
     {
-    "components": [
-        ##start##
-        {
-            "component": "my_sample",
-            "description": "my samples",
-            "optional": "true",
-            "dirs": [
-                "applications/sample/my_first_app",
-                "applications/sample/my_led_app"
-            ],
-            "targets": [
-                "//applications/sample/my_first_app:my_app",
-                "//applications/sample/my_led_app:my_led_app"
-            ],
-            "rom": "",
-            "ram": "",
-            "output": [],
-            "adapted_kernel": [ "liteos_a" ],
-            "features": [],
-            "deps": {
-            "components": [],
-            "third_party": [ ]
-            }
-        },
-        ##end##
-        {
-        "component": "camera_sample_communication",
-        "description": "Communication related samples.",
-        "optional": "true",
-        "dirs": [
-            "applications/sample/camera/communication"
+        "sub_component": [
+          "//device/board/bearpi/bearpi_hm_micro/app/launcher:launcher_hap",
+          "//device/board/bearpi/bearpi_hm_micro/app/setting:setting_hap",
+          "//device/board/bearpi/bearpi_hm_micro/app/screensaver:screensaver_hap",
+          "//device/board/bearpi/bearpi_hm_micro/app/communication:sample",
+          ##start##
+          "//device/board/bearpi/bearpi_hm_micro/app/my_led_app"
+          ##end##
+
         ],
-        "targets": [
-            "//applications/sample/camera/communication:sample"
-        ],
-        "rom": "",
-        "ram": "",
-        "output": [],
-        "adapted_kernel": [ "liteos_a" ],
-        "features": [],
-        "deps": {
-            "components": [],
-            "third_party": [ ]
-        }
-        },
+    }
     ```
-5. 修改单板配置文件
-
-    修改文件vendor/bearpi/bearpi_hm_micro/config.json，新增my_sample组件的条目，如下所示代码片段为applications子系统配置，"##start##"和"##end##"之间为新增条目（"##start##"和"##end##"仅用来标识位置，添加完配置后删除这两行）：
-
-    ```
-    {
-    "subsystem": "applications",
-        "components": [
-        ##start##
-          { "component": "my_sample", "features":[] },
-        ##end##
-          { "component": "bearpi_hm_micro_sample", "features":[] }
-        ]
-      },
-    ```
-
 
 ## 三、运行结果
 
