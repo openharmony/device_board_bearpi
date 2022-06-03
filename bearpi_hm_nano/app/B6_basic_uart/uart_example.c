@@ -67,6 +67,7 @@ static void UartTask(void)
         IoTUartWrite(WIFI_IOT_UART_IDX_1, (unsigned char *)data, strlen(data));
 
         // receive data through uart1
+        memset_s(uart_buff, sizeof(uart_buff), 0, sizeof(uart_buff));
         IoTUartRead(WIFI_IOT_UART_IDX_1, uart_buff_ptr, UART_BUFF_SIZE);
 
         printf("Uart1 read data:%s\n", uart_buff_ptr);
