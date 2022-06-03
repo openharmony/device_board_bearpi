@@ -42,18 +42,18 @@ typedef enum {
         0x22     urn:epc:
         0x23     urn:nfc:
      */
-}UriTypeE;
+} UriTypeE;
 
 typedef struct {
     char *body;
-    uint8_t  bodyLength;
+    uint8_t bodyLength;
     void *extraData; // herre should be stored specific URI msgs
-}RtdUriUserPayload;
+} RtdUriUserPayload;
 
 typedef struct {
-    UriTypeE            type;
-    RtdUriUserPayload   userPayload; // here should be stored specific URI msgs
-}RTDUriTypeStr;
+    UriTypeE type;
+    RtdUriUserPayload userPayload; // here should be stored specific URI msgs
+} RTDUriTypeStr;
 
 uint8_t addRtdUriRecord(const NDEFDataStr *ndef, RTDUriTypeStr *typeStr);
 

@@ -14,7 +14,7 @@
 typedef struct {
     uint8_t startByte;
     uint8_t payloadLength;
-}NDEFHeaderStr;
+} NDEFHeaderStr;
 
 #define BIT_MB (1<<7)
 #define BIT_ME (1<<6)
@@ -38,14 +38,14 @@ typedef enum {
     PAYLOAD_LENGTH,
     TYPE_CODE,
     TYPE_PAYLOAD
-}I2CMsgNum;
+} I2CMsgNum;
 
 typedef struct {
-    uint8_t     header;
-    uint8_t		typeLength;
-    uint8_t		payloadLength;
+    uint8_t header;
+    uint8_t typeLength;
+    uint8_t payloadLength;
     RTDTypeStr type;
-}NDEFRecordStr;
+} NDEFRecordStr;
 
 uint8_t composeRtdText(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8_t *I2CMsg);
 uint8_t composeRtdUri(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8_t *I2CMsg);
