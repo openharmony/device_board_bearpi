@@ -120,7 +120,7 @@ static BOOL WifiStaTask(void)
     // 启动DHCP
     if (g_lwip_netif) {
         dhcp_start(g_lwip_netif);
-        printf("begain to dhcp\r\n");
+        printf("begin to dhcp\r\n");
     }
     // 等待DHCP
     for (;;) {
@@ -171,7 +171,6 @@ static void OnWifiScanStateChangedHandler(int state, int size)
         g_ssid_count = size;
         g_staScanSuccess = 1;
     }
-    return;
 }
 
 static void OnWifiConnectionChangedHandler(int state, WifiLinkedInfo *info)
@@ -184,27 +183,23 @@ static void OnWifiConnectionChangedHandler(int state, WifiLinkedInfo *info)
     } else {
         printf("connect error,please check password\r\n");
     }
-    return;
 }
 
 static void OnHotspotStaJoinHandler(StationInfo *info)
 {
     (void)info;
     printf("STA join AP\n");
-    return;
 }
 
 static void OnHotspotStaLeaveHandler(StationInfo *info)
 {
     (void)info;
     printf("HotspotStaLeave:info is null.\n");
-    return;
 }
 
 static void OnHotspotStateChangedHandler(int state)
 {
     printf("HotspotStateChanged:state is %d.\n", state);
-    return;
 }
 
 static void WaitScanResult(void)
