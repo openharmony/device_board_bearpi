@@ -54,7 +54,7 @@ static WifiEvent g_wifiEventHandler = { 0 };
 WifiErrorCode error;
 
 
-static void StartUdpServer(void)
+static int StartUdpServer(void)
 {
     /****************以下为UDP服务器代码,默认IP:192.168.5.1***************/
     // 在sock_fd 进行监听
@@ -102,6 +102,8 @@ static void StartUdpServer(void)
             return -1;
         }
     }
+
+    return 0;
     /*********************END********************/
 }
 
@@ -150,6 +152,7 @@ static BOOL WifiAPTask(void)
     printf("EnableHotspot succeed!\r\n");
 
     StartUdpServer();
+    return 0;
 }
 
 static void OnHotspotStaJoinHandler(StationInfo *info)
@@ -164,7 +167,6 @@ static void OnHotspotStaJoinHandler(StationInfo *info)
         printf("HotspotStaJoin: macAddress=%s, reason=%d.\r\n", macAddress, info->disconnectedReason);
         g_apEnableSuccess++;
     }
-    return;
 }
 
 static void OnHotspotStaLeaveHandler(StationInfo *info)
@@ -179,7 +181,6 @@ static void OnHotspotStaLeaveHandler(StationInfo *info)
         printf("HotspotStaLeave: macAddress=%s, reason=%d.\r\n", macAddress, info->disconnectedReason);
         g_apEnableSuccess--;
     }
-    return;
 }
 
 static void OnHotspotStateChangedHandler(int state)
