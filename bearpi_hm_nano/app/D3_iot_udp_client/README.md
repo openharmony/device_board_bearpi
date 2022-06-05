@@ -1,5 +1,5 @@
 # BearPi-HM_Nano开发板WiFi编程开发——UDP客户端
-本示例将演示如何在BearPi-HM_Nano开发板上使用socket编程创建UDP客户端，就收客户端消息并回复固定消息。
+本示例将演示如何在BearPi-HM_Nano开发板上使用socket编程创建UDP客户端，向服务端发送固定消息并接收服务端返回的消息。
 
 
 ## socket API分析
@@ -7,26 +7,25 @@
 ### socket()
 
 ```c
-sock_fd = socket(AF_INET, SOCK_STREAM, 0)) //AF_INT:ipv4, SOCK_STREAM:tcp协议
+sock_fd = socket(AF_INET, SOCK_DGRAM, 0)) //AF_INT:ipv4, SOCK_DGRAM:udp协议
 ```
 **描述：**
 
 在网络编程中所需要进行的第一件事情就是创建一个socket，无论是客户端还是服务器端，都需要创建一个socket，该函数返回socket文件描述符，类似于文件描述符。socket是一个结构体，被创建在内核中。
 ### sendto()
 ```c
-int sendto ( socket s , const void * msg, int len, unsigned int flags,
-const struct sockaddr * to , int tolen ) ;
+int sendto(socket s, const void *msg, int len, unsigned int flags, const struct sockaddr *to , int tolen);
 ```
 **描述：**
 
-sendto() 用来将数据由指定的socket传给对方主机。参数s为已建好连线的socket。参数msg指向欲连线的数据内容，参数flags 一般设0。
+sendto() 用来将数据由指定的socket传给对方主机。参数s为已建立连接的socket。参数msg指向待发送的数据，参数flags 一般设0。
 
 ### recvfrom()
 ```c
 int recvfrom(int s, void *buf, int len, unsigned int flags, struct sockaddr *from, int *fromlen);
 ```
 **描述：**
-从指定地址接收UDP数据报。
+从指定地址接收UDP数据包。
 
 
 **参数：**
@@ -34,11 +33,11 @@ int recvfrom(int s, void *buf, int len, unsigned int flags, struct sockaddr *fro
 |参数名|描述|
 |:--|:------| 
 | s | socket描述符。  |
-| buf | UDP数据报缓存地址。  |
-| len | UDP数据报长度。  |
+| buf | 消息接收后的缓冲区。  |
+| len | 缓冲区的容量。  |
 | flags | 该参数一般为0。  |
-| from | 对方地址。  |
-| fromlen | 对方地址长度。  |
+| from | 指向发送数据的对端地址信息的结构体，如果为NULL，不储存对端地址。  |
+| fromlen | 指向from结构体长度值，如果from为NULL，该值也应为NULL。  |
 
 
 
@@ -46,9 +45,9 @@ int recvfrom(int s, void *buf, int len, unsigned int flags, struct sockaddr *fro
 
 **主要代码分析**
 
-完成Wifi热点的连接需要以下几步。
+完成UDP的通信过程需要以下几步。
 
-1. 通过 `socket` 接口创建一个socket,`AF_INT`表示ipv4,`SOCK_STREAM`表示使用tcp协议。
+1. 通过 `socket` 接口创建一个socket，`AF_INT`表示ipv4，`SOCK_DGRAM`表示使用dup协议。
 2. 调用 `sendto` 接口发送数据到服务端。
 3. 调用 `recvfrom` 接口接收服务端发来的数据。
 
@@ -106,13 +105,12 @@ static void UDPClientTask(void)
 修改 `device\board\bearpi\bearpi_hm_nano\app` 路径下 BUILD.gn 文件，指定 `udp_client` 参与编译。
 ```r
 #"D1_iot_wifi_sta:wifi_sta",
-#"D2_iot_wifi_sta_connect:wifi_sta_connect",         
+#"D2_iot_wifi_sta_connect:wifi_sta_connect",
 "D3_iot_udp_client:udp_client",
 #"D4_iot_tcp_server:tcp_server",
 #"D5_iot_mqtt:iot_mqtt",        
 #"D6_iot_cloud_oc:oc_mqtt",
-```  
-    
+```
 
 
 ### 运行结果<a name="section18115713118"></a>
@@ -121,7 +119,7 @@ static void UDPClientTask(void)
 
 ![创建UDP服务端](../../docs/figures/D3_iot_udp_client/创建UDP服务端.png)
 
-示例代码编译烧录代码后，按下开发板的RESET按键，在数据发送窗口输入要发送的数据，点击发送后开发板会回复固定消息，如下图所示，且开发板收到消息后会通过日志打印出来。
+示例代码编译烧录后，按下开发板的RESET按键，在socket tool的数据发送窗口输入要发送的数据，点击发送后开发板会回复固定消息，如下图所示，且开发板收到消息后会通过日志打印出来。
 
 ```
 192.168.0.175:8888=>Hello! BearPi-HM_nano UDP Client!
