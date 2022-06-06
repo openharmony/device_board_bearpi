@@ -10,20 +10,13 @@ unsigned int IoTGpioInit(unsigned int id);
  **描述：**
 
 初始化GPIO外设。
-### IoTGpioSetFunc()
-```c
-unsigned int IoTGpioSetFunc(unsigned int id, unsigned char val);
-```
-**描述：**
-
-设置GPIO引脚复用功能。
 
 **参数：**
 
 |参数名|描述|
 |:--|:------| 
 | id | 表示GPIO引脚号。  |
-| val | 表示GPIO复用功能。 |
+
 
 ### IoTGpioSetDir()
 ```c
@@ -50,7 +43,7 @@ unsigned int IoTGpioSetDir(unsigned int id, IotGpioDir dir);
 
 **主要代码分析**
 
-LedTask()为LED灯测试主任务，该任务先调用 IoTGpioInit()初始化GPIO，因为LED灯的控制引脚接在GPIO_2上，所以通过IoTGpioSetDir()将GPIO_2设置为普通GPIO的输出模式。最后在死循环里面间隔 1s 输出GPIO_2的高低电平，实现LED灯闪烁的现象。
+LedTask()为LED灯测试主任务，该任务先调用 IoTGpioInit()初始化GPIO，因为LED灯的控制引脚接在GPIO_2上，所以通过IoTGpioSetDir()将GPIO_2设置为普通GPIO的输出模式。最后在死循环里面间隔 1s 输出GPIO_2的高低电平，实现LED灯的闪烁功能。
 ```c
 /**
  * @brief led task output high and low levels to turn on and off LED
@@ -93,12 +86,10 @@ static void LedTask(void)
 #"B4_basic_adc:adc_example",
 #"B5_basic_i2c_nfc:i2c_example",
 #"B6_basic_uart:uart_example",
-```   
-    
-
+```
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，开发板的LED灯开始闪烁。
+示例代码编译烧录后，按下开发板的RESET按键，开发板的LED灯开始闪烁。
 
 
