@@ -28,7 +28,6 @@ uint8_t composeRtdText(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8
     return TEXT_RECORD_LEN;
 }
 
-
 uint8_t composeRtdUri(const NDEFDataStr *ndef, NDEFRecordStr *ndefRecord, uint8_t *I2CMsg)
 {
     rtdHeader(RTD_URI, ndefRecord, I2CMsg);

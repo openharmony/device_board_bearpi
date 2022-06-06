@@ -16,11 +16,11 @@ typedef struct {
     /** Pointer to the buffer storing data to send */
     unsigned char *sendBuf;
     /** Length of data to send */
-    unsigned int  sendLen;
+    unsigned int sendLen;
     /** Pointer to the buffer for storing data to receive */
     unsigned char *receiveBuf;
     /** Length of data received */
-    unsigned int  receiveLen;
+    unsigned int receiveLen;
 } WifiIotI2cData;
 
 uint8_t     nfcPageBuffer[NFC_PAGE_SIZE];
@@ -40,10 +40,10 @@ static bool writeTimeout(uint8_t *data, uint8_t dataSend)
     status = IoTI2cWrite(1, (NT3H1X_ADDRESS << 1) | 0x00, data, dataSend);
     if (status != 0) {
         printf("===== Error: I2C write status = 0x%x! =====\r\n", status);
-        return 0;
+        return false;
     }
     usleep(NT3H1X_WRITE_TIMEOUT_US);
-    return 1;
+    return true;
 }
 
 static bool readTimeout(uint8_t address, uint8_t *block_data)
@@ -58,11 +58,10 @@ static bool readTimeout(uint8_t address, uint8_t *block_data)
     status = IoTI2cWriteread(1, (NT3H1X_ADDRESS << 1) | 0x00, &nt3h1101_i2c_data);
     if (status != 0) {
         printf("===== Error: I2C write status = 0x%x! =====\r\n", status);
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
-
 
 bool NT3HReadHeaderNfc(uint8_t *endRecordsPtr, uint8_t *ndefHeader)
 {
@@ -229,7 +228,6 @@ int16_t firstRecord(UncompletePageStr *page, const NDEFDataStr *data, RecordPosE
 
     return sizeof(NDEFHeaderStr) + recordLength;
 }
-
 
 int16_t addRecord(UncompletePageStr *pageToUse, const NDEFDataStr *data, RecordPosEnu rtdPosition)
 {

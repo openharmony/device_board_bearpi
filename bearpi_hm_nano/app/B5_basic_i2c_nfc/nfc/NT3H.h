@@ -35,7 +35,7 @@ typedef enum {
     NT3HERROR_READ_NDEF_TEXT,
     NT3HERROR_WRITE_NDEF_TEXT,
     NT3HERROR_TYPE_NOT_SUPPORTED
-}NT3HerrNo;
+} NT3HerrNo;
 
 typedef enum {
     EndRecordsPtr = 1,
@@ -63,7 +63,7 @@ typedef struct {
     uint8_t *rtdPayload;
     uint8_t rtdPayloadlength;
     void *specificRtdData;
-}NDEFDataStr;
+} NDEFDataStr;
 
 
 void NT3HGetNxpSerialNumber(char *buffer);
