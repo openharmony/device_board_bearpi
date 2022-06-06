@@ -51,8 +51,8 @@ unsigned int IoTI2cWrite(unsigned int id, unsigned short deviceAddr, const unsig
 |:--|:------| 
 | id | I2C设备ID。  |
 | deviceAddr |I2C设备地址。|
-| data |表示写入的数据。|
-| dataLen |表示要写入的数据长度。|
+| data |表示待写入的数据。|
+| dataLen |表示待写入的数据长度。|
 
 ## IoTI2cRead()
 ```c
@@ -69,13 +69,13 @@ unsigned int IoTI2cRead(unsigned int id, unsigned short deviceAddr, unsigned cha
 |:--|:------| 
 | id | I2C设备ID。  |
 | deviceAddr |I2C设备地址。|
-| data |表示要读取的数据指向的指针。|
+| data |表示指向要读取的数据的指针。|
 | dataLen |表示要读取的数据长度。|
 
 
 
 ## 硬件设计
-如下图所示，NFC芯片使用的是I2C协议，I2C_SCL与GPIO_0相连接，I2C_SDA与GPIO_1相连接，所以需要编写软件使用GPIO_0和GPIO_1产生I2C信号去控制NFC芯片。
+如下图所示，NFC芯片使用的是I2C协议，I2C1_SCL与GPIO_1相连接，I2C1_SDA与GPIO_0相连接，所以需要编写软件使用GPIO_0和GPIO_1产生I2C信号去控制NFC芯片。
 
 ![E53接口电路](../../docs/figures/B5_basic_i2c_nfc/NFC电路.png "E53接口电路")
 
@@ -96,16 +96,15 @@ unsigned int IoTI2cRead(unsigned int id, unsigned short deviceAddr, unsigned cha
     //baudrate: 400kbps
     IoTI2cInit(WIFI_IOT_I2C_IDX_1, 400000);
 ```
-这部分的代码是向NFC芯片写入数据，但需要写入2个记录时，第2个记录的位置需要用`NDEFLastPos`来定义;当需要写入3个记录时，第2个和第3个记录的位置分别需要用`NDEFMiddlePos`和`NDEFLastPos`来定义。
+
+这部分的代码是向NFC芯片写入数据，当需要写入2个记录时，第2个记录的位置需要用`NDEFLastPos`来定义；当需要写入3个记录时，第2个和第3个记录的位置分别需要用`NDEFMiddlePos`和`NDEFLastPos`来定义。
 ```c
-ret=storeText(NDEFFirstPos, (uint8_t *)TEXT);
-if(ret != 1)
-{
+ret = storeText(NDEFFirstPos, (uint8_t *)TEXT);
+if (ret != 1) {
     printf("NFC Write Data Failed :%d ",ret);
 }
-ret=storeUrihttp(NDEFLastPos, (uint8_t *)WEB);
-if(ret != 1)
-{
+ret = storeUrihttp(NDEFLastPos, (uint8_t *)WEB);
+if (ret != 1) {
     printf("NFC Write Data Failed :%d ",ret);
 }
 ```
@@ -125,14 +124,12 @@ if(ret != 1)
 #"B4_basic_adc:adc_example",
 "B5_basic_i2c_nfc:i2c_example",
 #"B6_basic_uart:uart_example",
-```   
-
-    
+```
 
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，并请使用带有NFC功能的手机靠近开发板，能读取数据。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，并请使用带有NFC功能的手机靠近开发板，能读取数据。
 ```c
 =======================================
 
