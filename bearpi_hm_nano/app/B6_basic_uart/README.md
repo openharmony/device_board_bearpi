@@ -32,8 +32,8 @@ int IoTUartWrite(unsigned int id, const unsigned char *data, unsigned int dataLe
 |参数名|描述|
 |:--|:------| 
 | id | UART端口号。  |
-| data |表示指向要写入数据的起始地址的指针。|
-| dataLen |表示读取数据的长度。|
+| data |表示指向待写入的数据的起始地址的指针。|
+| dataLen |表示待写入数据的长度。|
 
 ### IoTUartRead()
 ```c
@@ -49,10 +49,8 @@ int IoTUartRead(unsigned int id, unsigned char *data, unsigned int dataLen);
 |参数名|描述|
 |:--|:------| 
 | id | UART端口号。  |
-| data |表示指向要读取数据的起始地址的指针。|
-| dataLen |表示读取数据的长度。|
-
-
+| data |表示指向要读取的数据的起始地址的指针。|
+| dataLen |表示要读取数据的长度。|
 
 
 ## 硬件设计
@@ -64,7 +62,7 @@ int IoTUartRead(unsigned int id, unsigned char *data, unsigned int dataLen);
 
 **主要代码分析**
 
-这部分代码为UART初始化的代码，首先要在 `uart_attr` 结构体这配置波特率、数据位、停止位、奇偶检验位，然后通过 `IoTUartInit()` 函数对串口1进行配置。
+这部分代码为UART初始化的代码，首先要在 `uart_attr` 结构体中配置波特率、数据位、停止位、奇偶检验位，然后通过 `IoTUartInit()` 函数对串口1进行配置。
 
 ```c
 IotUartAttribute uart_attr = {
@@ -85,7 +83,7 @@ if (ret != IOT_SUCCESS) {
     return;
 }
 ```
-这部分的代码主要实现通过 `IoTUartWrite()` 函数在串口1发送一串数据，然后通过 `IoTUartRead()` 函数将数据读回来，并通过 `debug` 串口打印出来。
+这部分的代码主要实现通过 `IoTUartWrite()` 函数在串口1发送一串数据，然后通过 `IoTUartRead()` 函数从串口1将数据读回来，并通过 `debug` 串口打印出来。
 ```c
 //send data through uart1
 IoTUartWrite(WIFI_IOT_UART_IDX_1, (unsigned char *)data, strlen(data));
@@ -111,12 +109,11 @@ printf("Uart1 read data:%s\n", uart_buff_ptr);
 #"B4_basic_adc:adc_example",
 #"B5_basic_i2c_nfc:i2c_example",
 "B6_basic_uart:uart_example",
-```   
-
+```
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键， `将开发板上E53接口的UART_TX和UART_RX用杜邦线短接` 通过串口助手查看日志，串口1实现自发自收。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，串口1实现自发自收。`将开发板上E53接口的UART_TX和UART_RX用杜邦线短接或断开`可以实时观察`debug`串口的打印信息。
 ```c
 =======================================
 *************UART_example**************
@@ -127,4 +124,3 @@ Uart1 read data:Hello, BearPi!
 =======================================
 Uart1 read data:Hello, BearPi!
 ```
-
