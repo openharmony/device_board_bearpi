@@ -1,15 +1,15 @@
 # BearPi-HM_Nano开发板WiFi编程开发——Wifi AP 热点
 
 
-本示例将演示如何在BearPi-HM_Nano开发板上编写一个创建Wifi热点程序。
+本示例将演示如何在BearPi-HM_Nano开发板上编写一个创建Wifi热点的程序。
 
 
 ## Wifi API分析
-本案例主要使用了以下几个API完成Wifi热点创建。
+本案例主要使用了以下几个API完成Wifi热点的创建。
 
 ### RegisterWifiEvent()
 ```c
-WifiErrorCode RegisterWifiEvent (WifiEvent * event)
+WifiErrorCode RegisterWifiEvent(WifiEvent *event);
 ```
  **描述：**
 
@@ -19,12 +19,12 @@ WifiErrorCode RegisterWifiEvent (WifiEvent * event)
 
 |参数名|描述|
 |:--|:------| 
-| event | 表示要注册回调的事件。  |
+| event | 表示要注册回调函数的事件。  |
 
 
 ### EnableHotspot()
 ```c
-WifiErrorCode EnableHotspot (void )
+WifiErrorCode EnableHotspot(void);
 ```
 
 **描述：**
@@ -33,11 +33,11 @@ WifiErrorCode EnableHotspot (void )
 
 ### SetHotspotConfig()
 ```c
-WifiErrorCode SetHotspotConfig(const HotspotConfig* config)
+WifiErrorCode SetHotspotConfig(const HotspotConfig *config);
 ```
 **描述：**
 
-设置指定的热点配置。
+设置指定热点的配置。
 
 ### IsHotspotActive()
 ```c
@@ -45,11 +45,11 @@ int IsHotspotActive(void);
 ```
 **描述：**
 
-检查AP热点模式是否启用。
+检查热点模式是否启用。
 
 ### GetStationList()
 ```c
-WifiErrorCode GetStationList(StationInfo* result, unsigned int* size)
+WifiErrorCode GetStationList(StationInfo *result, unsigned int *size);
 ```
 **描述：**
 
@@ -70,18 +70,18 @@ WifiErrorCode GetStationList(StationInfo* result, unsigned int* size)
 
 完成Wifi热点的扫描需要以下几步。
 
-1. 通过 `RegisterWifiEvent` 接口向系统注册热点状态改变事件、STA站点加入事件、STA站点退出事件。
+1. 通过 `RegisterWifiEvent` 接口向系统注册热点状态改变事件、STA连接到热点事件、STA断开热点事件。
     
     * `OnHotspotStateChangedHandler` 用于绑定热点状态改变事件，该回调函数有一个参数 `state` 。
 
-        * state表示是否开启AP模式，取值为0和1，0表示已启用Wifi AP模式，1表示已禁用Wifi AP模式。
+        * state表示是否开启Wifi热点模式，取值为1或0，1表示已启用Wifi热点模式，0表示已禁用Wifi热点模式。
 
-    * `OnHotspotStaLeaveHandler` 用于绑定STA站点退出事件,当有STA站点退出，该回调函数会打印出退出站点的MAC地址。
-    * `OnHotspotStaJoinHandler` 用于绑定STA站点加入事件，当有新的STA站点加入时，该回调函数会创建 `HotspotStaJoinTask`，在该任务中会调用 `GetStationList` 函数获取当前接入到该AP的所有STA站点信息，并打印出每个STA站点的MAC地址。
-2. 调用 `SetHotspotConfig` 接口，设置指定的热点配置。
-3. 调用 `EnableHotspot` 接口，使能 Wifi AP 模式。
+    * `OnHotspotStaLeaveHandler` 用于绑定STA断开热点事件,当有STA断开热点，该回调函数会打印出已断开的STA的MAC地址。
+    * `OnHotspotStaJoinHandler` 用于绑定STA连接到热点事件，当有新的STA连接热点时，该回调函数会打印出刚连接的STA的MAC地址。
+2. 调用 `SetHotspotConfig` 接口，设置指定热点的配置。
+3. 调用 `EnableHotspot` 接口，使能 Wifi 热点模式。
 
-    
+
 ```c
 static BOOL WifiAPTask(void)
 {
@@ -143,32 +143,21 @@ static BOOL WifiAPTask(void)
 #"D4_iot_tcp_server:tcp_server",
 #"D5_iot_mqtt:iot_mqtt",        
 #"D6_iot_cloud_oc:oc_mqtt",
-```    
+```
 
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，使用手机去连接该热点，会打印出一下信息。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，使用手机去连接该热点，会打印出以下信息。
 ```
 RegisterWifiEvent succeed!
-
 SetHotspotConfig succeed!
-
 HotspotStateChanged:state is 1.
-
+wifi hotspot active.
 EnableHotspot succeed!
-
-Wifi station is active!
-
-+NOTICE:STA CONNECTED
-New Sta Join
-HotspotSta[0]: macAddress=EC:5C:68:5B:2D:3D.
-
-netifapi_netif_set_addr succeed!
-
-netifapi_dhcps_start succeed!
-
 Waiting to receive data...
++NOTICE:STA CONNECTED
+HotspotStaJoin: macAddress=EC:5C:68:5B:2D:3D, reason=0.
 ```
 
 
