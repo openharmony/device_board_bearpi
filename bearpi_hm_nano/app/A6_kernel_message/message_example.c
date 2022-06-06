@@ -88,12 +88,12 @@ static void MessageExample(void)
     attr.priority = THREAD_PRIO;
 
     attr.name = "MsgQueue1Thread";
-    if (osThreadNew(MsgQueue1Thread, NULL, &attr) == NULL) {
+    if (osThreadNew((osThreadFunc_t)MsgQueue1Thread, NULL, &attr) == NULL) {
         printf("Failed to create MsgQueue1Thread!\n");
     }
 
     attr.name = "MsgQueue2Thread";
-    if (osThreadNew(MsgQueue2Thread, NULL, &attr) == NULL) {
+    if (osThreadNew((osThreadFunc_t)MsgQueue2Thread, NULL, &attr) == NULL) {
         printf("Failed to create MsgQueue2Thread!\n");
     }
 }
