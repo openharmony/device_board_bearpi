@@ -3,7 +3,7 @@
 
 
 ## PWM API分析
-本案例主要使用了以下几个API完成PWM功能实现呼吸灯功能。
+本案例主要使用了以下几个API通过GPIO的PWM功能实现呼吸灯效果。
 ### IoTGpioInit()
 ```c
 unsigned int IoTGpioInit(unsigned int id);
@@ -11,20 +11,27 @@ unsigned int IoTGpioInit(unsigned int id);
  **描述：**
 
 初始化GPIO外设。
+
+**参数：**
+
+|参数名|描述|
+|:--|:------|
+| id | 表示GPIO引脚号。  |
+
 ### IoTGpioSetFunc()
 ```c
 unsigned int IoTGpioSetFunc(unsigned int id, unsigned char val);
 ```
 **描述：**
 
-设置GPIO引脚复用功能。
+设置GPIO引脚复用的功能。
 
 **参数：**
 
 |参数名|描述|
 |:--|:------| 
 | id | 表示GPIO引脚号。  |
-| val | 表示GPIO复用功能。 |
+| val | 表示GPIO复用的功能。 |
 
 ### IoTGpioSetDir()
 ```c
@@ -32,14 +39,14 @@ unsigned int IoTGpioSetDir(unsigned int id, IotGpioDir dir);
 ```
 **描述：**
 
-设置GPIO输出方向。
+设置GPIO的方向。
 
 **参数：**
 
 |参数名|描述|
 |:--|:------| 
 | id | 表示GPIO引脚号。  |
-| dir | 表示GPIO输出方向。  |
+| dir | 表示GPIO方向为输入还是输出。  |
 
 
 ### IoTPwmInit()
@@ -70,8 +77,8 @@ unsigned int IoTPwmStart(unsigned int port, unsigned short duty, unsigned int fr
 |参数名|描述|
 |:--|:------| 
 | port | PWM端口号。  |
-| duty| 占空比。  |
-| freq| 分频倍数。  |
+| duty | PWM信号输出占空比。  |
+| freq | PWM信号输出频率。  |
 
 
 ## 硬件设计
@@ -130,10 +137,10 @@ static void PwmTask(void)
 #"B4_basic_adc:adc_example",
 #"B5_basic_i2c_nfc:i2c_example",
 #"B6_basic_uart:uart_example",
-```     
+```
 
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，开发板开始正常工作，LED开始不断变化亮度，实现呼吸灯的效果。
+示例代码编译烧录后，按下开发板的RESET按键，开发板开始正常工作，LED开始不断变化亮度，实现呼吸灯的效果。
 
