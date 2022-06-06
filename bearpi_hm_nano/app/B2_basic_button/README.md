@@ -2,7 +2,7 @@
 本示例将演示如何在BearPi-HM_Nano开发板上使用GPIO输入功能去读取按键状态。
 
 ## GPIO API分析
-本案例主要使用了以下几个API完成GPIO输出功能。
+本案例主要使用了以下几个API完成GPIO输入功能。
 ### IoTGpioInit()
 ```c
 unsigned int IoTGpioInit(unsigned int id);
@@ -10,6 +10,13 @@ unsigned int IoTGpioInit(unsigned int id);
  **描述：**
 
 初始化GPIO外设。
+
+**参数：**
+
+|参数名|描述|
+|:--|:------|
+| id | 表示GPIO引脚号。  |
+
 ### IoTGpioSetFunc()
 ```c
 unsigned int IoTGpioSetFunc(unsigned int id, unsigned char val);
@@ -23,7 +30,7 @@ unsigned int IoTGpioSetFunc(unsigned int id, unsigned char val);
 |参数名|描述|
 |:--|:------| 
 | id | 表示GPIO引脚号。  |
-| val | 表示GPIO复用功能。 |
+| val | 表示GPIO复用的功能。 |
 
 ### IoTGpioSetDir()
 ```c
@@ -38,29 +45,28 @@ unsigned int IoTGpioSetDir(unsigned int id, IotGpioDir dir);
 |参数名|描述|
 |:--|:------| 
 | id | 表示GPIO引脚号。  |
-| dir | 表示GPIO输出方向。  |
+| dir | 表示该GPIO用作输入还是输出。  |
 
 
-### IoSetPull()
+### IoTGpioSetPull()
 ```c
 unsigned int IoTGpioSetPull(unsigned int id, IotGpioPull val);
 ```
 **描述：**
 
-设备GPIO的上下拉方式。
+设置GPIO的上下拉方式。
 
 **参数：**
 
 |参数名|描述|
 |:--|:------| 
 | id | 表示GPIO引脚号。  |
-| val | 表示要设置的上拉或下拉。  |
+| val | 表示设置该GPIO为上拉或下拉。  |
 
 
 ### IoTGpioRegisterIsrFunc()
 ```c
-unsigned int IoTGpioRegisterIsrFunc(unsigned int id, IotGpioIntType intType, IotGpioIntPolarity intPolarity,
-                                    GpioIsrCallbackFunc func, char *arg);
+unsigned int IoTGpioRegisterIsrFunc(unsigned int id, IotGpioIntType intType, IotGpioIntPolarity intPolarity, GpioIsrCallbackFunc func, char *arg);
 ```
 **描述：**
 
@@ -73,7 +79,7 @@ unsigned int IoTGpioRegisterIsrFunc(unsigned int id, IotGpioIntType intType, Iot
 | id | 表示GPIO引脚号。  |
 | intType| 表示中断类型。  |
 | intPolarity| 表示中断极性。 |
-| func| 表示中断回调函数.。  |
+| func| 表示中断回调函数。  |
 | arg| 表示中断回调函数中使用的参数的指针。  |
 
 
@@ -148,11 +154,9 @@ static void ButtonExampleEntry(void)
 #"B6_basic_uart:uart_example",
 ```   
 
-    
-
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，开发板开始正常工作，按下F1按键LED会点亮，按下F2按键LED会熄灭。
+示例代码编译烧录后，按下开发板的RESET按键，开发板开始正常工作，按下F1按键LED会点亮，按下F2按键LED会熄灭。
 
 
