@@ -1,26 +1,30 @@
 # BearPi-HM_Nano开发板WiFi编程开发——MQTT协议开发
-本示例将演示如何在BearPi-HM_Nano开发板上使用MQTT协议
-
+本示例将演示如何在BearPi-HM_Nano开发板上使用MQTT协议进行通信。
 
 
 ## 编译调试
 
 ### 下载MQTT消息代理工具Mosquitto
 
-点击[下载](https://mosquitto.org/download/)Mosquitto 工具，如下图所示。
+> **注：** 使用windows10/11 搭建mqtt 服务端和协助验证的客户端
+
+点击[下载](https://mosquitto.org/download/)Mosquitto 工具作为MQTT 服务端，如下图所示。
 
 ![](../../docs/figures/D5_iot_mqtt/消息代理.png "消息代理")
 
-下载后双击安装包，安装工具，安装完毕后，打开电脑设备管理器，在“服务”中开启mosquitto服务，如下图所示。
+下载后双击安装包，安装工具，安装完毕后，打开计算机管理，在“服务”中开启mosquitto服务，如下图所示。
 ![](../../docs/figures/D5_iot_mqtt/启动mosquitto服务.png "启动mosquitto服务")
 
 修改安装路径下的mosquitto.conf文件，修改515行附近代码，如下图所示。
 ![](../../docs/figures/D5_iot_mqtt/添加allow.png "添加allow")
-修改216行附近代码，如下图所示，其中`192.168.0.173`为自己的电脑的IP地址。
+
+修改216行附近代码，如下图所示，其中`192.168.0.173`为自己的电脑的IP地址（即mqtt server的IP地址）。
 ![](../../docs/figures/D5_iot_mqtt/添加listener.png "添加listener")
 
+修改配置后，保存，然后在“服务”中重新启动mosquitto服务。
+
 ### 下载Eclipse Paho MQTT 工具
-点击[下载](https://repo.eclipse.org/content/repositories/paho-releases/org/eclipse/paho/org.eclipse.paho.ui.app/1.1.1/)Eclipse Paho MQTT 工具，如下图所示。
+点击[下载](https://repo.eclipse.org/content/repositories/paho-releases/org/eclipse/paho/org.eclipse.paho.ui.app/1.1.1/)Eclipse Paho MQTT 工具作为MQTT的客户端，如下图所示。
 
 
 ![](../../docs/figures/D5_iot_mqtt/下载客户端.png "下载客户端")
@@ -35,6 +39,8 @@
 
 这个时候就能订阅消息了。选择“订阅”下方的绿色十字图标，就可以输入订阅的主题（topic）的名字，比如设置主题名称为“pubtopic”，并点击 “订阅”按钮，如下图所示。
 ![](../../docs/figures/D5_iot_mqtt/订阅.png "订阅")
+
+> **注:** 也可以使用客户端工具 MQTT Explorer进行验证
 
 ### 修改对接IP
 将代码中对接的IP修改为电脑在命令行窗口里输入 `ipconfig` 查询的电脑的本地IP，如下图所示。
@@ -58,7 +64,7 @@
 #"D6_iot_cloud_oc:oc_mqtt",
 ```
 
-示例代码编译烧录代码后，按下开发板的RESET按键，Eclipse Paho MQTT 工具上会接收到开发板发布的消息，如下图所示。
+示例代码编译烧录后，按下开发板的RESET按键，Eclipse Paho MQTT 工具上会接收到开发板发布的MQTT消息，如下图所示。
 
 ![](../../docs/figures/D5_iot_mqtt/接收消息.png "订阅")
 
