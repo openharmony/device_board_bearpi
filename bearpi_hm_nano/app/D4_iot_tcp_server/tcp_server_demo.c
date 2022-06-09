@@ -85,8 +85,8 @@ static void TCPServerTask(void)
 
         if (cli_addr != NULL) {
             int ret;
-            if  (ret = memcpy_s(cli_addr, sizeof(struct sockaddr), &client_sock, sizeof(struct sockaddr)) != 0) {
-                perror("memcpy is error\r\n");
+            if ((ret = memcpy_s(cli_addr, sizeof(struct sockaddr), &client_sock, sizeof(struct sockaddr))) != 0) {
+                perror("memcpy_s is error\r\n");
                 exit(1);
             }
         }
