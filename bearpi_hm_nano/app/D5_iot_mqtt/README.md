@@ -4,6 +4,8 @@
 
 ## 编译调试
 
+ **注意：如果在windows上收不到mqtt消息，具体表现为在设备串口观察到串口信息卡在"NetworkConnect  ..."，超时时间过后，一直打印"Return code from MQTT publish is -1"。遇到此问题，请关闭windows防火墙后再做验证。**
+
 ### 下载MQTT消息代理工具Mosquitto
 
 > **注：** 使用windows10/11 搭建mqtt 服务端和协助验证的客户端
