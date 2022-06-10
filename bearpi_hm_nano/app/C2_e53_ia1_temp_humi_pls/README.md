@@ -20,7 +20,7 @@ void E53IA1ReadData(E53IA1Data *ReadData)
  **描述：**
 
 读取温度 、湿度、光照强度。
-### Light_StatusSet()
+### LightStatusSet()
 ```C
 void LightStatusSet(E53IA1Status status)
 ```
@@ -32,9 +32,9 @@ void LightStatusSet(E53IA1Status status)
 
 |参数名|描述|
 |:--|:------| 
-| status | ON开，OFF关闭。  |
+| status | ON打开，OFF关闭。  |
 
-### Motor_StatusSet()
+### MotorStatusSet()
 ```C
 void MotorStatusSet(E53IA1Status status)
 ```
@@ -46,7 +46,7 @@ void MotorStatusSet(E53IA1Status status)
 
 |参数名|描述|
 |:--|:------| 
-| status | ON开，OFF关闭。  |
+| status | ON打开，OFF关闭。  |
 
 ## 硬件设计
 本案例将用到 E53_IA1 智慧农业扩展板与 BearPi-HM_Nano 开发板，其中E53_IA1扩展板接口原理图如下，温湿度传感器sht30和光照强度传感器BH1750都是通过I2C来驱动，电机和补光灯分别通过GPIO_8和GPIO_14来控制。
@@ -55,7 +55,7 @@ void MotorStatusSet(E53IA1Status status)
 
 ![E53接口电路](../../docs/figures/C2_e53_ia1_temp_humi_pls/E53接口电路.png "E53接口电路")
 
-E53_IA1 智慧农业扩展板与 BearPi-HM_Nano 开发板安装如下图所示。
+E53_IA1 智慧农业扩展板在 BearPi-HM_Nano 开发板上的安装方法如下图所示。
 
 ![E53_IA1安装](../../docs/figures/C2_e53_ia1_temp_humi_pls/E53_IA1安装.png "E53_IA1安装")
 
@@ -64,7 +64,7 @@ E53_IA1 智慧农业扩展板与 BearPi-HM_Nano 开发板安装如下图所示�
 **主要代码分析**
 
 
-首先调用 `E53IA1Init()` 函数初始化E53_IA1所接的引脚的功能，然后循环调用 `E53IA1ReadData(E53IA1Data *ReadData)` 函数读取温度 、湿度、光照强度并通过串口打印出来，当光照强度过低时，开启补光灯补光，当温度 、湿度超标时开启电机通风。
+首先调用 `E53IA1Init()` 函数初始化E53_IA1所接的引脚的功能，然后循环调用 `E53IA1ReadData(E53IA1Data *ReadData)` 函数读取温度 、湿度、光照强度并通过串口打印出来。当光照强度过低时，开启补光灯补光；当温度或湿度超标时开启电机通风。
 
 ```C
 static void ExampleTask(void)
@@ -109,11 +109,10 @@ static void ExampleTask(void)
 ```
 
 
-
 ## 编译调试
 
 ### 修改 BUILD.gn 文件
-修改`device\board\bearpi\bearpi_hm_nano\app`路径下 BUILD.gn 文件，指定 `e53_ia1_example` 参与编译。
+修改`device\board\bearpi\bearpi_hm_nano\app`路径下的 BUILD.gn 文件，指定 `e53_ia1_example` 参与编译。
 ```r
 #"C1_e53_sf1_mq2:e53_sf1_example",
 "C2_e53_ia1_temp_humi_pls:e53_ia1_example",
@@ -122,12 +121,10 @@ static void ExampleTask(void)
 #"C5_e53_is1_infrared:e53_is1_example",
 ```
 
-    
-
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，会打印温湿度及光照强度信息。用手遮住扩展板，补光灯会自动开启，控制温度或者湿度超标，电机会自动开启。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，会打印温湿度及光照强度信息。用手遮住扩展板，补光灯会自动开启，控制温度或者湿度超标，电机会自动开启。
 ```c
 =======================================
 
