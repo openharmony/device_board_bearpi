@@ -1,5 +1,5 @@
 # BearPi-HM_Nano开发板智慧农业案例开发
-本示例将演示如何在BearPi-HM_Nano开发板上使用MQTT协议连接华为IoT平台,使用的是E53_IA1 智慧农业扩展板与 BearPi-HM_Nano 开发板，设备安装如下图所示。
+本示例将演示如何在BearPi-HM_Nano开发板上使用MQTT协议连接华为IoT平台，使用的是E53_IA1 智慧农业扩展板与 BearPi-HM_Nano 开发板，设备安装如下图所示。
 
 ![](../../docs/figures/D11_iot_cloud_oc_agriculture/E53_IA1安装.png "E53_IA1安装")
 
@@ -7,7 +7,7 @@
 
 
 ### 连接平台
-在连接平台前需要设置获取CONFIG_APP_DEVICEID、CONFIG_APP_DEVICEPWD、CONFIG_APP_SERVERIP、CONFIG_APP_SERVERPORT，通过oc_mqtt_profile_connect()函数连接平台。
+在连接华为IoT平台前需要设置 CONFIG_APP_DEVICEID、CONFIG_APP_DEVICEPWD、CONFIG_APP_SERVERIP、CONFIG_APP_SERVERPORT，通过oc_mqtt_profile_connect()函数连接平台。
 ```c
     WifiConnect(CONFIG_WIFI_SSID, CONFIG_WIFI_PWD);
     dtls_al_init();
@@ -44,7 +44,7 @@
 
 ### 推送数据
 
-当需要上传数据时，需要先拼装数据，让后通过oc_mqtt_profile_propertyreport上报数据。代码示例如下： 
+当需要上传数据时，需要先拼装数据，然后通过oc_mqtt_profile_propertyreport上报数据。代码示例如下：
 
 ```c
 static void deal_report_msg(report_t *report)
@@ -96,14 +96,11 @@ static void deal_report_msg(report_t *report)
 ```
 
 
-
-
 ### 命令接收
 
 华为IoT平台支持下发命令，命令是用户自定义的。接收到命令后会将命令数据发送到队列中，task_main_entry函数中读取队列数据并调用deal_cmd_msg函数进行处理，代码示例如下： 
 
 ```c
-
 static int msg_rcv_callback(oc_mqtt_profile_msgrcv_t *msg)
 {
     int ret = 0;
@@ -259,7 +256,7 @@ static void deal_motor_cmd(cmd_t *cmd, cJSON *obj_root)
 
 服务ID：`Agriculture`(必须一致)
 
-服务类型：`Senser`(可自定义)
+服务类型：`Sensor`(可自定义)
 ![](../../docs/figures/D11_iot_cloud_oc_agriculture/创建产品04.png "创建产品")
 
 在“Agriculture”的下拉菜单下点击“添加属性”填写相关信息“Temperature”，
@@ -333,7 +330,7 @@ static void deal_motor_cmd(cmd_t *cmd, cJSON *obj_root)
 #"D12_iot_cloud_oc_gps:cloud_oc_gps",
 ```
 ### 测试
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，会打印温湿度及光照强度信息，平台上的设备显示为在线状态，如下图所示。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，会打印温湿度及光照强度信息，平台上的设备显示为在线状态，如下图所示。
 
 ![](../../docs/figures/D11_iot_cloud_oc_agriculture/设备在线.png "设备在线")
     
