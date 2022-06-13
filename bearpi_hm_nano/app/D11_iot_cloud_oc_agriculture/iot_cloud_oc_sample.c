@@ -333,13 +333,13 @@ static int SensorTaskEntry(void)
     ret = E53IA1Init();
     if (ret != 0) {
         printf("E53_IA1 Init failed!\r\n");
-        return;
+        return -1;
     }
     while (1) {
         ret = E53IA1ReadData(&data);
         if (ret != 0) {
             printf("E53_IA1 Read Data failed!\r\n");
-            return;
+            return -1;
         }
         app_msg = malloc(sizeof(app_msg_t));
         printf("SENSOR:lum:%.2f temp:%.2f hum:%.2f\r\n", data.Lux, data.Temperature, data.Humidity);
