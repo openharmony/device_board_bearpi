@@ -1,6 +1,6 @@
 
 ---
-# 小熊派-鸿蒙·叔(BearPi-HM Micro)
+# 小熊派(BearPi-HM Micro)
 
 ## 一、BearPi-HM Micro 开发板介绍
 
