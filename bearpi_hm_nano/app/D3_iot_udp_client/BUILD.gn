@@ -12,17 +12,14 @@
 # limitations under the License.
 
 static_library("udp_client") {
-    sources = [
-        "udp_client_demo.c",
-        "wifi/wifi_connect.c",
-    ]
-    
-    cflags = [ "-Wno-unused-variable" ]
-    include_dirs = [
-        "//foundation/communication/wifi_lite/interfaces/wifiservice",
-        "wifi"
+  sources = [
+    "udp_client_demo.c",
+    "wifi/wifi_connect.c",
+  ]
 
-    ]
-
-
+  cflags = [ "-Wno-unused-variable" ]
+  include_dirs = [
+    "//foundation/communication/wifi_lite/interfaces/wifiservice",
+    "wifi",
+  ]
 }

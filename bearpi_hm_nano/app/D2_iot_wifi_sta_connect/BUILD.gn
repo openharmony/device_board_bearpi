@@ -12,14 +12,9 @@
 # limitations under the License.
 
 static_library("wifi_sta_connect") {
-    sources = [
-        "wifi_sta_connect.c"
-    ]
-    
-    cflags = [ "-Wno-unused-variable" ]
-    include_dirs = [
-        "//foundation/communication/wifi_lite/interfaces/wifiservice",
-    ]
+  sources = [ "wifi_sta_connect.c" ]
 
-
+  cflags = [ "-Wno-unused-variable" ]
+  include_dirs =
+      [ "//foundation/communication/wifi_lite/interfaces/wifiservice" ]
 }

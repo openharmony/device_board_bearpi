@@ -214,22 +214,22 @@
 
     ```
     ace_lite_include_dirs += [
-        "//drivers/framework/ability/sbuf/include",
-        "//drivers/framework/include/core",
-        "//drivers/framework/include/utils",
-        "//drivers/adapter/uhdf/posix/include",
+        "//drivers/hdf_core/framework/ability/sbuf/include",
+        "//drivers/hdf_core/framework/include/core",
+        "//drivers/hdf_core/framework/include/utils",
+        "//drivers/hdf_core/adapter/uhdf/posix/include",
     ]
     ```
 4. 添加编译依赖
 
     修改`foundation\ace\ace_engine_lite\frameworks\BUILD.gn`，在`public_deps`中添加以下代码
     ```
-    "//drivers/adapter/uhdf/manager:hdf_core",
+    "//drivers/hdf_core/adapter/uhdf/manager:hdf_core",
     ```
 
     修改`foundation\ace\ace_engine_lite\test\ace_test_config.gni`，在`extra_deps`中添加以下代码
     ```
-    "//drivers/adapter/uhdf/manager:hdf_core",
+    "//drivers/hdf_core/adapter/uhdf/manager:hdf_core",
     ```
 
 ## 二、运行结果

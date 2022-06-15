@@ -242,7 +242,7 @@
 
     在led/BUILD.gn文件中添加以下代码，将led.c编译成hdf_led。
     ```
-    import("//drivers/adapter/khdf/liteos/hdf.gni")
+    import("//drivers/hdf_core/adapter/khdf/liteos/hdf.gni")
 
     hdf_driver("hdf_led") {
         sources = [
@@ -255,7 +255,7 @@
     在led/Makefile文件中添加以下代码，将led.c编译成hdf_led。
     ```
     include $(LITEOSTOPDIR)/config.mk
-    include $(LITEOSTOPDIR)/../../drivers/adapter/khdf/liteos/lite.mk
+    include $(LITEOSTOPDIR)/../../drivers/hdf_core/adapter/khdf/liteos/lite.mk
 
     MODULE_NAME := hdf_led
 
@@ -270,7 +270,7 @@
 
     在/device/soc/st/common/platform/BUILD.gn文件中添加以下代码，将hdf_led编译进内核。"##start##"和"##end##"之间为新增配置（"##start##"和"##end##"仅用来标识位置，添加完配置后删除这两行）
     ```
-    import("//drivers/adapter/khdf/liteos/hdf.gni")
+    import("//drivers/hdf_core/adapter/khdf/liteos/hdf.gni")
 
     group("drivers") {
     deps = [
@@ -472,7 +472,7 @@
     ```
     import("//build/lite/config/component/lite_component.gni")
 
-    HDF_FRAMEWORKS = "//drivers/framework"
+    HDF_FRAMEWORKS = "//drivers/hdf_core/framework"
 
     executable("led_lib") {
         output_name = "my_led"
@@ -489,15 +489,15 @@
         "$HDF_FRAMEWORKS/include/utils",
         "$HDF_FRAMEWORKS/utils/include",
         "$HDF_FRAMEWORKS/include/osal",
-        "//drivers/adapter/uhdf/posix/include",
+        "//drivers/hdf_core/adapter/uhdf/posix/include",
         "//third_party/bounds_checking_function/include",
         "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits",
         ]
 
         deps = [
             "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-            "//drivers/adapter/uhdf/manager:hdf_core",
-            "//drivers/adapter/uhdf/posix:hdf_posix_osal",
+            "//drivers/hdf_core/adapter/uhdf/manager:hdf_core",
+            "//drivers/hdf_core/adapter/uhdf/posix:hdf_posix_osal",
         ]
     }
 

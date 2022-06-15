@@ -21,7 +21,7 @@ ifeq ($(LOSCFG_PLATFORM_ADAPT), y)
 LOCAL_SRCS += $(wildcard os_adapt/*.c)
 endif
 
-LOCAL_CFLAGS += -I$(LITEOSTOPDIR)/../../drivers/adapter/khdf/liteos/osal/include
+LOCAL_CFLAGS += -I$(LITEOSTOPDIR)/../../drivers/hdf_core/adapter/khdf/liteos/osal/include
 
 LOCAL_FLAGS := $(LOCAL_INCLUDE)
 

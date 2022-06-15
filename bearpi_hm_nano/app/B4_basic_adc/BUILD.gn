@@ -12,12 +12,10 @@
 # limitations under the License.
 
 static_library("adc_example") {
-    sources = [
-        "adc_example.c"
-    ]
+  sources = [ "adc_example.c" ]
 
-    include_dirs = [
-        "//base/iot_hardware/peripheral/interfaces/kits",
-        "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
-    ]
+  include_dirs = [
+    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
+  ]
 }

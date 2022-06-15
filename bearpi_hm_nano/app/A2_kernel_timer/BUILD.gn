@@ -12,7 +12,5 @@
 # limitations under the License.
 
 static_library("timer_example") {
-    sources = [
-        "timer_example.c"     
-    ]
+  sources = [ "timer_example.c" ]
 }
