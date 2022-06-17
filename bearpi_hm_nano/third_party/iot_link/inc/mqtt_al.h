@@ -70,7 +70,7 @@ typedef enum {
     en_mqtt_al_version_3_1_1,
 }en_mqtt_al_verison;
 
-/** @brief defines the paramter for the mqtt connect */
+/** @brief defines the parameter for the mqtt connect */
 typedef struct {
     mqtt_al_string_t               serveraddr;   ///< mqtt server:support domain name and dot format
     int                            serverport;   ///< mqtt server port
@@ -148,7 +148,7 @@ typedef enum {
 
 /**
  * @brief defines the operation will be registered  to the mqtt service
- * @brief parameter and return code refere to the corresponding api
+ * @brief parameter and return code reference to the corresponding api
  *
  */
 typedef struct {

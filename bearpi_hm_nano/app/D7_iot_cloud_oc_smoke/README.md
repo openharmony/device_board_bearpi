@@ -36,11 +36,11 @@
     ret = oc_mqtt_profile_connect(&connect_para);
     if((ret == (int)en_oc_mqtt_err_ok)){
         g_app_cb.connected = 1;
-        printf("oc_mqtt_profile_connect succed!\r\n");
+        printf("oc_mqtt_profile_connect succeed!\r\n");
     }
     else
     {
-        printf("oc_mqtt_profile_connect faild!\r\n");
+        printf("oc_mqtt_profile_connect failed!\r\n");
     }
 ```
 

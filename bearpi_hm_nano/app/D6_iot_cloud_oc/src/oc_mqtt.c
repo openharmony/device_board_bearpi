@@ -231,7 +231,7 @@ static char *topic_make(char *fmt, char *device_id, char *request_id)
     return ret;
 }
 
-///< use this function to report the messsage
+///< use this function to report the message
 #define CN_OC_MQTT_PROFILE_MSGUP_TOPICFMT "$oc/devices/%s/sys/messages/up"
 int oc_mqtt_profile_msgup(char *deviceid, oc_mqtt_profile_msgup_t *payload)
 {

@@ -48,7 +48,7 @@ typedef enum {
     NDEFLastPos
 } RecordPosEnu;
 /*
- * This strucure is used in the ADD record functionality
+ * This structure is used in the ADD record functionality
  * to store the last nfc page information, in order to continue from that point.
  */
 typedef struct {

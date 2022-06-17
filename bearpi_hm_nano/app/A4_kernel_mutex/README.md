@@ -162,20 +162,20 @@ void MutexExample(void)
 
 示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，中优先级任务一直正常运行，而高优先级和低优先级的任务因为互相抢占互斥锁，交替运行。
 ```sh
-LowPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-HighPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-LowPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-HighPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing.
-MidPrioThread is runing
+LowPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+HighPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+LowPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+HighPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running.
+MidPrioThread is running
 ```

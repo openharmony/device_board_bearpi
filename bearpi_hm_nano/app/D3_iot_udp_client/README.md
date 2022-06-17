@@ -14,7 +14,7 @@ sock_fd = socket(AF_INET, SOCK_DGRAM, 0)) //AF_INT:ipv4, SOCK_DGRAM:udp协议
 在网络编程中所需要进行的第一件事情就是创建一个socket，无论是客户端还是服务器端，都需要创建一个socket，该函数返回socket文件描述符，类似于文件描述符。socket是一个结构体，被创建在内核中。
 ### sendto()
 ```c
-int sendto(socket s, const void *msg, int len, unsigned int flags, const struct sockaddr *to , int tolen);
+int sendto(socket s, const void *msg, int len, unsigned int flags, const struct sockaddr *to , int token);
 ```
 **描述：**
 
