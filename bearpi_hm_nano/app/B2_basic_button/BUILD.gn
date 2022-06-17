@@ -12,12 +12,10 @@
 # limitations under the License.
 
 static_library("button_example") {
-    sources = [
-        "button_example.c"
-    ]
+  sources = [ "button_example.c" ]
 
-    include_dirs = [
-        "//base/iot_hardware/peripheral/interfaces/kits",
-        "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
-    ]
+  include_dirs = [
+    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
+  ]
 }

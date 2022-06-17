@@ -12,14 +12,14 @@
 # limitations under the License.
 
 static_library("e53_ia1_example") {
-    sources = [
-        "src/E53_IA1.c",
-        "e53_ia1_example.c"
-    ]
+  sources = [
+    "e53_ia1_example.c",
+    "src/E53_IA1.c",
+  ]
 
-    include_dirs = [
-        "//base/iot_hardware/peripheral/interfaces/kits",
-        "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
-        "include"
-    ]
+  include_dirs = [
+    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
+    "include",
+  ]
 }

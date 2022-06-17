@@ -12,7 +12,5 @@
 # limitations under the License.
 
 static_library("event_example") {
-    sources = [
-        "event_example.c"     
-    ]
+  sources = [ "event_example.c" ]
 }

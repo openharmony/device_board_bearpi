@@ -12,7 +12,5 @@
 # limitations under the License.
 
 static_library("semaphore_example") {
-    sources = [
-        "semaphore_example.c"     
-    ]
+  sources = [ "semaphore_example.c" ]
 }

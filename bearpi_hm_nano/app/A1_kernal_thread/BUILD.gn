@@ -12,8 +12,5 @@
 # limitations under the License.
 
 static_library("thread_example") {
-    sources = [
-        "thread_example.c"     
-    ]
-
+  sources = [ "thread_example.c" ]
 }

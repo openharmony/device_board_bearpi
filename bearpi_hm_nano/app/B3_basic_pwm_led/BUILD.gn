@@ -12,12 +12,10 @@
 # limitations under the License.
 
 static_library("pwm_example") {
-    sources = [
-        "pwm_example.c"
-    ]
+  sources = [ "pwm_example.c" ]
 
-    include_dirs = [
-        "//base/iot_hardware/peripheral/interfaces/kits",
-        "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
-    ]
+  include_dirs = [
+    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
+  ]
 }

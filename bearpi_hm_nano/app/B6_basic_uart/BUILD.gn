@@ -12,12 +12,10 @@
 # limitations under the License.
 
 static_library("uart_example") {
-    sources = [
-        "uart_example.c"
-    ]
+  sources = [ "uart_example.c" ]
 
-    include_dirs = [
-        "//base/iot_hardware/peripheral/interfaces/kits",
-        "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
-    ]
+  include_dirs = [
+    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
+  ]
 }

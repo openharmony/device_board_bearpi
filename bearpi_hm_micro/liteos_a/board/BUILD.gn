@@ -26,6 +26,7 @@ config("public") {
   include_dirs = [ "." ]
   include_dirs += [ "include" ]
   include_dirs += [ "$LITEOSTOPDIR/drivers/block/disk/include" ]
-  include_dirs +=
-      [ "$LITEOSTOPDIR/../../drivers/adapter/khdf/liteos/osal/include" ]
+  include_dirs += [
+    "$LITEOSTOPDIR/../../drivers/hdf_core/adapter/khdf/liteos/osal/include",
+  ]
 }

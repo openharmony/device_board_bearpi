@@ -12,13 +12,9 @@
 # limitations under the License.
 
 static_library("wifi_ap") {
-    sources = [
-        "wifi_ap.c"
-    ]
-    
-    cflags = [ "-Wno-unused-variable" ]
-    include_dirs = [
-        "//foundation/communication/wifi_lite/interfaces/wifiservice",
-    ]
+  sources = [ "wifi_ap.c" ]
 
+  cflags = [ "-Wno-unused-variable" ]
+  include_dirs =
+      [ "//foundation/communication/wifi_lite/interfaces/wifiservice" ]
 }
