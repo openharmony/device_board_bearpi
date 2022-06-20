@@ -37,4 +37,5 @@ BearPi-HM_Nano 提供的例程多达 29个，每个例程都有非常详细的�
 | D10   | 物联网 | iot_cloud_oc_infrared         |   [基于华为IoT平台的智慧人体感应案例](D10_iot_cloud_oc_infrared/README.md)|  
 | D11   | 物联网 | iot_cloud_oc_agriculture         |   [基于华为IoT平台的智慧农业案例](D11_iot_cloud_oc_agriculture/README.md)| 
 | D12   | 物联网 | iot_cloud_oc_gps         |   [基于华为IoT平台的智慧物流案例](D12_iot_cloud_oc_gps/README.md)|    
+| Z1   | 开发者贡献例程 | flash         |   [内部flash读写@游乐场](Z1_basic_flash_ylc/README.md)|    
 ||||
