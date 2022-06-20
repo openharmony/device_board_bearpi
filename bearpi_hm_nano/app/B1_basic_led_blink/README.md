@@ -37,7 +37,7 @@ unsigned int IoTGpioSetDir(unsigned int id, IotGpioDir dir);
 ## 硬件设计
 本案例将使用板载的LED来验证GPIO的输出功能，在BearPi-HM_Nano开发板上LED的连接电路图如下图所示，LED的控制引脚与主控芯片的GPIO_2连接，所以需要编写软件去控制GPIO_2输出高低电平实现LED灯的亮灭。
 
-![LED灯电路](../../docs/figures/B1_basic_led_blink/LED灯电路.png )
+![LED灯电路](../../docs/figures/B1_basic_led_blink/LEDCircuit.png )
 
 ## 软件设计
 
