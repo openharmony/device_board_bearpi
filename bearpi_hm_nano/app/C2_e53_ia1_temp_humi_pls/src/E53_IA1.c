@@ -247,7 +247,7 @@ int E53IA1ReadData(E53IA1Data *ReadData)
     data[DATA_CHECK] = SHT3X_Data_Buffer[TEMP_HSB];
 
     tmp = SHT3xCheckCrc(data, SHT30_TEMP_DATA_LEN, data[DATA_CHECK]);
-    /* value is ture */
+    /* value is true */
     if (!tmp) {
         dat = ((uint16_t)data[0] << DATA_WIDTH_8_BIT) | data[1];
         ReadData->Temperature = SHT3xCalcTemperatureC(dat);
@@ -257,7 +257,7 @@ int E53IA1ReadData(E53IA1Data *ReadData)
     data[DATA_LSB] = SHT3X_Data_Buffer[HUM_LSB];
     data[DATA_MSB] = SHT3X_Data_Buffer[HUM_MSB];
     data[DATA_CHECK] = SHT3X_Data_Buffer[HUM_HSB];
-    /* value is ture */
+    /* value is true */
     tmp = SHT3xCheckCrc(data, SHT30_HUM_DATA_LEN, data[DATA_CHECK]);
     if (!tmp) {
         dat = ((uint16_t)data[0] << DATA_WIDTH_8_BIT) | data[1];

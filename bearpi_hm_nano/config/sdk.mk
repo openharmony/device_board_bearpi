@@ -112,7 +112,7 @@ LOSCFG_RAM_MONITOR=n
 LOSCFG_DRIVERS_UART=y
 # LOSCFG_PLATFORM_UART_WITHOUT_VFS is not set
 LOSCFG_PLATFORM_OSAPPINIT=y
-#close printf for all moudle if controlled by
+#close printf for all modules if controlled by
 LOSCFG_DEBUG_CLOSE_PRINT=y
 
 #
@@ -126,6 +126,6 @@ LOSCFG_PERSISTENT_STORAGE=y
 
 # LOSCFG_TEST_NET is not set
 
-# data aquire
+# data acquire
 LOSCFG_DAQ = n
 CONFIG_DIAG_SUPPORT_AUTO_LINK=n
