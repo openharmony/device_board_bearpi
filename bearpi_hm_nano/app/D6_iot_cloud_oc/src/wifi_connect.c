@@ -170,7 +170,7 @@ static void OnWifiConnectionChangedHandler(int state, WifiLinkedInfo *info)
     if (info == NULL) {
         printf("WifiConnectionChanged:info is null, stat is %d.\n", state);
     } else {
-        if (state == WIFI_STATE_AVALIABLE) {
+        if (state == WIFI_STATE_AVAILABLE) {
             g_ConnectSuccess = 1;
         } else {
             g_ConnectSuccess = 0;
