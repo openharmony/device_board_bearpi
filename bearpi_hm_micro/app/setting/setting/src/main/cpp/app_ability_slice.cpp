@@ -92,12 +92,12 @@ void AppAbilitySlice::SetHead()
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
     imageView->SetSrc(DE_IMAGE_BACK);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
-    lablelFont->SetText("应用");
-    lablelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
-    headView_->Add(lablelFont);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
+    labelFont->SetText("应用");
+    labelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
+    headView_->Add(labelFont);
 }
 
 void AppAbilitySlice::SetAnAppInfo(const int count, BundleInfo& pBundleInfo)

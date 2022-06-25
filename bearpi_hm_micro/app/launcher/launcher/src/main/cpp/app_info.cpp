@@ -27,9 +27,9 @@ void AppInfo::Release()
         delete button_;
         button_ = nullptr;
     }
-    if (lable_) {
-        delete lable_;
-        lable_ = nullptr;
+    if (label_) {
+        delete label_;
+        label_ = nullptr;
     }
     if (appClickListener_) {
         delete appClickListener_;
@@ -49,7 +49,7 @@ AppInfo::~AppInfo()
 void AppInfo::ReSet()
 {
     button_ = nullptr;
-    lable_ = nullptr;
+    label_ = nullptr;
     appClickListener_ = nullptr;
     appLpListener_ = nullptr;
 }
@@ -69,20 +69,20 @@ void AppInfo::SetButton(UILabelButton* button)
     button_ = button;
 }
 
-void AppInfo::SetLable(UILabel* lable)
+void AppInfo::SetLabel(UILabel* label)
 {
-    lable->SetPosition(lableXY_.x, lableXY_.y, lableHV_.x, lableHV_.y);
+    label->SetPosition(labelXY_.x, labelXY_.y, labelHV_.x, labelHV_.y);
     char* p = strrchr(appName_, static_cast<int>('.'));
     if (p != nullptr) {
-        lable->SetText(p + 1);
+        label->SetText(p + 1);
     } else {
-        lable->SetText(appName_);
+        label->SetText(appName_);
     }
-    lable->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_TOP);
-    lable->SetFont(FOND_PATH, APP_FOND_ID);
-    lable->SetStyle(STYLE_BORDER_RADIUS, LABLE_RADIUS);
-    lable->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
-    lable_ = lable;
+    label->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_TOP);
+    label->SetFont(FOND_PATH, APP_FOND_ID);
+    label->SetStyle(STYLE_BORDER_RADIUS, LABEL_RADIUS);
+    label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
+    label_ = label;
 }
 
 void AppInfo::SetListener(AppInfo* app)

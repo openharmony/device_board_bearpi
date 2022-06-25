@@ -96,24 +96,24 @@ void ViewGroupPage::CalculateAppPosition(AppInfo* pAppInfo, int16_t row, int16_t
     pAppInfo->buttonHV_.x = width;
     pAppInfo->buttonHV_.y = heightB;
 
-    pAppInfo->lableXY_.x = xL;
-    pAppInfo->lableXY_.y = yL;
-    pAppInfo->lableHV_.x = width;
-    pAppInfo->lableHV_.y = heightL;
+    pAppInfo->labelXY_.x = xL;
+    pAppInfo->labelXY_.y = yL;
+    pAppInfo->labelHV_.x = width;
+    pAppInfo->labelHV_.y = heightL;
 }
 
 void ViewGroupPage::SetUpApp(AppInfo *pAppInfo)
 {
     UILabelButton *button = new UILabelButton();
-    UILabel *lable = new UILabel();
-    lable->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::Red()));
-    lable->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
+    UILabel *label = new UILabel();
+    label->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::Red()));
+    label->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
     pAppInfo->SetButton(button);
-    pAppInfo->SetLable(lable);
+    pAppInfo->SetLabel(label);
 
     pAppInfo->SetListener(pAppInfo);
     viewGroup_->Add(button);
-    viewGroup_->Add(lable);
+    viewGroup_->Add(label);
     viewGroup_->Invalidate();
 }
 
@@ -158,7 +158,7 @@ bool ViewGroupPage::RemoveApp(const char* pAppName)
         if (memcmp(app->data_->appName_, pAppName, strlen(pAppName)) == 0) {
             row_col_[app->data_->row_col_.x][app->data_->row_col_.y] = false;
             viewGroup_->Remove(app->data_->button_);
-            viewGroup_->Remove(app->data_->lable_);
+            viewGroup_->Remove(app->data_->label_);
             viewGroup_->Invalidate();
             appInfo_.Remove(app);
             return true;

@@ -50,27 +50,27 @@ private:
 
 class SwipeListener : public UISwipeView::OnSwipeListener {
 public:
-    SwipeListener(LongPressView* view, UISwipeView* swipe, UILabel* lable)
-        : view_(view), swipe_(swipe), lable_(lable) {};
+    SwipeListener(LongPressView* view, UISwipeView* swipe, UILabel* label)
+        : view_(view), swipe_(swipe), label_(label) {};
     ~SwipeListener() {};
     virtual void OnSwipe(UISwipeView& view) override
     {
         char buf[TMP_BUF_SIZE] = { 0 };
         sprintf_s(buf, sizeof(buf), ".%d.", swipe_->GetCurrentPage() + 1);
-        lable_->SetText(buf);
+        label_->SetText(buf);
         view_->RemoveLview();
     }
 
 private:
     LongPressView* view_ { nullptr };
     UISwipeView* swipe_ { nullptr };
-    UILabel* lable_ { nullptr };
+    UILabel* label_ { nullptr };
 };
 
 class SwipeView : public Task, public NativeBase {
 public:
     SwipeView() = delete;
-    SwipeView(UILabel* titlellable, UILabel* taillable);
+    SwipeView(UILabel* titlellabel, UILabel* taillabel);
     virtual ~SwipeView();
     void OnSetUpView();
     void StartApp(AppInfo* app);
@@ -85,7 +85,7 @@ public:
         if (st != nullptr) {
             int ret = sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
             if (ret != LAUNCHER_PARAMERROR) {
-                lableTitle_->SetText(tmp);
+                labelTitle_->SetText(tmp);
                 timeWeatherView_->SetUpTimeView();
             }
         }
@@ -103,8 +103,8 @@ private:
     UIViewGroup* AddFirstViewGroup();
     ViewGroupPage* arrPage_[MAX_VIEWGROUP] { nullptr };
     UISwipeView* swipe_ { nullptr };
-    UILabel* lableTitle_ { nullptr }; // view title time label
-    UILabel* lableTail_ { nullptr };
+    UILabel* labelTitle_ { nullptr }; // view title time label
+    UILabel* labelTail_ { nullptr };
     int groupCount_ { 0 };
     ViewPageListener* arrViewListener_ { nullptr };
     SwipeListener* swipeListener_ { nullptr };

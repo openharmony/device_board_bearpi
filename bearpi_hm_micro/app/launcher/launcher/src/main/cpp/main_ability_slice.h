@@ -51,8 +51,8 @@ protected:
 private:
     SwipeView* swipeView_ { nullptr };
     UIImageView* uiImageView_ { nullptr };
-    UILabel* lableHead_ { nullptr };
-    UILabel* lableTail_ { nullptr };
+    UILabel* labelHead_ { nullptr };
+    UILabel* labelTail_ { nullptr };
     RootView *rootview_ { nullptr };
 };
 } // namespace OHOS

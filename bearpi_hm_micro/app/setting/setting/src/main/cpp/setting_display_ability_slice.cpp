@@ -78,12 +78,12 @@ void SettingDisplayAbilitySlice::SetHead(void)
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
     imageView->SetSrc(DE_IMAGE_BACK);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
-    lablelFont->SetText("显示");
-    lablelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
-    headView_->Add(lablelFont);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
+    labelFont->SetText("显示");
+    labelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
+    headView_->Add(labelFont);
 }
 
 void SettingDisplayAbilitySlice::SetToggleButton(void)
@@ -95,12 +95,12 @@ void SettingDisplayAbilitySlice::SetToggleButton(void)
     toggleButtonView_->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     rootView_->Add(toggleButtonView_);
 
-    auto lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFont->SetText("屏保");
-    lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    toggleButtonView_->Add(lablelFont);
+    auto labelFont = new UILabel();
+    labelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFont->SetText("屏保");
+    labelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    toggleButtonView_->Add(labelFont);
 
     SetScreenSaverState(TRUE);
     UIToggleButton* togglebutton = new UIToggleButton();

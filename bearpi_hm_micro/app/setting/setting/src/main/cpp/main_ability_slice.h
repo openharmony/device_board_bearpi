@@ -43,7 +43,7 @@ namespace OHOS {
 class MainAbilitySlice : public AbilitySlice {
 public:
     MainAbilitySlice()
-        : headView_(nullptr), scrollView_(nullptr), rootView_(nullptr), lablelFontSsid_(nullptr),
+        : headView_(nullptr), scrollView_(nullptr), rootView_(nullptr), labelFontSsid_(nullptr),
           buttonWifiListener_(nullptr), buttonAppListener_(nullptr), buttonDisplayListener_(nullptr),
           buttonAboutListener_(nullptr), buttonBackListener_(nullptr) {}
     virtual ~MainAbilitySlice();
@@ -70,7 +70,7 @@ private:
     UIViewGroup* headView_;
     UIScrollView* scrollView_;
     RootView* rootView_;
-    UILabel* lablelFontSsid_;
+    UILabel* labelFontSsid_;
     EventListener* buttonWifiListener_;
     EventListener* buttonAppListener_;
     EventListener* buttonDisplayListener_;

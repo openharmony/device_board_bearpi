@@ -121,12 +121,12 @@ void SettingWifiAbilitySlice::SetHead(void)
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
     imageView->SetSrc(DE_IMAGE_BACK);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
-    lablelFont->SetText("WiFi");
-    lablelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
-    headView_->Add(lablelFont);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
+    labelFont->SetText("WiFi");
+    labelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
+    headView_->Add(labelFont);
 }
 
 void SettingWifiAbilitySlice::SetToggleButton(void)
@@ -138,12 +138,12 @@ void SettingWifiAbilitySlice::SetToggleButton(void)
     toggleButtonView_->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     rootView_->Add(toggleButtonView_);
 
-    auto lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFont->SetText("WiFi");
-    lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    toggleButtonView_->Add(lablelFont);
+    auto labelFont = new UILabel();
+    labelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFont->SetText("WiFi");
+    labelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    toggleButtonView_->Add(labelFont);
 
     UIToggleButton* togglebutton = new UIToggleButton();
     changeListener_ = new TestBtnOnStateChangeListener(reinterpret_cast<UIView*>(scrollView_));
@@ -157,12 +157,12 @@ void SettingWifiAbilitySlice::SetToggleButton(void)
 
 void SettingWifiAbilitySlice::SetUseWifi(void)
 {
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(USE_WIFI_FONT_X, USE_WIFI_FONT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFont->SetText("可用WiFi列表");
-    lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
-    rootView_->Add(lablelFont);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(USE_WIFI_FONT_X, USE_WIFI_FONT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFont->SetText("可用WiFi列表");
+    labelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
+    rootView_->Add(labelFont);
 }
 
 void SettingWifiAbilitySlice::AddWifi(void)
@@ -194,12 +194,12 @@ void SettingWifiAbilitySlice::AddWifi(void)
         useWifiView->SetOnClickListener(buttonInputListener_);
         scrollView_->Add(useWifiView);
 
-        auto lablelFont = new UILabel();
-        lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-        lablelFont->SetText(buff);
-        lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-        lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-        useWifiView->Add(lablelFont);
+        auto labelFont = new UILabel();
+        labelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+        labelFont->SetText(buff);
+        labelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+        labelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+        useWifiView->Add(labelFont);
         g_wifiStatus = 1;
     }
 
