@@ -34,8 +34,8 @@
 namespace OHOS {
 class SettingWifiInputPasswordAbilitySlice : public AbilitySlice {
 public:
-    SettingWifiInputPasswordAbilitySlice() : headView_(nullptr), inputView_(nullptr), lablelCursorText_(nullptr),
-                                             scrollView_(nullptr), rootView_(nullptr), lablelInputText_(nullptr),
+    SettingWifiInputPasswordAbilitySlice() : headView_(nullptr), inputView_(nullptr), labelCursorText_(nullptr),
+                                             scrollView_(nullptr), rootView_(nullptr), labelInputText_(nullptr),
                                              buttonBackListener_(nullptr) {}
     virtual ~SettingWifiInputPasswordAbilitySlice();
 
@@ -54,10 +54,10 @@ private:
     void SetButtonListener();
     UIViewGroup* headView_;
     UIViewGroup* inputView_;
-    UILabel* lablelCursorText_;
+    UILabel* labelCursorText_;
     UIScrollView* scrollView_;
     RootView* rootView_;
-    UILabel* lablelInputText_;
+    UILabel* labelInputText_;
     EventListener* buttonBackListener_;
 
     constexpr static int CURSOR_POSITION_OFFSET = 16;

@@ -39,13 +39,13 @@ void MainAbilitySlice::ReleaseView()
         delete uiImageView_;
         uiImageView_ = nullptr;
     }
-    if (lableHead_) {
-        delete lableHead_;
-        lableHead_ = nullptr;
+    if (labelHead_) {
+        delete labelHead_;
+        labelHead_ = nullptr;
     }
-    if (lableTail_) {
-        delete lableTail_;
-        lableTail_ = nullptr;
+    if (labelTail_) {
+        delete labelTail_;
+        labelTail_ = nullptr;
     }
 }
 
@@ -58,22 +58,22 @@ void MainAbilitySlice::SetHead()
     sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
     UILabel* label = new UILabel();
     rootview_->Add(label);
-    label->SetPosition(0, 0, Screen::GetInstance().GetWidth(), LABLE_TITLE_HEIGHT);
+    label->SetPosition(0, 0, Screen::GetInstance().GetWidth(), LABEL_TITLE_HEIGHT);
     label->SetText(tmp);
     label->SetAlign(TEXT_ALIGNMENT_RIGHT, TEXT_ALIGNMENT_TOP);
     label->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
     label->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
-    lableHead_ = label;
+    labelHead_ = label;
 }
 
 void MainAbilitySlice::SetTail()
 {
     UILabel* label = new UILabel();
     rootview_->Add(label);
-    label->SetPosition(0, Screen::GetInstance().GetHeight() - LABLE_TAIL_HEIGHT,
-                       Screen::GetInstance().GetWidth(), LABLE_TAIL_HEIGHT);
+    label->SetPosition(0, Screen::GetInstance().GetHeight() - LABEL_TAIL_HEIGHT,
+                       Screen::GetInstance().GetWidth(), LABEL_TAIL_HEIGHT);
     char buf[TMP_BUF_SIZE] = { 0 };
     sprintf_s(buf, sizeof(buf), ".%d.", 1);
     label->SetText(buf);
@@ -82,7 +82,7 @@ void MainAbilitySlice::SetTail()
     label->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
-    lableTail_ = label;
+    labelTail_ = label;
 }
 
 void MainAbilitySlice::SetImageView()
@@ -99,7 +99,7 @@ void MainAbilitySlice::SetImageView()
 
 void MainAbilitySlice::SetSwipe()
 {
-    swipeView_ = new SwipeView(lableHead_, lableTail_);
+    swipeView_ = new SwipeView(labelHead_, labelTail_);
     swipeView_->OnSetUpView();
     rootview_->Add(swipeView_->GetSwipeView());
 }

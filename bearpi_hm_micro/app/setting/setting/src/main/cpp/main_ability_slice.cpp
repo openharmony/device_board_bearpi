@@ -148,12 +148,12 @@ void MainAbilitySlice::SetHead(void)
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
     imageView->SetSrc(DE_IMAGE_BACK);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
-    lablelFont->SetText("设置");
-    lablelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
-    headView_->Add(lablelFont);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
+    labelFont->SetText("设置");
+    labelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
+    headView_->Add(labelFont);
 }
 
 void MainAbilitySlice::SetWifiButtonView(void)
@@ -166,28 +166,28 @@ void MainAbilitySlice::SetWifiButtonView(void)
     buttonView->SetOnClickListener(buttonWifiListener_);
     scrollView_->Add(buttonView);
 
-    UILabel* lablelFontWifi = new UILabel();
-    lablelFontWifi->SetPosition(DE_TITLE_TEXT_X, WIFI_BUTTON_TEXT_WIFI_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFontWifi->SetText("WiFi");
-    lablelFontWifi->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-    lablelFontWifi->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    buttonView->Add(lablelFontWifi);
+    UILabel* labelFontWifi = new UILabel();
+    labelFontWifi->SetPosition(DE_TITLE_TEXT_X, WIFI_BUTTON_TEXT_WIFI_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFontWifi->SetText("WiFi");
+    labelFontWifi->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    labelFontWifi->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(labelFontWifi);
 
     char buff[64] = {0};
     int myX = WIFI_BUTTON_TEXT_SSID_X;
     int myY = WIFI_BUTTON_TEXT_SSID_Y;
     int ret = GetCurrentConnInfo(buff, sizeof(buff));
-    lablelFontSsid_ = new UILabel();
-    lablelFontSsid_->SetPosition(myX, myY, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    labelFontSsid_ = new UILabel();
+    labelFontSsid_->SetPosition(myX, myY, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
     if (ret == 0) {
-        lablelFontSsid_->SetText(buff);
+        labelFontSsid_->SetText(buff);
     } else {
-        lablelFontSsid_->SetText("未连接");
+        labelFontSsid_->SetText("未连接");
     }
 
-    lablelFontSsid_->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
-    lablelFontSsid_->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
-    buttonView->Add(lablelFontSsid_);
+    labelFontSsid_->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
+    labelFontSsid_->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
+    buttonView->Add(labelFontSsid_);
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
@@ -205,13 +205,13 @@ void MainAbilitySlice::SetAppButtonView(void)
     buttonView->SetOnClickListener(buttonAppListener_);
     scrollView_->Add(buttonView);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFont->SetText("应用");
-    lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFont->SetText("应用");
+    labelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
 
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    buttonView->Add(lablelFont);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(labelFont);
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
@@ -229,13 +229,13 @@ void MainAbilitySlice::SetDisplayButtonView(void)
     buttonView->SetOnClickListener(buttonDisplayListener_);
     scrollView_->Add(buttonView);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFont->SetText("显示");
-    lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFont->SetText("显示");
+    labelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
 
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    buttonView->Add(lablelFont);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(labelFont);
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
@@ -245,12 +245,12 @@ void MainAbilitySlice::SetDisplayButtonView(void)
 
 static void setAboutTest(UIViewGroup *buttonView, int positionX, int positionY, const char *setText)
 {
-    UILabel* lablelFontSystem = new UILabel();
-    lablelFontSystem->SetPosition(positionX, positionY, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
-    lablelFontSystem->SetText(setText);
-    lablelFontSystem->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
-    lablelFontSystem->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
-    buttonView->Add(lablelFontSystem);
+    UILabel* labelFontSystem = new UILabel();
+    labelFontSystem->SetPosition(positionX, positionY, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    labelFontSystem->SetText(setText);
+    labelFontSystem->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
+    labelFontSystem->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
+    buttonView->Add(labelFontSystem);
 }
 
 void MainAbilitySlice::SetAboutButtonView(void)
@@ -263,12 +263,12 @@ void MainAbilitySlice::SetAboutButtonView(void)
     buttonView->SetOnClickListener(buttonAboutListener_);
     scrollView_->Add(buttonView);
 
-    UILabel* lablelFontAbout = new UILabel();
-    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFontAbout->SetText("关于");
-    lablelFontAbout->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-    lablelFontAbout->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    buttonView->Add(lablelFontAbout);
+    UILabel* labelFontAbout = new UILabel();
+    labelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFontAbout->SetText("关于");
+    labelFontAbout->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    labelFontAbout->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(labelFontAbout);
 
     char buff[62];
     const char* gDV = GetDisplayVersion();
@@ -341,9 +341,9 @@ void MainAbilitySlice::OnActive(const Want& want)
     int ret = GetCurrentConnInfo(buff, sizeof(buff));
     if (ret == 0) {
         printf("##### SetText -> %s \n", buff);
-        lablelFontSsid_->SetText(buff);
+        labelFontSsid_->SetText(buff);
     } else {
-        lablelFontSsid_->SetText("未连接");
+        labelFontSsid_->SetText("未连接");
     }
     AbilitySlice::OnActive(want);
 }

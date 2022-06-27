@@ -43,20 +43,20 @@ public:
     void Release();
     void ReSet();
     void SetButton(UILabelButton *button);
-    void SetLable(UILabel *lable);
+    void SetLabel(UILabel *label);
     void SetListener(AppInfo *app);
     void SetLocation(int16_t r, int16_t c);
 
     UILabelButton* button_ { nullptr };
-    UILabel* lable_ { nullptr };
+    UILabel* label_ { nullptr };
 
     UIView::OnLongPressListener* appLpListener_ { nullptr };
     UIView::OnClickListener* appClickListener_ { nullptr };
 
     funcClick funcclick_ { nullptr };
     funcLongPress funclPress_ { nullptr };
-    MyPoint lableXY_ { 0 };
-    MyPoint lableHV_ { 0 };
+    MyPoint labelXY_ { 0 };
+    MyPoint labelHV_ { 0 };
     MyPoint buttonXY_ { 0 };
     MyPoint buttonHV_ { 0 };
     MyPoint row_col_ { 0 };

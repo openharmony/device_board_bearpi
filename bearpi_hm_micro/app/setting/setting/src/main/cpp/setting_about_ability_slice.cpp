@@ -86,12 +86,12 @@ void SettingAboutAbilitySlice::SetHead()
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
     imageView->SetSrc(DE_IMAGE_BACK);
 
-    UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
-    lablelFont->SetText("关于");
-    lablelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
-    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
-    headView_->Add(lablelFont);
+    UILabel* labelFont = new UILabel();
+    labelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
+    labelFont->SetText("关于");
+    labelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
+    labelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
+    headView_->Add(labelFont);
 }
 
 void SettingAboutAbilitySlice::SetScrollItem(int count)
@@ -104,20 +104,20 @@ void SettingAboutAbilitySlice::SetScrollItem(int count)
     itemView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     scrollView_->Add(itemView);
 
-    UILabel* lablelFontName = new UILabel();
-    lablelFontName->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
-    lablelFontName->SetText(itemInfo_[count][0]);
-    lablelFontName->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
-    lablelFontName->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
-    itemView->Add(lablelFontName);
+    UILabel* labelFontName = new UILabel();
+    labelFontName->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    labelFontName->SetText(itemInfo_[count][0]);
+    labelFontName->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    labelFontName->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    itemView->Add(labelFontName);
 
-    UILabel* lablelFontInfo = new UILabel();
-    lablelFontInfo->SetPosition(ITEM_INFO_X, ITEM_INFO_Y, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
-    lablelFontInfo->SetText(itemInfo_[count][1]);
-    lablelFontInfo->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
-    lablelFontInfo->SetAlign(TEXT_ALIGNMENT_RIGHT);
-    lablelFontInfo->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
-    itemView->Add(lablelFontInfo);
+    UILabel* labelFontInfo = new UILabel();
+    labelFontInfo->SetPosition(ITEM_INFO_X, ITEM_INFO_Y, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    labelFontInfo->SetText(itemInfo_[count][1]);
+    labelFontInfo->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
+    labelFontInfo->SetAlign(TEXT_ALIGNMENT_RIGHT);
+    labelFontInfo->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
+    itemView->Add(labelFontInfo);
 }
 
 void SettingAboutAbilitySlice::SetScroll()

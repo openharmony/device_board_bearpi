@@ -20,10 +20,10 @@
 #include <securec.h>
 
 namespace OHOS {
-static constexpr int16_t LABLE_TITLE_HEIGHT = 30; // tail lable height
-static constexpr int16_t LABLE_TAIL_HEIGHT = 30;
+static constexpr int16_t LABEL_TITLE_HEIGHT = 30; // tail label height
+static constexpr int16_t LABEL_TAIL_HEIGHT = 30;
 static constexpr int16_t APP_WIDTH_COUNT = 7;       // blank + app + blank + app + blank
-static constexpr int16_t APP_HEIGHT_COUNT = 4;      // app + lable + app + lable
+static constexpr int16_t APP_HEIGHT_COUNT = 4;      // app + label + app + label
 static constexpr int16_t MAX_VIEWGROUP = 3;         // swipe window count
 static constexpr int16_t APP_ROW_COUNT = 2;         // a swipe view app count in row
 static constexpr int16_t APP_COL_COUNT = 3;         // a swipe view app count in col
@@ -34,8 +34,8 @@ static constexpr int16_t TOTAL_OPACITY = 0;         // transparent
 static constexpr int16_t HALF_OPACITY = 50;         // diaphanous
 static constexpr int16_t UN_OPACITY = 255;          // opaque
 static constexpr int16_t BUTTON_RADIUS = 20;        // app icon radius
-static constexpr int16_t LABLE_RADIUS = 0;          // lable icon radius
-static constexpr int16_t TITLE_LABLE_OPACITY = 255; // translucent
+static constexpr int16_t LABEL_RADIUS = 0;          // label icon radius
+static constexpr int16_t TITLE_LABEL_OPACITY = 255; // translucent
 static constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
 
 #ifndef TMP_BUF_SIZE

@@ -22,10 +22,10 @@ AppEvent* AppEvent::appEvent_ = { nullptr };
 SwipeView* AppEvent::nativeView_ = { nullptr };
 static constexpr int32_t PERIOD_TIME = 60 * 1000; // 60 seconds
 
-SwipeView::SwipeView(UILabel* titlellable, UILabel* taillable)
+SwipeView::SwipeView(UILabel* titlellabel, UILabel* taillabel)
 {
-    lableTitle_ = titlellable;
-    lableTail_ = taillable;
+    labelTitle_ = titlellabel;
+    labelTail_ = taillabel;
     groupCount_ = 0;
     for (int i = 0; i < MAX_VIEWGROUP; i++) {
         arrPage_[i] = nullptr;
@@ -46,8 +46,8 @@ SwipeView::~SwipeView()
 void SwipeView::SetUpSwipe()
 {
     swipe_ = new UISwipeView();
-    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    swipe_->SetPosition(0, LABEL_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
+        Screen::GetInstance().GetHeight() - LABEL_TITLE_HEIGHT - LABEL_TAIL_HEIGHT);
     swipe_->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     swipe_->SetLoopState(true);
     swipe_->SetAnimatorTime(20); // set swipe view animator time 20s
@@ -59,8 +59,8 @@ UIViewGroup* SwipeView::AddViewGroup()
         return nullptr;
     }
     UIViewGroup* viewGroup = new UIViewGroup();
-    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    viewGroup->SetPosition(0, LABEL_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
+        Screen::GetInstance().GetHeight() - LABEL_TITLE_HEIGHT - LABEL_TAIL_HEIGHT);
     viewGroup->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     groupCount_++;
     ViewGroupPage* page = new ViewGroupPage(viewGroup);
@@ -72,8 +72,8 @@ UIViewGroup* SwipeView::AddViewGroup()
 UIViewGroup* SwipeView::AddFirstViewGroup()
 {
     UIViewGroup* firstView = new UIViewGroup();
-    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    firstView->SetPosition(0, LABEL_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
+        Screen::GetInstance().GetHeight() - LABEL_TITLE_HEIGHT - LABEL_TAIL_HEIGHT);
     firstView->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
     UIViewGroup* viewTimeWeather = new UIViewGroup();
@@ -102,7 +102,7 @@ UIViewGroup* SwipeView::AddFirstViewGroup()
 void SwipeView::OnSetUpView()
 {
     SetUpSwipe();
-    swipeListener_ = new SwipeListener(lpView_, swipe_, lableTail_);
+    swipeListener_ = new SwipeListener(lpView_, swipe_, labelTail_);
     swipe_->SetOnSwipeListener(swipeListener_);
     arrViewListener_ = new ViewPageListener(lpView_);
     swipe_->SetOnClickListener(arrViewListener_);
