@@ -202,6 +202,7 @@ int E53IA1Init(void)
         printf("Init SHT30 failed!\r\n");
         return -1;
     }
+    return 0;
 }
 
 /***************************************************************
