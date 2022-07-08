@@ -44,7 +44,6 @@
             "kv_store",
             "syspara_lite",
             "permission",
-            "ipc_lite",
             "samgr_lite",
             "utils_base"
         ],
