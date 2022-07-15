@@ -12,21 +12,17 @@
 
 2. 将SD卡插入到开发板中，并按开发板的RESET按键重启开发板
 
-3. 输入以下命令，挂载SD卡
-	```
-    mount /dev/mmcblk0p0 /sdcard vfat
-    ```
-4. 输入以下命令，进入SD卡目录
+3. 输入以下命令，进入SD卡目录
 	```
     cd /sdcard
     ```
-5. 输入以下命令，打开调试模式
+4. 输入以下命令，打开调试模式
     ```
     ./bm set -s disable
     ./bm set -d enable
     ```
     
-6.	安装应用
+5.	安装应用
     ```
     ./bm install -p LED_1.0.0.hap
     ```

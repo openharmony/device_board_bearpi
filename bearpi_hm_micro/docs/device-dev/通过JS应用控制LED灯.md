@@ -93,8 +93,8 @@
     static int GpioWriteRead(struct HdfIoService *serv, int32_t eventData, int32_t *val)
     {
         int ret = HDF_FAILURE;
-        struct HdfSBuf *data = HdfSBufObtainDefaultSize();
-        struct HdfSBuf *reply = HdfSBufObtainDefaultSize();
+        struct HdfSBuf *data = HdfSbufObtainDefaultSize();
+        struct HdfSBuf *reply = HdfSbufObtainDefaultSize();
 
         if (data == NULL || reply == NULL) {
             HILOG_ERROR(HILOG_MODULE_ACE,"fail to obtain sbuf data\n");
@@ -104,8 +104,8 @@
         if (!HdfSbufWriteUint8(data, (uint8_t)eventData))
         {
             HILOG_ERROR(HILOG_MODULE_ACE,"fail to write sbuf\n");
-            HdfSBufRecycle(data);
-            HdfSBufRecycle(reply);
+            HdfSbufRecycle(data);
+            HdfSbufRecycle(reply);
             return ret;
         }
 
@@ -113,22 +113,22 @@
         if (ret != HDF_SUCCESS)
         {
             HILOG_ERROR(HILOG_MODULE_ACE,"fail to send service call\n");
-            HdfSBufRecycle(data);
-            HdfSBufRecycle(reply);
+            HdfSbufRecycle(data);
+            HdfSbufRecycle(reply);
             return ret;
         }
         if (!HdfSbufReadInt32(reply, val))
         {
             HILOG_ERROR(HILOG_MODULE_ACE,"fail to get service call reply\n");
             ret = HDF_ERR_INVALID_OBJECT;
-            HdfSBufRecycle(data);
-            HdfSBufRecycle(reply);
+            HdfSbufRecycle(data);
+            HdfSbufRecycle(reply);
             return ret;
         }
         HILOG_ERROR(HILOG_MODULE_ACE,"Get reply is: %d\n", val);
 
-        HdfSBufRecycle(data);
-        HdfSBufRecycle(reply);
+        HdfSbufRecycle(data);
+        HdfSbufRecycle(reply);
         return ret;
     }
 
