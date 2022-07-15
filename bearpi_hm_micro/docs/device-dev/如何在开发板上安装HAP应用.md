@@ -10,7 +10,7 @@
 
 1. 将device/board/bearpi/bearpi_hm_micro/tools/hap_tools/hap_example路径下LED_1.0.0.hap拷贝到SD卡中；
 
-    将out\bearpi_hm_micro\bearpi_hm_micro\dev_tools\bin路径下的bm拷贝到SD卡中。
+    将out/bearpi_hm_micro/bearpi_hm_micro/dev_tools/bin路径下的bm拷贝到SD卡中。
 
 2. 将SD卡插入到开发板中，并按开发板的RESET按键重启开发板。
 
