@@ -15,7 +15,7 @@ static_library("adc_example") {
   sources = [ "adc_example.c" ]
 
   include_dirs = [
-    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//base/iothardware/peripheral/interfaces/inner_api",
     "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
   ]
 }
