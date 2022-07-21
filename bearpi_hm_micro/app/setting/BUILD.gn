@@ -33,7 +33,7 @@ shared_library("setting") {
     "//base/powermgr/powermgr_lite/frameworks:powermgr",
     "//base/startup/syspara_lite/frameworks/parameter:parameter",
     "//foundation/distributeddatamgr/appdatamgr/kv_store/interfaces/inner_api/kv_store:kv_store",
-    "//foundation/distributedschedule/samgr_lite/samgr:samgr",
+    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
     "//foundation/graphic/surface",
     "//foundation/graphic/ui:lite_ui",
     "//foundation/graphic/utils:lite_graphic_utils",
