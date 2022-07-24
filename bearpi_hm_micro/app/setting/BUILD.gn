@@ -46,7 +46,7 @@ shared_library("setting") {
     "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
     "${aafwk_lite_path}/interfaces/kits/want_lite",
     "//base/startup/syspara_lite/interfaces/kits",
-    "//base/security/permission/interfaces/kits/permission_lite",
+    "//base/security/permission_lite/interfaces/kits",
     "//third_party/wpa_supplicant/wpa_supplicant-2.9/src/common",
   ]
 
