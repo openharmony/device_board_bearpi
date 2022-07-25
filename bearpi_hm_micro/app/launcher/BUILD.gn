@@ -28,11 +28,11 @@ shared_library("launcher") {
   deps = [
     "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
     "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
-    "//foundation/distributeddatamgr/appdatamgr/kv_store/interfaces/inner_api/kv_store:kv_store",
-    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
+    "//foundation/distributeddatamgr/kv_store/interfaces/inner_api/kv_store:kv_store",
     "//foundation/graphic/surface",
     "//foundation/graphic/ui:lite_ui",
     "//foundation/graphic/utils:lite_graphic_utils",
+    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
 
   include_dirs = [
