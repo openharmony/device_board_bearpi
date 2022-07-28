@@ -18,7 +18,7 @@ static_library("e53_sf1_example") {
   ]
 
   include_dirs = [
-    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//base/iothardware/peripheral/interfaces/inner_api",
     "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
     "include",
   ]

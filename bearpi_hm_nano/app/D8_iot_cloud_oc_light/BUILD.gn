@@ -25,7 +25,7 @@ static_library("cloud_oc_light") {
   ]
 
   include_dirs = [
-    "//base/iot_hardware/peripheral/interfaces/kits",
+    "//base/iothardware/peripheral/interfaces/inner_api",
     "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
     "//foundation/communication/wifi_lite/interfaces/wifiservice",
     "//third_party/cJSON",
