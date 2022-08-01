@@ -31,7 +31,7 @@ shared_library("setting") {
     "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
     "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
     "//base/powermgr/powermgr_lite/frameworks:powermgr",
-    "//base/startup/syspara_lite/frameworks/parameter:parameter",
+    "//base/startup/init/interfaces/innerkits:libbegetutil",
     "//foundation/distributeddatamgr/kv_store/interfaces/inner_api/kv_store:kv_store",
     "//foundation/distributedschedule/samgr_lite/samgr:samgr",
     "//foundation/graphic/surface",
@@ -45,7 +45,7 @@ shared_library("setting") {
     "${aafwk_lite_path}/interfaces/kits/ability_lite",
     "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
     "${aafwk_lite_path}/interfaces/kits/want_lite",
-    "//base/startup/syspara_lite/interfaces/kits",
+    "//base/startup/init/interfaces/innerkits/include/syspara",
     "//base/security/permission_lite/interfaces/kits",
     "//third_party/wpa_supplicant/wpa_supplicant-2.9/src/common",
   ]

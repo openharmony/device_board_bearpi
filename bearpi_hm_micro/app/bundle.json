@@ -42,7 +42,7 @@
             "ui",
             "graphic_utils",
             "kv_store",
-            "syspara_lite",
+            "init",
             "permission",
             "samgr_lite",
             "utils_base"
