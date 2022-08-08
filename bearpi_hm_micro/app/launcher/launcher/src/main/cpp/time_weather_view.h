@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_TIME_WEATHER_H
-#define OHOS_TIME_WEATHER_H
+#ifndef OHOS_TIME_WEATHER_VIEW_H
+#define OHOS_TIME_WEATHER_VIEW_H
 
 #include <components/ui_label.h>
 #include <components/ui_label_button.h>
