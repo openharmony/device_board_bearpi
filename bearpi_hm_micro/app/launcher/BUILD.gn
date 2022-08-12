@@ -40,7 +40,6 @@ shared_library("launcher") {
     "${aafwk_lite_path}/interfaces/kits/ability_lite",
     "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
     "${aafwk_lite_path}/interfaces/kits/want_lite",
-    "//base/startup/syspara_lite/interfaces/kits",
   ]
 
   defines = [
