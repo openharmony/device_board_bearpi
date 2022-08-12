@@ -12,9 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#ifndef __BOARD_CONFIG_H__
-#define __BOARD_CONFIG_H__
+
+#ifndef __TARGET_CONFIG_H__
+#define __TARGET_CONFIG_H__
 
 #ifdef __cplusplus
 #if __cplusplus

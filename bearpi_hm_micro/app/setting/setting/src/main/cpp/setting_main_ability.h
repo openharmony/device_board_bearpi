@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_MAIN_ABILITY_H
-#define OHOS_MAIN_ABILITY_H
+#ifndef OHOS_SETTING_MAIN_ABILITY_H
+#define OHOS_SETTING_MAIN_ABILITY_H
 
 #include "ability_loader.h"
 

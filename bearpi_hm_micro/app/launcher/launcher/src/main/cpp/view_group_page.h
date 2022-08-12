@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_VIEWGROUP_PAGE_H
-#define OHOS_VIEWGROUP_PAGE_H
+#ifndef OHOS_VIEW_GROUP_PAGE_H
+#define OHOS_VIEW_GROUP_PAGE_H
 
 #include <components/ui_label.h>
 #include <components/ui_label_button.h>
