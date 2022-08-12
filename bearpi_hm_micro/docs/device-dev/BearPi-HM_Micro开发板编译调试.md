@@ -26,7 +26,7 @@ repo forall -c 'git lfs pull'
     当编译完后，在Windows中可以直接查看到最终编译的固件，具体路径在：
     `\out\bearpi-hm_micro\bearpi-hm_micro`
     其中有以下文件是后面烧录系统需要使用的。
-    
+
     * OHOS_Image.stm32：系统镜像文件
     * rootfs_vfat.img：根文件系统
     * userfs_vfat.img：用户文件系统
@@ -65,7 +65,7 @@ repo forall -c 'git lfs pull'
 
     如果上面操作不行，直接关闭VMware Workstation，选择挂起，然后再重新插拔USB。
 
-4. 查看开发板的串口
+4. 查看开发板的串口<a name="serial_num"></a>
 
     ![](figures/获取到开发板串口号.png)
 
@@ -80,13 +80,13 @@ repo forall -c 'git lfs pull'
     ![](figures/连接USB.png)
 
 3. 点击STM32CubeProgrammer工具的“+”按钮，然后选择烧录配置的tvs文件。
-    
+
     ![](figures/选择烧录配置文件.png)
 
 4. 点击Browse按钮，然后选择工程源码下的烧录镜像路径
 
     ![](figures/选择镜像文件路径.png)
-    
+
 5. 点击Download按钮启动镜像烧录，并等待烧录完毕。
 
     ![](figures/烧录镜像.png)
@@ -94,10 +94,10 @@ repo forall -c 'git lfs pull'
 ### 四、启动开发板进入终端
 
 1. 打开MobaXterm，
-   
+
     1. 点击：`Session`、`Serial`按钮
 
-    2. 设置Seral port为 第一-4 查看到的COM号
+    2. 设置Seral port为在 [第二-4](#serial_num) 步骤查看到的COM号
 
     3. 设置Speed为 `115200`
 
@@ -107,9 +107,11 @@ repo forall -c 'git lfs pull'
     ![](figures/Mobax_Serial_选择.png)
 
 
-3. 将开发板的拨码开关拨至“010”emmc启动模式，并按一下开发板的“RESET”按钮复位开发板。
+3. 将开发板的拨码开关拨至“010”以使用emmc启动模式，并按一下开发板的“RESET”按钮复位开发板。
 
     ![](figures/启动开发板.png)
+
+    **注意** 每次烧录完成，第一次复位后在启动过程中会写入 bootcmd 环境变量，此次复位不会正常引导系统。再次复位后可以正常启动。
 
 4. MobaXterm上打印出运行日志，等待启动日志运行结束，按键盘“回车”按键进入开发板shell终端，输入例如"ls"命令，可与开发板交互。
 
