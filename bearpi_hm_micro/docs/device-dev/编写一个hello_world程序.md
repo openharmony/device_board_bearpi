@@ -12,7 +12,7 @@
 
     ```
     .
-    └── app        
+    └── app
         │── my_first_app
             │── hello_world.c
             └── BUILD.gn
@@ -25,20 +25,20 @@
 
     ```
     #include <stdio.h>
-    
+
     int main(int argc, char **argv)
     {
         printf("\n************************************************\n");
         printf("\n\t\tHello BearPi!\n");
         printf("\n************************************************\n\n");
-        
+
         return 0;
     }
     ```
 
-3.  编写将构建业务代码的BUILD.gn文件。
+3.  编写构建业务代码的BUILD.gn文件。
 
-    如步骤1所述，BUILD.gn文件由三部分内容（目标、源文件、头文件路径）构成，需由开发者完成填写。以my\_first\_app为例，需要创建./device/board/bearpi/bearpi\_hm\_micro/app/BUILD.gn，并完如下配置。
+    如步骤1所述，BUILD.gn文件由三部分内容（目标、源文件、头文件路径）构成，需由开发者完成填写。以my\_first\_app为例，需要创建./device/board/bearpi/bearpi\_hm\_micro/app/my_first_app/BUILD.gn，并完成如下配置。
 
     ```
     import("//build/lite/config/component/lite_component.gni")
@@ -60,8 +60,7 @@
     ```
 
     -   首先导入 gni 组件，将源码hello_world.c编译成hello_world_lib库文件
-    -   然后将hello_world_lib打包成 lite_component，命名为my_app组件。
-
+    -   然后将hello_world_lib打包成 lite_component，命名为my_app组件
     -   输出的可执行文件名称由output_name定义为hello_world
 
 4. 修改bundle.json配置文件
@@ -85,12 +84,11 @@
 
 ## 运行结果<a name="section18115713118"></a>
 
-示例代码[编译、烧录](BearPi-HM_Micro开发板编译调试.md)后，在命令行输入指令“./bin/hello_world”执行写入的demo程序，会显示如下结果：
+示例代码[编译、烧录](BearPi-HM_Micro开发板编译调试.md)后，在命令行输入指令`./bin/hello_world`执行写入的demo程序，会显示如下结果：
 
 
 ![](figures/运行hello_world.png)
 
 
 
-
-在此希望开发者能仔细琢磨并掌握整个流程，有利于学习OpenHarmony的编译框架，以及为后续自主开发应用打下基础
+在此希望开发者能仔细琢磨并掌握整个流程，有利于学习OpenHarmony的编译框架，以及为后续自主开发应用打下基础。
