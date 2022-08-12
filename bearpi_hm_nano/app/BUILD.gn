@@ -50,5 +50,6 @@ lite_component("app") {
     # "D12_iot_cloud_oc_gps:cloud_oc_gps",
 
     # "Z1_basic_flash_ylc:flash_example",
+    # "Z2_basic_kv_store:kv_store_example",
   ]
 }
