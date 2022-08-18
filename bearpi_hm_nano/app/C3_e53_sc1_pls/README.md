@@ -23,7 +23,7 @@ int E53SC1ReadData(float *data);
 **参数：**
 
 |参数名|描述|
-|:--|:------| 
+|:--|:------|
 | data | data,光照强度数据指针。 |
 
 ### LightStatusSet()
@@ -37,7 +37,7 @@ void LightStatusSet(E53SC1Status status);
 **参数：**
 
 |参数名|描述|
-|:--|:------| 
+|:--|:------|
 | status | ON开，OFF关闭。  |
 
 
@@ -91,8 +91,6 @@ static void ExampleTask(void)
 }
 ```
 
-
-
 ## 编译调试
 
 ### 修改 BUILD.gn 文件
@@ -105,12 +103,10 @@ static void ExampleTask(void)
 #"C5_e53_is1_infrared:e53_is1_example",
 ```
 
-    
-
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，会打印光照强度信息。用手遮住扩展板，补光灯会自动开启。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，会打印光照强度信息。用手遮住扩展板，补光灯会自动开启。
 ```c
 =======================================
 *************E53_SC1_example***********
