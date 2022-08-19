@@ -53,7 +53,7 @@ shared_library("setting") {
   ldflags = [
     "-lwpa",
     "-lwpa_client",
-    "-lsysparam",
+    "-lbegetutil",
     "-lpms_client",
   ]
 
