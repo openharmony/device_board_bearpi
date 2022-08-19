@@ -25,12 +25,12 @@
 #include "iot_i2c.h"
 #include "E53_SC1.h"
 
- /***************************************************************
-  * 函数名称: E53SC1IoInit
-  * 说    明: E53_SC1 GPIO初始化
-  * 参    数: 无
-  * 返 回 值: 无
-  ***************************************************************/
+/***************************************************************
+ * 函数名称: E53SC1IoInit
+ * 说    明: E53_SC1 GPIO初始化
+ * 参    数: 无
+ * 返 回 值: 无
+ ***************************************************************/
 static void E53SC1IoInit(void)
 {
     IoTGpioInit(E53_SC1_LIGHT_GPIO);
@@ -43,6 +43,7 @@ static void E53SC1IoInit(void)
     IoTGpioSetFunc(E53_SC1_I2C1_SCL_GPIO, WIFI_IOT_IO_FUNC_GPIO_1_I2C1_SCL); // GPIO_1复用为I2C1_SCL
     IoTI2cInit(WIFI_IOT_I2C_IDX_1, WIFI_IOT_I2C_BAUDRATE);              /* baudrate: 400kbps */
 }
+
 /***************************************************************
  * 函数名称: Init_BH1750
  * 说    明: 写命令初始化BH1750
@@ -78,6 +79,7 @@ static int StartBH1750(void)
     }
     return 0;
 }
+
 /***************************************************************
  * 函数名称: E53SC1Init
  * 说    明: 初始化E53_SC1
@@ -94,6 +96,7 @@ int E53SC1Init(void)
     }
     return 0;
 }
+
 /***************************************************************
  * 函数名称: E53_SC1_Read_Data
  * 说    明: 测量光照强度
@@ -103,7 +106,6 @@ int E53SC1Init(void)
 int E53SC1ReadData(float *data)
 {
     int ret;
-    int result;
     ret = StartBH1750(); // 启动传感器采集数据
     if (ret != 0) {
         printf("Start BH1750 failed!\r\n");
@@ -118,11 +120,12 @@ int E53SC1ReadData(float *data)
     *data = (float)(((recv_data[0] << DATA_WIDTH_8_BIT) + recv_data[1]) / BH1750_COEFFICIENT_LUX); // 合成数据，即光照数据
     return 0;
 }
+
 /***************************************************************
  * 函数名称: LightStatusSet
  * 说    明: 灯状态设置
  * 参    数: status,ENUM枚举的数据
- *									OFF,光灯
+ *									OFF,关灯
  *									ON,开灯
  * 返 回 值: 无
  ***************************************************************/
