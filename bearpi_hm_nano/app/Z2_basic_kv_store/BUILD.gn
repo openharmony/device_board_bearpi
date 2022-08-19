@@ -16,6 +16,6 @@ static_library("kv_store_example") {
 
   include_dirs = [
     "//base/iothardware/peripheral/interfaces/inner_api",
-    "//utils/native/lite/include",
+    "//commonlibrary/utils_lite/include",
   ]
 }

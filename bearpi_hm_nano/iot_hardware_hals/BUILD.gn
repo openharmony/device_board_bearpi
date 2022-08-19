@@ -19,7 +19,7 @@ static_library("iot_hardware_hals") {
       "src/hal_iot_i2c_ex.c",
     ]
     include_dirs = [
-      "//utils/native/lite/include",
+      "//commonlibrary/utils_lite/include",
       "//base/iothardware/peripheral/interfaces/inner_api",
       "//device/soc/hisilicon/hi3861v100/sdk_liteos/include",
       "//device/board/bearpi/bearpi_hm_nano/iot_hardware_hals/include",
