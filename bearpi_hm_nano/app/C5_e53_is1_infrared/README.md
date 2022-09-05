@@ -2,8 +2,10 @@
 本示例将演示如何在BearPi-HM_Nano开发板上使用E53_IS1实现人体红外感应，当检测到有人走动时，蜂鸣器发出报警，设备安装如下图所示。
 
 ![](../../docs/figures/C5_e53_is1_infrared/E53_IS1_Install.png "E53_IS1安装")
+
 ## E53_IS1 API分析
 本案例主要使用了以下API完成人体红外感应。
+
 ### E53IS1Init()
 ```C
 void E53IS1Init(void);
@@ -17,7 +19,7 @@ void E53IS1Init(void);
 void E53IS1ReadData(E53IS1CallbackFunc func);
 ```
  **描述：**
- 
+
 设置人体感应触发的回调函数。
 
 
@@ -38,7 +40,7 @@ E53_IS1 红外感应扩展板与 BearPi-HM_Nano 开发板安装如下图所示
 **主要代码分析**
 
 
-首先调用 `E53IS1Init()` 函数初始化E53_SC1所接的引脚的功能，然后调用 `E53IS1ReadData()` BeepAlarm(),系统启动后会通过osEventFlagsWait()函数让ExampleTask任务一直等待事件标志位FLAGS_MSK1，当检测到人后，BeepAlarm()函数会发送事件标志位，ExampleTask任务继续运行开启蜂鸣器报警3秒钟 然后关闭蜂鸣器继续等待下一次触发事件。
+首先调用 `E53IS1Init()` 函数初始化E53_SC1所接的引脚的功能，然后调用 `E53IS1ReadData()` 设置回调函数`BeepAlarm()`，系统启动后会通过osEventFlagsWait()函数让ExampleTask任务一直等待事件标志位`FLAGS_MSK1`。当检测到人后，回调函数`BeepAlarm()`会设置事件标志位`FLAGS_MSK1`，ExampleTask任务检测到事件标志位`FLAGS_MSK1`后继续运行开启蜂鸣器报警3秒钟 然后关闭蜂鸣器继续等待下一次触发事件。
 ```C
 static void BeepAlarm(char *arg)
 {
@@ -65,7 +67,6 @@ static void ExampleTask(void)
 ```
 
 
-
 ## 编译调试
 
 ### 修改 BUILD.gn 文件
@@ -78,11 +79,9 @@ static void ExampleTask(void)
 "C5_e53_is1_infrared:e53_is1_example",
 ```
 
-    
-
 
 ### 运行结果
 
-示例代码编译烧录代码后，按下开发板的RESET按键，人员靠近开发板，蜂鸣器开始报警。
+示例代码编译烧录后，按下开发板的RESET按键，人员靠近开发板，蜂鸣器开始报警并持续3秒。
 
 
