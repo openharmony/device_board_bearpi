@@ -3,8 +3,10 @@
 
 
 ![](../../docs/figures/C4_e53_sc2_axis/E53_SC2_Install.png "E53_SC2安装")
+
 ## E53_SC2 API分析
-本案例主要使用了以下API完成三轴加速度读取。
+本案例主要使用了以下API完成三轴加速度值的读取。
+
 ### E53SC2Init()
 ```C
 int E53SC2Init(void);
@@ -18,9 +20,8 @@ int E53SC2Init(void);
 int E53SC2ReadData(E53SC2Data *ReadData);
 ```
  **描述：**
- 
-读取三轴加速度及温度。
 
+读取三轴加速度及温度。
 
 
 
@@ -87,7 +88,6 @@ static void ExampleTask(void)
 ```
 
 
-
 ## 编译调试
 
 ### 修改 BUILD.gn 文件
@@ -100,12 +100,10 @@ static void ExampleTask(void)
 #"C5_e53_is1_infrared:e53_is1_example",
 ```
 
-    
-
 
 ### 运行结果<a name="section18115713118"></a>
 
-示例代码编译烧录代码后，按下开发板的RESET按键，通过串口助手查看日志，会打印温度和三轴加速度信息。当倾斜开发板后会点亮扩展板上倾斜倾斜状态的灯。
+示例代码编译烧录后，按下开发板的RESET按键，通过串口助手查看日志，会打印温度和三轴加速度信息。当倾斜开发板后会点亮扩展板上检测倾斜状态的灯。
 ```c
 =======================================
 *************E53_SC2_example***********
