@@ -55,7 +55,7 @@ hap_pack("launcher_hap") {
   json_path = "launcher/src/main/config.json"
   ability_so_path = "$root_out_dir/liblauncher.so"
   force = "true"
-  cert_profile = "cert/com.huawei.launcher_HarmonyAppProvision_release.p7b"
+  cert_profile = "cert/com.huawei.launcher_AppProvision_release.p7b"
   resources_path = "launcher/src/main/resources"
   hap_name = "launcher"
   privatekey = "HOS Application Provision Release"
