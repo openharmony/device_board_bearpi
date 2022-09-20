@@ -7,7 +7,10 @@
     "repository": "",
     "domain": "os",
     "language": "",
-    "publishAs": "",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "device/board/bearpi/bearpi_hm_micro/app"
+    },
     "private": false,
     "scripts": {},
     "envs": [],
