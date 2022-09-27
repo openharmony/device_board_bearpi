@@ -70,7 +70,7 @@ hap_pack("setting_hap") {
   json_path = "setting/src/main/config.json"
   ability_so_path = "$root_out_dir/libsetting.so"
   force = "true"
-  cert_profile = "cert/com.huawei.setting_HarmonyAppProvision_release.p7b"
+  cert_profile = "cert/com.huawei.setting_AppProvision_release.p7b"
   resources_path = "setting/src/main/resources"
   hap_name = "setting"
   privatekey = "HOS Application Provision Release"

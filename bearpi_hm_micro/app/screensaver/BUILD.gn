@@ -49,7 +49,7 @@ hap_pack("screensaver_hap") {
   json_path = "screensaver/src/main/config.json"
   ability_so_path = "$root_out_dir/libscreensaver.so"
   force = "true"
-  cert_profile = "cert/com.huawei.screensaver_HarmonyAppProvision_release.p7b"
+  cert_profile = "cert/com.huawei.screensaver_AppProvision_release.p7b"
   resources_path = "screensaver/src/main/resources"
   hap_name = "screensaver"
   privatekey = "HOS Application Provision Release"
