@@ -33,9 +33,9 @@ shared_library("setting") {
     "//base/powermgr/powermgr_lite/frameworks:powermgr",
     "//base/startup/init/interfaces/innerkits:libbegetutil",
     "//foundation/distributeddatamgr/kv_store/interfaces/inner_api/kv_store:kv_store",
-    "//foundation/graphic/surface",
-    "//foundation/graphic/ui:lite_ui",
-    "//foundation/graphic/utils:lite_graphic_utils",
+    "//foundation/graphic/surface_lite",
+    "//foundation/graphic/ui:ui_lite",
+    "//foundation/graphic/utils:graphic_utils_lite",
     "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
     "//third_party/wpa_supplicant/wpa_supplicant-2.9:wpa_supplicant",
   ]
