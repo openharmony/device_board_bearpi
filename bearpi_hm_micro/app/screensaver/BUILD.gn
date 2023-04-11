@@ -23,7 +23,7 @@ shared_library("screensaver") {
     "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
     "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
     "//foundation/distributeddatamgr/kv_store/interfaces/inner_api/kv_store:kv_store",
-    "//foundation/graphic/surface_lite",
+    "//foundation/graphic/surface",
     "//foundation/graphic/ui:ui_lite",
     "//foundation/graphic/utils:graphic_utils_lite",
     "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
