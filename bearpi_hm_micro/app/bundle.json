@@ -41,9 +41,9 @@
         "components": [
             "ability_lite",
             "appexecfwk_lite",
-            "surface",
-            "ui",
-            "graphic_utils",
+            "surface_lite",
+            "ui_lite",
+            "graphic_utils_lite",
             "kv_store",
             "init",
             "permission",
