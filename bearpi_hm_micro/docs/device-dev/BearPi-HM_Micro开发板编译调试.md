@@ -18,7 +18,7 @@ repo forall -c 'git lfs pull'
 
     选择bearpi_hm_micro
 
-    hb build --tee -f
+    hb build --tee -f --gn-args tee_enable=true
     ```
 
 2. 查看编译出的固件位置
@@ -46,10 +46,10 @@ repo forall -c 'git lfs pull'
 ### 一、安装软件
 
 - 下载并安装JRE
-    - 下载地址（百度云）：https://pan.baidu.com/s/1yuMn4YulfP6j50mQA8faoA 提取码：1234
+    - 下载地址（百度云）：https://pan.baidu.com/s/1y6ev83VV7mk7RMigdBDMmw?pwd=1234 提取码：1234
 
 - 下载并安装STM32CubeProgrammer(需要2.4.0+版本)
-    - 下载地址（百度云）：https://pan.baidu.com/s/1XfFFFs7UdE9TPdN0FdA6ag 提取码：1234
+    - 下载地址（百度云）：https://pan.baidu.com/s/1y6ev83VV7mk7RMigdBDMmw?pwd=1234 提取码：1234
 
 ### 二、连接开发板
 

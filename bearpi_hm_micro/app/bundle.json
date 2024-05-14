@@ -22,7 +22,7 @@
     ],
     "component": {
       "name": "bearpi_hm_micro_sample",
-      "subsystem": "bearpi_hm_micro_sample",
+      "subsystem": "device_bearpi_hm_micro",
       "syscap": [
         ""
       ],
