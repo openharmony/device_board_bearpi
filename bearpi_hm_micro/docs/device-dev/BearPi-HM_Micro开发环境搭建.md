@@ -118,7 +118,7 @@ Linux服务器通用环境配置需要的工具及其获取途径如下表所示
 </td>
 <td class="cellrowborder" valign="top" width="50.29502950295029%" headers="mcps1.2.4.1.2 "><p id="p18342658131511"><a name="p18342658131511"></a><a name="p18342658131511"></a>代码烧录工具。</p>
 </td>
-<td class="cellrowborder" valign="top" width="33.33333333333333%" headers="mcps1.2.4.1.3 "><p id="p6449184214148"><a name="p6449184214148"></a><a name="p6449184214148"></a><a href="https://pan.baidu.com/s/1XfFFFs7UdE9TPdN0FdA6ag" target="_blank" rel="noopener noreferrer">https://pan.baidu.com/s/1XfFFFs7UdE9TPdN0FdA6ag</a>密码：1234</p>
+<td class="cellrowborder" valign="top" width="33.33333333333333%" headers="mcps1.2.4.1.3 "><p id="p6449184214148"><a name="p6449184214148"></a><a name="p6449184214148"></a><a href="https://pan.baidu.com/s/1y6ev83VV7mk7RMigdBDMmw?pwd=1234" target="_blank" rel="noopener noreferrer">https://pan.baidu.com/s/1y6ev83VV7mk7RMigdBDMmw?pwd=1234</a>密码：1234</p>
 </td>
 </tr>
 </tbody>
