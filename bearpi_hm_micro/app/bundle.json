@@ -1,5 +1,5 @@
 {
-    "name": "@ohos/device_bearpi_hm_micro",
+    "name": "@ohos/bearpi_hm_micro_sample",
     "version": "3.1",
     "description": "bearpi_hm_micro samples.",
     "homePage": "https://gitee.com/openharmony",
